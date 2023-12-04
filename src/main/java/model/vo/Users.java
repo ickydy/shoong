@@ -7,24 +7,28 @@ public class Users {
 	 private String password;
 	 private Date birth ;
 	 private String name;
-	 private String country_id;
+	 private String countryId;
 	 private String gender;
-	 private int open_access;
+	 private int openAccess;
 	 
 	public Users() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
-	public Users(int id, String password, Date birth, String name, String country_id, String gender, int open_access) {
+	public Users(int id, String password, Date birth, String name, String countryId, String gender, int open_access) {
 		super();
 		this.id = id;
 		this.password = password;
 		this.birth = birth;
 		this.name = name;
-		this.country_id = country_id;
+		this.countryId = countryId;
 		this.gender = gender;
-		this.open_access = open_access;
+		this.openAccess = open_access;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -58,12 +62,12 @@ public class Users {
 		this.name = name;
 	}
 
-	public String getCountry_id() {
-		return country_id;
+	public String getCountryId() {
+		return countryId;
 	}
 
-	public void setCountry_id(String country_id) {
-		this.country_id = country_id;
+	public void setCountryId(String countryId) {
+		this.countryId = countryId;
 	}
 
 	public String getGender() {
@@ -74,19 +78,16 @@ public class Users {
 		this.gender = gender;
 	}
 
-	public int getOpen_access() {
-		return open_access;
+
+	public int getOpenAccess() {
+		return openAccess;
 	}
 
-	public void setOpen_access(int open_access) {
-		this.open_access = open_access;
+
+	public void setOpenAccess(int openAccess) {
+		this.openAccess = openAccess;
 	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
+
 	
 	
 }
