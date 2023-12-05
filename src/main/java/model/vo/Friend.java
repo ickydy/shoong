@@ -13,13 +13,13 @@ public class Friend {
 		super();
 	}
 
-	public Friend(int id, String userId, String friendId, int confirmed, Date confirmedAt) {
+	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.friendId = friendId;
 		this.confirmed = confirmed;
-		this.confirmAt = confirmedAt;
+		this.confirmAt = confirmAt;
 	}
 
 	public int getId() {
@@ -54,12 +54,12 @@ public class Friend {
 		this.confirmed = confirmed;
 	}
 
-	public Date getConfirmedAt() {
+	public Date getConfirmAt() {
 		return confirmAt;
 	}
 
-	public void setConfirmedAt(Date confirmedAt) {
-		this.confirmAt = confirmedAt;
+	public void setConfirmAt(Date confirmAt) {
+		this.confirmAt = confirmAt;
 	}
 
 }
