@@ -2,20 +2,23 @@ package model.vo;
 
 import java.sql.Date;
 
-public class Users {
-	private int id;
+public class User {
+	private String id;
 	private String password;
 	private Date birth;
 	private String name;
 	private String countryId;
 	private String gender;
 	private int openAccess;
+	private int avatarId;
+	private Avatar avatars;
 
-	public Users() {
-
+	public User() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public Users(int id, String password, Date birth, String name, String countryId, String gender, int openAccess) {
+	public User(String id, String password, Date birth, String name, String countryId, String gender, int openAccess,
+			int avatarId) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -24,13 +27,28 @@ public class Users {
 		this.countryId = countryId;
 		this.gender = gender;
 		this.openAccess = openAccess;
+		this.avatarId = avatarId;
+	}
+	
+	public User(String id, String password, Date birth, String name, String countryId, String gender, int openAccess,
+			int avatarId, Avatar avatars) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.birth = birth;
+		this.name = name;
+		this.countryId = countryId;
+		this.gender = gender;
+		this.openAccess = openAccess;
+		this.avatarId = avatarId;
+		this.avatars = avatars;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -81,5 +99,21 @@ public class Users {
 	public void setOpenAccess(int openAccess) {
 		this.openAccess = openAccess;
 	}
+
+	public int getAvatarId() {
+		return avatarId;
+	}
+
+	public void setAvatarId(int avatarId) {
+		this.avatarId = avatarId;
+	}
+	public Avatar getAvatars() {
+		return avatars;
+	}
+
+	public void setAvatars(Avatar avatars) {
+		this.avatars = avatars;
+	}
+	
 
 }
