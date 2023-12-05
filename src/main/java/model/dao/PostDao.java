@@ -47,14 +47,11 @@ public class PostDao {
 		boolean result = false;
 		try {
 			Connection conn = DriverManager.getConnection(url, host, password);
-			String sql = "UPDATE POSTS SET C=?, NAME=?, OPEN_ACCESS=?, AVATAR_ID=? WHERE ID=?";
+			String sql = "UPDATE POSTS SET TITLE=?, CONTENTS=? WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, post.getId());
-			pstmt.setString(2, post.getUserId());
-			pstmt.setString(3, post.getTitle());
-			pstmt.setString(4, post.getContents());
-			pstmt.setDate(5, post.getWriteAt());
-			pstmt.setInt(6, post.getViewCount());
+			pstmt.setString(1, post.getTitle());
+			pstmt.setString(2, post.getContents());
+			pstmt.setInt(3, post.getId());
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {
@@ -92,7 +89,7 @@ public class PostDao {
 	public List<Post> findByTitle(String keyword) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT * FROM POSTS WHERE TITLE LIKE ?";
+			String sql = "SELECT   FROM POSTS WHERE TITLE LIKE ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, '%' + keyword + '%');
 			ResultSet rs = pstmt.executeQuery();
@@ -120,7 +117,7 @@ public class PostDao {
 	public List<Post> findByTitleWithContent(String keyword) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT * FROM POSTS WHERE CONTENTS LIKE ? OR TITLE LIKE ?";
+			String sql = "SELECT   FROM POSTS WHERE CONTENTS LIKE ? OR TITLE LIKE ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, '%' + keyword + '%');
 			pstmt.setString(2, '%' + keyword + '%');
@@ -151,7 +148,7 @@ public class PostDao {
 	public List<Post> findById(String name) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT * FROM POSTS WHERE ID=?";
+			String sql = "SELECT   FROM POSTS WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, name);
 			ResultSet rs = pstmt.executeQuery();
@@ -173,5 +170,27 @@ public class PostDao {
 			e.printStackTrace();
 			return null;
 		}
+	}
+ 
+	//조회수 업데이트
+	public boolean viewCountUpdate(Post post) throws ClassNotFoundException {
+		boolean result = false;
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+			String sql = "UPDATE POSTS SET VIEW_COUNT=? WHERE ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, post.getViewCount());
+			pstmt.setInt(2, post.getId());
+
+			int n = pstmt.executeUpdate();
+			if (n == 1) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
