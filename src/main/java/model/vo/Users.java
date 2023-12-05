@@ -3,19 +3,17 @@ package model.vo;
 import java.sql.Date;
 
 public class Users {
-	 private int id;
-	 private String password;
-	 private Date birth ;
-	 private String name;
-	 private String countryId;
-	 private String gender;
-	 private int openAccess;
-	 
+	private int id;
+	private String password;
+	private Date birth;
+	private String name;
+	private String countryId;
+	private String gender;
+	private int openAccess;
+
 	public Users() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
 	public Users(int id, String password, Date birth, String name, String countryId, String gender, int open_access) {
 		super();
@@ -27,8 +25,6 @@ public class Users {
 		this.gender = gender;
 		this.openAccess = open_access;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -78,16 +74,12 @@ public class Users {
 		this.gender = gender;
 	}
 
-
 	public int getOpenAccess() {
 		return openAccess;
 	}
-
 
 	public void setOpenAccess(int openAccess) {
 		this.openAccess = openAccess;
 	}
 
-	
-	
 }
