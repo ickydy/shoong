@@ -88,6 +88,12 @@ a:visited {
 	font-size: 1.5em;
 }
 
+.form-login, .form-join {
+	width: 100%;
+	padding: 20px;
+	margin: auto;
+}
+
 /* 정렬 */
 
 .align-center {

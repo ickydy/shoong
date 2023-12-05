@@ -9,14 +9,14 @@
 <link href="<c:url value="/resource/style/style.css"/>" rel="stylesheet"/>
 </head>
 <body>
-	<div>
+	<div class="align-center">
 		<div class="header">
-			<div style="display:flex; justify-content:right; align-items:center;">
+			<div style="display:flex; justify-content:right; align-items:center;" class="align-center">
 				<a href="<c:url value="/login"/>" class="mg-l">로그인</a>
 				<a href="<c:url value="/join"/>" class="mg-l">회원가입</a>
 			</div>
 		</div>
-		<div class="container">
+		<div class="container, align-center">
 			<div class="align-center">
 				<h1 class="index-h">SHOONG</h1>
 				<p class="index-p">shoong, 새로운 이야기와 만남이 기다리는 곳</p>
