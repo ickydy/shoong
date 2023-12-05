@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import model.vo.Avatars;
+import model.vo.Avatar;
 import model.vo.User;
 
 public class UserDao {
@@ -15,7 +15,7 @@ public class UserDao {
 
 	public boolean save(User user) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+		try (Connection conn = DriverManager.getConnection(url, host, password)){
 			boolean result = false;
 			String sql = "INSERT INTO USERS VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -54,7 +54,7 @@ public class UserDao {
 				user.setName(rs.getString("name"));
 				user.setCountryId(rs.getString("country_id"));
 				user.setGender(rs.getString("gender"));
-				user.setOpenAccess(rs.getInt("open_Access"));
+				user.setOpenAccess(rs.getInt("open_access"));
 				user.setAvatarId(rs.getInt("avatar_id"));
 				return user;
 			} else {
@@ -81,13 +81,13 @@ public class UserDao {
 				user.setName(rs.getString("name"));
 				user.setCountryId(rs.getString("avatar_id"));
 				user.setGender(rs.getString("gender"));
-				user.setOpenAccess(rs.getInt("open_Access"));
+				user.setOpenAccess(rs.getInt("open_access"));
 				user.setAvatarId(rs.getInt("avatar_id"));
 
-				Avatars a = new Avatars();
+				Avatar a = new Avatar();
 				a.setId(rs.getInt("avatar_id"));
 				a.setAlt(rs.getString("alt"));
-				a.setImageUrl(rs.getString("image_url"));
+				a.setImgUrl(rs.getString("image_url"));
 				user.setAvatars(a);
 
 				return user;

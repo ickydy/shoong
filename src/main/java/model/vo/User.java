@@ -11,7 +11,7 @@ public class User {
 	private String gender;
 	private int openAccess;
 	private int avatarId;
-	private Avatars avatars;
+	private Avatar avatars;
 
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -31,7 +31,7 @@ public class User {
 	}
 	
 	public User(String id, String password, Date birth, String name, String countryId, String gender, int openAccess,
-			int avatarId, Avatars avatars) {
+			int avatarId, Avatar avatars) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -107,11 +107,11 @@ public class User {
 	public void setAvatarId(int avatarId) {
 		this.avatarId = avatarId;
 	}
-	public Avatars getAvatars() {
+	public Avatar getAvatars() {
 		return avatars;
 	}
 
-	public void setAvatars(Avatars avatars) {
+	public void setAvatars(Avatar avatars) {
 		this.avatars = avatars;
 	}
 	

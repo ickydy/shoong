@@ -1,12 +1,12 @@
 package model.vo;
 
-public class Avatars {
+public class Avatar {
 	private int id;
 	private String alt;
-	private String imageUrl;
+	private String imgUrl;
 	
 	
-	public Avatars() {
+	public Avatar() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -22,17 +22,17 @@ public class Avatars {
 	public void setAlt(String alt) {
 		this.alt = alt;
 	}
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImgUrl() {
+		return imgUrl;
 	}
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
-	public Avatars(int id, String alt, String imageUrl) {
+	public Avatar(int id, String alt, String imgUrl) {
 		super();
 		this.id = id;
 		this.alt = alt;
-		this.imageUrl = imageUrl;
+		this.imgUrl = imgUrl;
 	}
 
 	
