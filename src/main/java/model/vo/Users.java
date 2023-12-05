@@ -12,10 +12,10 @@ public class Users {
 	private int openAccess;
 
 	public Users() {
-		// TODO Auto-generated constructor stub
+
 	}
 
-	public Users(int id, String password, Date birth, String name, String countryId, String gender, int open_access) {
+	public Users(int id, String password, Date birth, String name, String countryId, String gender, int openAccess) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -23,7 +23,7 @@ public class Users {
 		this.name = name;
 		this.countryId = countryId;
 		this.gender = gender;
-		this.openAccess = open_access;
+		this.openAccess = openAccess;
 	}
 
 	public int getId() {

@@ -8,13 +8,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/private/msg/send")
-public class SendMessageController extends HttpServlet {
+@WebServlet("/private/msg/detail")
+public class MessageDetailController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.getRequestDispatcher("/WEB-INF/private/msg/send.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/private/msg/detail.jsp").forward(request, response);
 	}
 }

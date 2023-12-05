@@ -8,13 +8,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/private/friends/spam")
-public class SpamController extends HttpServlet {
+@WebServlet("/private/reply/add")
+public class AddReplyController extends HttpServlet {
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		response.sendRedirect(request.getContextPath() + "/private/fiends");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.sendRedirect(request.getContextPath() + "/private/post");
 	}
 }

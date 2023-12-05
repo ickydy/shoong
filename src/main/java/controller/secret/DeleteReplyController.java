@@ -8,13 +8,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/private/msg/send")
-public class SendMessageController extends HttpServlet {
+@WebServlet("/private/reply/delete")
+public class DeleteReplyController extends HttpServlet {
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.getRequestDispatcher("/WEB-INF/private/msg/send.jsp").forward(request, response);
+		// 요청 들어온곳으로 sendRedirect
+		String uri = "";
+		response.sendRedirect(request.getContextPath() + uri);
 	}
 }
