@@ -2,7 +2,7 @@ package model.vo;
 
 import java.sql.Date;
 
-public class message {
+public class Message {
 
 	int id;
 	String userId;
@@ -11,11 +11,11 @@ public class message {
 	Date writeAt;
 	int viewStatus;
 
-	public message() {
+	public Message() {
 		super();
 	}
 
-	public message(int id, String userId, String friendId, String contents, Date writeAt, int viewStatus) {
+	public Message(int id, String userId, String friendId, String contents, Date writeAt, int viewStatus) {
 		super();
 		this.id = id;
 		this.userId = userId;

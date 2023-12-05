@@ -2,24 +2,24 @@ package model.vo;
 
 import java.sql.Date;
 
-public class friend {
-	int id;
-	String userId;
-	String friendId;
-	int confirmed;
-	Date confirmedAt;
+public class Friend {
+	private int id;
+	private String userId;
+	private String friendId;
+	private int confirmed;
+	private Date confirmAt;
 
-	public friend() {
+	public Friend() {
 		super();
 	}
 
-	public friend(int id, String userId, String friendId, int confirmed, Date confirmedAt) {
+	public Friend(int id, String userId, String friendId, int confirmed, Date confirmedAt) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.friendId = friendId;
 		this.confirmed = confirmed;
-		this.confirmedAt = confirmedAt;
+		this.confirmAt = confirmedAt;
 	}
 
 	public int getId() {
@@ -55,11 +55,11 @@ public class friend {
 	}
 
 	public Date getConfirmedAt() {
-		return confirmedAt;
+		return confirmAt;
 	}
 
 	public void setConfirmedAt(Date confirmedAt) {
-		this.confirmedAt = confirmedAt;
+		this.confirmAt = confirmedAt;
 	}
 
 }
