@@ -108,7 +108,7 @@ public class FriendDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select f.confirmed, f. from user u join friend f oin u.id =f.user_id where u.id=? and f.confirmed=1"; // 일단
+			String sql = "select * from user u join friend f oin u.id =f.user_id where u.id=? and f.confirmed=1"; // 일단
 																																// 모든
 																																// 결과
 																																// 가져온다.
