@@ -29,7 +29,7 @@ public class User {
 		this.openAccess = openAccess;
 		this.avatarId = avatarId;
 	}
-	
+
 	public User(String id, String password, Date birth, String name, String countryId, String gender, int openAccess,
 			int avatarId, Avatar avatars) {
 		super();
@@ -107,6 +107,7 @@ public class User {
 	public void setAvatarId(int avatarId) {
 		this.avatarId = avatarId;
 	}
+
 	public Avatar getAvatars() {
 		return avatars;
 	}
@@ -114,6 +115,5 @@ public class User {
 	public void setAvatars(Avatar avatars) {
 		this.avatars = avatars;
 	}
-	
 
 }

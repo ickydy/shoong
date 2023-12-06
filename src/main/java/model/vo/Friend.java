@@ -9,8 +9,20 @@ public class Friend {
 	private int confirmed;
 	private Date confirmAt;
 
+	private User user;
+
 	public Friend() {
 		super();
+	}
+
+	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt, User user) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.friendId = friendId;
+		this.confirmed = confirmed;
+		this.confirmAt = confirmAt;
+		this.user = user;
 	}
 
 	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt) {
@@ -61,5 +73,17 @@ public class Friend {
 	public void setConfirmAt(Date confirmAt) {
 		this.confirmAt = confirmAt;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
+	
+	
 
 }
