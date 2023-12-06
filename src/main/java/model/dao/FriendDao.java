@@ -69,20 +69,21 @@ public class FriendDao {
 		return result;
 	}
 
-	public List<Friend> findByFriendBirthDate(String friendId, Date begin, Date end) throws ClassNotFoundException {// 친구
+	public List<Friend> findByFriendBirthDate (Date begin, Date end, String userId, String friendId) throws ClassNotFoundException {// 친구
 																													// 생일
 																													// 알림.
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from users u join friends f on u.id=f.user_id where to_char(u.birth,'mm-dd')and(f.user_id=? or f.friend_id=?) and f.confirmed =1"; // 이러면
-																																			// 프렌드vo에
-																																			// user객체를
-																																			// 추가해야한다.
-
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, friendId);
+			String sql = "select * from friends f join users u on f.user_id =u.id where to_char(u.birth,'mm-dd') (between ? and ?) and (f.user_id=? or f.friend_id=?) and f.confirmed =1"; // 이러면
+			
+			PreparedStatement pst = conn.prepareStatement(sql);// 조건을 이렇게 많이 추가할 수도 있구나.
+			pst.setDate(1, begin);
+			pst.setDate(2, end);
+			pst.setString(3, userId );
+			pst.setString(4, friendId); //프리페어드셋 추가.
+			
 
 			ResultSet rs = pst.executeQuery();// 현재 여기 리저트셋에는 유저의 있는 컬럼들만 결과값으로 나오는데.
 			List<Friend> list = new ArrayList<Friend>();
@@ -92,7 +93,7 @@ public class FriendDao {
 				one.setFriendId(rs.getString("friend_id"));
 				one.setConfirmed(rs.getInt("confirmed"));
 				one.setConfirmAt(rs.getDate("confirm_at"));
-				
+
 				User i = new User();
 				i.setName(rs.getString("name"));
 				i.setBirth(rs.getDate("birth"));
@@ -113,10 +114,11 @@ public class FriendDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from users u join friends f on u.id =f.user_id where u.id=? and f.confirmed=1"; // 일단
-																													// 모든
-																													// 결과
-																													// 가져온다.
+//			String sql = "select * from users u join friends f on u.id =f.user_id where u.id=? and f.confirmed=1"; 
+			String sql = "select * from friends f join users u on f.user_id = u.id where u.id=? and f.confirmed=1"; 
+																													
+																												
+																													
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, id);
 
@@ -169,7 +171,8 @@ public class FriendDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from users u join friends f on u.id =f.friend_id where u.id=? and f.confirmed=0";
+//			String sql = "select * from users u join friends f on u.id =f.friend_id where u.id=? and f.confirmed=0";
+			String sql = "select * from friends f join users u on f.user_id =u.id where u.id=? and f.confirmed=0";//프렌드 앞으로.
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, id);
 
