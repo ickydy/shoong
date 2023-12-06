@@ -2,7 +2,7 @@ package model.vo;
 
 import java.sql.Date;
 
-public class Friend {
+public class Friend {//주석달기
 	private int id;
 	private String userId;
 	private String friendId;
