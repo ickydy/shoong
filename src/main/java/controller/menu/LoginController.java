@@ -10,7 +10,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.dao.KeepTicketDao;
 import model.dao.UserDao;
+import model.vo.KeepTicket;
 import model.vo.User;
 
 @WebServlet("/login")
@@ -25,25 +27,26 @@ public class LoginController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String loginId = request.getParameter("loginId");
-        String loginPassword = request.getParameter("loginPassword");
-        String keep = request.getParameter("keep"); // 로그인 유지
+		String id = request.getParameter("id");
+        String password = request.getParameter("password");
+        String keep = request.getParameter("keep"); 
 
         try {
             UserDao userDao = new UserDao();
-            User foundUser = userDao.findById(loginId);
-            if (foundUser != null && foundUser.getPassword().equals(loginPassword)) {
+            User foundUser = userDao.findById(id);
+            if (foundUser != null && foundUser.getPassword().equals(password)) {
                 request.getSession().setAttribute("logonUser", foundUser);
 
-                if ("on".equals(keep)) {
-                    String id = UUID.randomUUID().toString();
+                if (keep != null) {
+                    String code = UUID.randomUUID().toString();
+                    String userId = id;
                     Date expiredAt = new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
-                    KeepTicket ticket = new KeepTicket(id, loginId, expiredAt);
+                    KeepTicket ticket = new KeepTicket(id, userId, expiredAt);
 
                     KeepTicketDao keepTicketDao = new KeepTicketDao();
                     keepTicketDao.save(ticket);
 
-                    Cookie cookie = new Cookie("ticketCode", id);
+                    Cookie cookie = new Cookie("ticketId", id);
                     cookie.setPath(request.getServletContext().getContextPath());
                     cookie.setMaxAge(60 * 60 * 24 * 30);
                     response.addCookie(cookie);
