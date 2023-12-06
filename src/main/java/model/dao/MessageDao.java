@@ -17,7 +17,7 @@ public class MessageDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:xe", "shoong", "oracle")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "INSERT INTO users VALUES(message_seq.nexval, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO users VALUES(message_seq.nextval, ?, ?, ?, ?, ?)";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
 			pst.setString(1, one.getUserId());

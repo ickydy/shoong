@@ -76,10 +76,10 @@ public class FriendDao {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from users u join friends f on u.id=f.user_id where (f.user_id=? or f.friend_id=?) and f.confirmed =1"; // 이러면
-																																		// 프렌드vo에
-																																		// user객체를
-																																		// 추가해야한다.
+			String sql = "select * from users u join friends f on u.id=f.user_id where to_char(u.birth,'mm-dd')and(f.user_id=? or f.friend_id=?) and f.confirmed =1"; // 이러면
+																																			// 프렌드vo에
+																																			// user객체를
+																																			// 추가해야한다.
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, friendId);
@@ -88,12 +88,17 @@ public class FriendDao {
 			List<Friend> list = new ArrayList<Friend>();
 			while (rs.next()) {
 				Friend one = new Friend();
+				one.setUserId(rs.getString("user_id"));
+				one.setFriendId(rs.getString("friend_id"));
+				one.setConfirmed(rs.getInt("confirmed"));
+				one.setConfirmAt(rs.getDate("confirm_at"));
+				
 				User i = new User();
 				i.setName(rs.getString("name"));
 				i.setBirth(rs.getDate("birth"));
 				one.setUser(i);
-
 				list.add(one);
+
 			}
 			return list;
 
@@ -108,10 +113,10 @@ public class FriendDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from user u join friend f oin u.id =f.user_id where u.id=? and f.confirmed=1"; // 일단
-																																// 모든
-																																// 결과
-																																// 가져온다.
+			String sql = "select * from users u join friends f on u.id =f.user_id where u.id=? and f.confirmed=1"; // 일단
+																													// 모든
+																													// 결과
+																													// 가져온다.
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, id);
 
@@ -134,6 +139,9 @@ public class FriendDao {
 				i.setGender(rs.getString("gender"));
 				i.setOpenAccess(rs.getInt("open_access"));
 				i.setAvatarId(rs.getInt("avatar_id"));
+
+				log.setUser(i);
+				list.add(log);
 
 				/*
 				 * log.setNo(rs.getInt("no")); log.setUserId(rs.getString("user_id"));
@@ -161,7 +169,7 @@ public class FriendDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from user u join friend f oin u.id =f.user_id where u.id=? and f.confirmed=0";
+			String sql = "select * from users u join friends f on u.id =f.friend_id where u.id=? and f.confirmed=0";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, id);
 
@@ -184,6 +192,9 @@ public class FriendDao {
 				i.setGender(rs.getString("gender"));
 				i.setOpenAccess(rs.getInt("open_access"));
 				i.setAvatarId(rs.getInt("avatar_id"));
+
+				log.setUser(i);
+				list.add(log); // 리시버 빠트린거 수정부분.
 
 				/*
 				 * log.setNo(rs.getInt("no")); log.setUserId(rs.getString("user_id"));
