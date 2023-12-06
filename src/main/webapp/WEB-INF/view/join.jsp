@@ -63,6 +63,9 @@
 						</select>
 					</div>
 					<div class="mg-l">
+						<img alt="won" src="<c:url value="/resource/teamImg/won.png"/>" style="width:115px">
+					</div>
+					<div class="mg-l">
 						<button class="w100 l-bt" >인증요청</button>
 					</div>
 				</form>
