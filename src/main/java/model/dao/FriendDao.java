@@ -19,7 +19,8 @@ public class FriendDao {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:xe", "shoong", "oracle")) {
 
-			String sql = "SELECT * FROM friends WHERE user_id=? and confirmed= 1";
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed =1";
+
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
 
@@ -28,7 +29,8 @@ public class FriendDao {
 
 			while (rs.next()) {
 				Friend one = new Friend();
-
+				
+				one.setId(rs.getInt("id"));
 				one.setUserId(rs.getString("user_id"));
 				one.setFriendId(rs.getString("friend_id"));
 				one.setConfirmed(rs.getInt("confirmed"));
@@ -53,9 +55,9 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "INSERT INTO users VALUES(friends_seq, ?, ?, 0, null)";
-			PreparedStatement pst = conn.prepareStatement(sql);
+			String sql = "INSERT INTO friends VALUES(friend_seq, ?, ?, 0, null)";
 
+			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
 			pst.setString(2, friendId);
 
@@ -69,26 +71,26 @@ public class FriendDao {
 		return result;
 	}
 
-	public List<Friend> findByFriendBirthDate (Date begin, Date end, String userId, String friendId) throws ClassNotFoundException {// 친구
-																													// 생일
-																													// 알림.
+	public List<Friend> findByFriendBirthDate(String userId, Date begin, Date end) throws ClassNotFoundException {// 친구
+		// 생일
+		// 알림.
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from friends f join users u on f.user_id =u.id where to_char(u.birth,'mm-dd') (between ? and ?) and (f.user_id=? or f.friend_id=?) and f.confirmed =1"; // 이러면
-			
+			String sql = "select * from friends f join users u on f.user_id =u.id where f.user_id =? and to_char(u.birth, 'mm-dd') between to_char(?,'mm-dd') and to_char(?, 'mm-dd') and confirmed=1"; // 이러면
+
 			PreparedStatement pst = conn.prepareStatement(sql);// 조건을 이렇게 많이 추가할 수도 있구나.
-			pst.setDate(1, begin);
-			pst.setDate(2, end);
-			pst.setString(3, userId );
-			pst.setString(4, friendId); //프리페어드셋 추가.
-			
+
+			pst.setString(1, userId);
+			pst.setDate(2, begin);
+			pst.setDate(3, end);
 
 			ResultSet rs = pst.executeQuery();// 현재 여기 리저트셋에는 유저의 있는 컬럼들만 결과값으로 나오는데.
 			List<Friend> list = new ArrayList<Friend>();
 			while (rs.next()) {
 				Friend one = new Friend();
+				one.setId(rs.getInt("id"));
 				one.setUserId(rs.getString("user_id"));
 				one.setFriendId(rs.getString("friend_id"));
 				one.setConfirmed(rs.getInt("confirmed"));
@@ -110,23 +112,21 @@ public class FriendDao {
 
 	}
 
-	public List<Friend> findSendRequest(String id) throws ClassNotFoundException {
+	public List<Friend> findSendRequest(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
 //			String sql = "select * from users u join friends f on u.id =f.user_id where u.id=? and f.confirmed=1"; 
-			String sql = "select * from friends f join users u on f.user_id = u.id where u.id=? and f.confirmed=1"; 
-																													
-																												
-																													
+			String sql = "select * from friends f join users u on f.user_id = u.id where f.user_id=? and f.confirmed=0";
+
 			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, id);
+			pst.setString(1, userId);
 
 			ResultSet rs = pst.executeQuery();
 			List<Friend> list = new ArrayList<>();
 			while (rs.next()) {
 				Friend log = new Friend();
-
+				log.setId(rs.getInt("id"));
 				log.setUserId(rs.getString("user_id"));
 				log.setFriendId(rs.getString("friend_id"));
 				log.setConfirmed(rs.getInt("confirmed"));
@@ -167,20 +167,22 @@ public class FriendDao {
 
 	}
 
-	public List<Friend> findReceiveRequest(String id) throws ClassNotFoundException {
+	public List<Friend> findReceiveRequest(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
 //			String sql = "select * from users u join friends f on u.id =f.friend_id where u.id=? and f.confirmed=0";
-			String sql = "select * from friends f join users u on f.user_id =u.id where u.id=? and f.confirmed=0";//프렌드 앞으로.
+			String sql = "select * from friends f join users u on f.user_id =u.id where f.friend_id=? and f.confirmed=0";// 프렌드
+			// 앞으로.
 			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, id);
+			pst.setString(1, userId);
 
 			ResultSet rs = pst.executeQuery();
 			List<Friend> list = new ArrayList<>();
 			while (rs.next()) {
 				Friend log = new Friend();
-
+				
+				log.setId(rs.getInt("id"));
 				log.setUserId(rs.getString("user_id"));
 				log.setFriendId(rs.getString("friend_id"));
 				log.setConfirmed(rs.getInt("confirmed"));
