@@ -27,10 +27,10 @@
 		<div class="container align-center">
 			<div style="display: flex; justify-content:space-between; align-items:flex-start;">
 				<div style="flex:3;">
-				
+					hi
 				</div>
-				<div style="flex:1;">
-				
+				<div style="flex:1; border-left:2px solid #444; min-height:600px;">
+					안녕하세요
 				</div>
 			</div>
 		</div>
