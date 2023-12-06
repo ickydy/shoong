@@ -235,7 +235,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "UPDATE friends SET spam=1  WHERE friend_id=?";
+			String sql = "UPDATE friends SET spam=1  WHERE user_id =? and friend_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
 			pst.setString(1, one.getFriendId());
@@ -250,13 +250,15 @@ public class FriendDao {
 		return result;
 	}
 
-	public List<Friend> findAllBlockedFriends() throws ClassNotFoundException { // 차단한 친구
+	
+	public List<Friend> findAllBlockedFriends(String userId) throws ClassNotFoundException { // 차단한 친구
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "SELECT * FROM friends where spam= 1";
+			String sql = "SELECT * FROM friends where user_id =? and spam= 1";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, "userId");
 
 			ResultSet rs = pst.executeQuery();
 			List<Friend> list = new ArrayList<>();
