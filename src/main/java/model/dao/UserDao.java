@@ -1,9 +1,12 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.vo.Avatar;
 import model.vo.User;
@@ -15,7 +18,7 @@ public class UserDao {
 
 	public boolean save(User user) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		try (Connection conn = DriverManager.getConnection(url, host, password)){
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			boolean result = false;
 			String sql = "INSERT INTO USERS VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -69,7 +72,7 @@ public class UserDao {
 	public User findUserWithAvatarById(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT u.*, a.ALT, a.IMAGE_URL FROM USERS u LEFT JOIN AVATARS a ON u.AVATAR_ID = a.ID WHERE u.ID=?";
+			String sql = "SELECT u.*, a.ALT, a.IMG_URL FROM USERS u LEFT JOIN AVATARS a ON u.AVATAR_ID = a.ID WHERE u.ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			ResultSet rs = pstmt.executeQuery();
@@ -87,7 +90,7 @@ public class UserDao {
 				Avatar a = new Avatar();
 				a.setId(rs.getInt("avatar_id"));
 				a.setAlt(rs.getString("alt"));
-				a.setImgUrl(rs.getString("image_url"));
+				a.setImgUrl(rs.getString("img_url"));
 				user.setAvatars(a);
 
 				return user;
@@ -120,12 +123,12 @@ public class UserDao {
 		}
 	}
 
-	public int upDate(User user) throws ClassNotFoundException {
+	public int update(User user) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		int result = 0;
 		try {
 			Connection conn = DriverManager.getConnection(url, host, password);
-			String sql = "UPDATE USERS SET PW=?, NAME=?, OPEN_ACCESS=?, AVATAR_ID=? WHERE ID=?";
+			String sql = "UPDATE USERS SET PASSWORD=?, NAME=?, OPEN_ACCESS=?, AVATAR_ID=? WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getPassword());
 			pstmt.setString(2, user.getName());
@@ -138,5 +141,39 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public List<User> findByIdOrName(String keyword) throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+			String sql = "SELECT * FROM USERS WHERE ID LIKE ? OR NAME ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, '%' + keyword + '%');
+			pstmt.setString(2, '%' + keyword + '%');
+			ResultSet rs = pstmt.executeQuery();
+
+			List<User> list = new ArrayList<>();
+			while (rs.next()) {
+				String id = rs.getString("id");
+				String password = rs.getString("password");
+				Date birth = rs.getDate("birth");
+				String name = rs.getString("name");
+				String countryId = rs.getString("country_id");
+				String gender = rs.getString("gender");
+				int openAccess = rs.getInt("open_access");
+				int avatarId = rs.getInt("avatar_id");
+
+				Avatar avatars = new Avatar();
+				avatars.setAlt(rs.getString("alt"));
+				avatars.setImgUrl(rs.getString("img_url"));
+
+				User user = new User(id, password, birth, name, countryId, gender, openAccess, avatarId, avatars);
+				list.add(user);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
