@@ -44,11 +44,10 @@ public class ReplyDao {
 			Connection conn = DriverManager.getConnection(url, host, password);
 			String sql = "UPDATE REPLYS SET CONTENTS=? WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setString(1, reply.getContents());
 			pstmt.setInt(2, reply.getId());
-			
-			
+
 			int n = pstmt.executeUpdate();
 			if (n == 1) {
 				result = true;
@@ -61,14 +60,14 @@ public class ReplyDao {
 	}
 
 	// 댓글 삭제
-	public boolean deleteById(String userId) throws Exception {
+	public boolean deleteById(String id) throws Exception {
 
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			boolean result = false;
 			String sql = "DELETE FROM REPLYS WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userId);
+			pstmt.setString(1, id);
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {

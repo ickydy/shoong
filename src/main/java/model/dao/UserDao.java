@@ -72,7 +72,7 @@ public class UserDao {
 	public User findUserWithAvatarById(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT u.*, a.ALT, a.IMAGE_URL FROM USERS u LEFT JOIN AVATARS a ON u.AVATAR_ID = a.ID WHERE u.ID=?";
+			String sql = "SELECT u.*, a.ALT, a.IMG_URL FROM USERS u LEFT JOIN AVATARS a ON u.AVATAR_ID = a.ID WHERE u.ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			ResultSet rs = pstmt.executeQuery();
@@ -90,7 +90,7 @@ public class UserDao {
 				Avatar a = new Avatar();
 				a.setId(rs.getInt("avatar_id"));
 				a.setAlt(rs.getString("alt"));
-				a.setImgUrl(rs.getString("image_url"));
+				a.setImgUrl(rs.getString("img_url"));
 				user.setAvatars(a);
 
 				return user;
@@ -123,7 +123,7 @@ public class UserDao {
 		}
 	}
 
-	public int upDate(User user) throws ClassNotFoundException {
+	public int update(User user) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		int result = 0;
 		try {
@@ -146,10 +146,10 @@ public class UserDao {
 	public List<User> findByIdOrName(String keyword) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT u.*, a.ALT, a.IMG_URL FROM USERS u LEFT JOIN AVATARS a ON u.AVATAR_ID = a.ID WHERE u.ID=? OR u.NAME=?";
+			String sql = "SELECT * FROM USERS WHERE ID LIKE ? OR NAME ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, keyword);
-			pstmt.setString(2, keyword);
+			pstmt.setString(1, '%' + keyword + '%');
+			pstmt.setString(2, '%' + keyword + '%');
 			ResultSet rs = pstmt.executeQuery();
 
 			List<User> list = new ArrayList<>();

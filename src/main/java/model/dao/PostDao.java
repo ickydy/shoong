@@ -65,14 +65,14 @@ public class PostDao {
 	}
 
 	// 글 삭제
-	public boolean deleteById(String userId) throws Exception {
+	public boolean deleteById(String id) throws Exception {
 
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			boolean result = false;
 			String sql = "DELETE FROM POSTS WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userId);
+			pstmt.setString(1, id);
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {
@@ -89,7 +89,7 @@ public class PostDao {
 	public List<Post> findByTitle(String keyword) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT   FROM POSTS WHERE TITLE LIKE ?";
+			String sql = "SELECT * FROM POSTS WHERE TITLE LIKE ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, '%' + keyword + '%');
 			ResultSet rs = pstmt.executeQuery();
@@ -117,7 +117,7 @@ public class PostDao {
 	public List<Post> findByTitleWithContent(String keyword) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT   FROM POSTS WHERE CONTENTS LIKE ? OR TITLE LIKE ?";
+			String sql = "SELECT * FROM POSTS WHERE CONTENTS LIKE ? OR TITLE LIKE ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, '%' + keyword + '%');
 			pstmt.setString(2, '%' + keyword + '%');
@@ -148,7 +148,7 @@ public class PostDao {
 	public List<Post> findById(String name) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT   FROM POSTS WHERE ID=?";
+			String sql = "SELECT * FROM POSTS WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, name);
 			ResultSet rs = pstmt.executeQuery();
