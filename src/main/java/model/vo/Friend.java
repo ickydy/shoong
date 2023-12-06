@@ -8,6 +8,7 @@ public class Friend {
 	private String friendId;
 	private int confirmed;
 	private Date confirmAt;
+	private int spam;
 
 	private User user;
 
@@ -15,23 +16,25 @@ public class Friend {
 		super();
 	}
 
-	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt, User user) {
+	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt, int spam) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.friendId = friendId;
 		this.confirmed = confirmed;
 		this.confirmAt = confirmAt;
-		this.user = user;
+		this.spam = spam;
 	}
 
-	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt) {
+	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt, int spam, User user) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.friendId = friendId;
 		this.confirmed = confirmed;
 		this.confirmAt = confirmAt;
+		this.spam = spam;
+		this.user = user;
 	}
 
 	public int getId() {
@@ -74,6 +77,14 @@ public class Friend {
 		this.confirmAt = confirmAt;
 	}
 
+	public int getSpam() {
+		return spam;
+	}
+
+	public void setSpam(int spam) {
+		this.spam = spam;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -81,9 +92,5 @@ public class Friend {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
-	
-	
 
 }
