@@ -78,7 +78,7 @@ public class FriendDao {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select * from friends f join users u on f.user_id =u.id where f.user_id =? and to_char(u.birth, 'mm-dd') between to_char(?,'mm-dd') and to_char(?, 'mm-dd') and confirmed=1"; // 이러면
+			String sql = "select * from friends f join users u on f.friend_id =u.id where f.user_id =? and to_char(u.birth, 'mm-dd') between to_char(?,'mm-dd') and to_char(?, 'mm-dd') and confirmed=1"; // 이러면
 
 			PreparedStatement pst = conn.prepareStatement(sql);// 조건을 이렇게 많이 추가할 수도 있구나.
 
@@ -117,7 +117,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:1521:xe", "shoong",
 				"oracle")) {
 //			String sql = "select * from users u join friends f on u.id =f.user_id where u.id=? and f.confirmed=1"; 
-			String sql = "select * from friends f join users u on f.user_id = u.id where f.user_id=? and f.confirmed=0";
+			String sql = "select * from friends f join users u on f.frined_id = u.id where f.user_id=? and f.confirmed=0";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
