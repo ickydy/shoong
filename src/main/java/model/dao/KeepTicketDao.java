@@ -19,7 +19,7 @@ public class KeepTicketDao {
 			String sql = "INSERT INTO KEEP_TICKETS VALUES(?, ?, ?)";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
-			pst.setInt(1, ticket.getId());
+			pst.setString(1, ticket.getId());
 			pst.setString(2, ticket.getUserId());
 			pst.setDate(3, ticket.getExpiredAt());
 
@@ -44,7 +44,7 @@ public class KeepTicketDao {
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				KeepTicket ticket = new KeepTicket();
-				ticket.setId(rs.getInt("id"));
+				ticket.setId(rs.getString("id"));
 				ticket.setUserId(rs.getString("user_id"));
 				ticket.setExpiredAt(rs.getDate("expired_at"));
 				return ticket;
