@@ -146,7 +146,7 @@ public class UserDao {
 	public List<User> findByIdOrName(String keyword) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT * FROM USERS WHERE ID LIKE ? OR NAME ?";
+			String sql = "SELECT USERS.*, AVATARS.alt, AVATARS.img_url FROM USERS JOIN AVATARS ON USERS.avatar_id = AVATARS.id WHERE USERS.ID LIKE ? OR USERS.NAME LIKE ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, '%' + keyword + '%');
 			pstmt.setString(2, '%' + keyword + '%');
@@ -177,3 +177,4 @@ public class UserDao {
 		}
 	}
 }
+
