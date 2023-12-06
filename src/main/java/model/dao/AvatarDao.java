@@ -24,7 +24,7 @@ public class AvatarDao {
 			List<Avatar> list = new ArrayList<>();
 			while (rs.next()) {
 				int id = Integer.parseInt(rs.getString("id"));
-				String alt = rs.getString("alt"); 
+				String alt = rs.getString("alt");
 				String imageUrl = rs.getString("img_url");
 
 				Avatar one = new Avatar(id, alt, imageUrl);
@@ -37,11 +37,9 @@ public class AvatarDao {
 		}
 	}
 
-	
 	public Avatar findById(String avatarId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		try (Connection conn = DriverManager.getConnection(url, host,
-				password)) {
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			String sql = "SELECT * FROM AVATARS WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, avatarId);
@@ -49,7 +47,7 @@ public class AvatarDao {
 			if (rs.next()) {
 				int id = Integer.parseInt(rs.getString("id"));
 				String alt = rs.getString("alt");
-				String imageUrl = rs.getString("img_url"); 
+				String imageUrl = rs.getString("img_url");
 
 				Avatar one = new Avatar(id, alt, imageUrl);
 				return one;

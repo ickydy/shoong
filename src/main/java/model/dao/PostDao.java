@@ -47,14 +47,11 @@ public class PostDao {
 		boolean result = false;
 		try {
 			Connection conn = DriverManager.getConnection(url, host, password);
-			String sql = "UPDATE POSTS SET C=?, NAME=?, OPEN_ACCESS=?, AVATAR_ID=? WHERE ID=?";
+			String sql = "UPDATE POSTS SET TITLE=?, CONTENTS=? WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, post.getId());
-			pstmt.setString(2, post.getUserId());
-			pstmt.setString(3, post.getTitle());
-			pstmt.setString(4, post.getContents());
-			pstmt.setDate(5, post.getWriteAt());
-			pstmt.setInt(6, post.getViewCount());
+			pstmt.setString(1, post.getTitle());
+			pstmt.setString(2, post.getContents());
+			pstmt.setInt(3, post.getId());
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {
@@ -68,14 +65,14 @@ public class PostDao {
 	}
 
 	// 글 삭제
-	public boolean deleteById(String userId) throws Exception {
+	public boolean deleteById(String id) throws Exception {
 
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			boolean result = false;
 			String sql = "DELETE FROM POSTS WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userId);
+			pstmt.setString(1, id);
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {
@@ -173,5 +170,27 @@ public class PostDao {
 			e.printStackTrace();
 			return null;
 		}
+	}
+ 
+	//조회수 업데이트
+	public boolean viewCountUpdate(Post post) throws ClassNotFoundException {
+		boolean result = false;
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+			String sql = "UPDATE POSTS SET VIEW_COUNT=? WHERE ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, post.getViewCount());
+			pstmt.setInt(2, post.getId());
+
+			int n = pstmt.executeUpdate();
+			if (n == 1) {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
