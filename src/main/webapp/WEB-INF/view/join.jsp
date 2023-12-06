@@ -26,7 +26,7 @@
 				</div>
 			</c:if>
 			<div class="w460">
-				<form class="form-join">
+				<form class="form-join" action="<c:url value="/login" />" method="post">
 					<div class="mg-l">
 						<input type="text" name="id" placeholder="아이디" required class="w100"/>
 					</div>
@@ -40,7 +40,7 @@
 						<input type="text" name="name" placeholder="이름" required class="w100"/>
 					</div>
 					<div class="mg-l">
-						<select class="w100" required>
+						<select class="w100" name="country" required>
 						<!-- foreach 돌려서 옵션 넣기 -->
 							<option disabled selected>국가</option>
 							<option>한국</option>
@@ -49,18 +49,21 @@
 						</select>
 					</div>
 					<div class="mg-l">
-						<select class="w100" required>
+						<select class="w100" name="gender" required>
 							<option disabled selected>성별</option>
 							<option>남성</option>
 							<option>여성</option>
 						</select>
 					</div>
 					<div class="mg-l">
-						<select class="w100" required>
-							<option disabled selected>성별</option>
-							<option>남성</option>
-							<option>여성</option>
+						<select class="w100" name="openAccess" required>
+							<option disabled selected>정보공개여부</option>
+							<option>공개</option>
+							<option>비공개</option>
 						</select>
+					</div>
+					<div class="mg-l">
+						<button class="w100 l-bt" >인증요청</button>
 					</div>
 				</form>
 			</div>

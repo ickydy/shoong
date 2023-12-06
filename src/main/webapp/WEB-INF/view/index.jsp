@@ -16,7 +16,7 @@
 				<a href="<c:url value="/join"/>" class="mg-l">회원가입</a>
 			</div>
 		</div>
-		<div class="container, align-center">
+		<div class="container align-center">
 			<div class="align-center">
 				<h1 class="index-h">SHOONG</h1>
 				<p class="index-p">shoong, 새로운 이야기와 만남이 기다리는 곳</p>

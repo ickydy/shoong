@@ -103,6 +103,10 @@ a:visited {
 	margin: auto;
 }
 
+.l-bt {
+	padding: 4px;
+}
+
 /* 정렬 */
 
 .align-center {
