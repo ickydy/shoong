@@ -33,6 +33,35 @@
 					<div class="mg-l">
 						<input type="password" name="password" placeholder="비밀번호" required class="w100"/>
 					</div>
+					<div class="mg-l">
+						<input type="date" name="birth" required class="w100"/>
+					</div>
+					<div class="mg-l">
+						<input type="text" name="name" placeholder="이름" required class="w100"/>
+					</div>
+					<div class="mg-l">
+						<select class="w100" required>
+						<!-- foreach 돌려서 옵션 넣기 -->
+							<option disabled selected>국가</option>
+							<option>한국</option>
+							<option>중국</option>
+							<option>일본</option>
+						</select>
+					</div>
+					<div class="mg-l">
+						<select class="w100" required>
+							<option disabled selected>성별</option>
+							<option>남성</option>
+							<option>여성</option>
+						</select>
+					</div>
+					<div class="mg-l">
+						<select class="w100" required>
+							<option disabled selected>성별</option>
+							<option>남성</option>
+							<option>여성</option>
+						</select>
+					</div>
 				</form>
 			</div>
 		</div>
