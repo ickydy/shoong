@@ -38,13 +38,13 @@ public class KeepTicketDao {
 		}
 	}
 
-	public KeepTicket findByCode(String ticketCode) throws ClassNotFoundException {
+	public KeepTicket findById(String ticketId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host,
 				password)) {
 			String sql = "SELECT * FROM KEEP_TICKETS WHERE id=?";
 			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, ticketCode);
+			pst.setString(1, ticketId);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				KeepTicket ticket = new KeepTicket();
