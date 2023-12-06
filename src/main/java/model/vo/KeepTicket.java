@@ -3,7 +3,7 @@ package model.vo;
 import java.sql.Date;
 
 public class KeepTicket {
-	int id;
+	String id;
 	String userId;
 	Date expiredAt;
 
@@ -11,14 +11,14 @@ public class KeepTicket {
 		super();
 	}
 
-	public KeepTicket(int id, String userId, Date expiredAt) {
+	public KeepTicket(String id, String userId, Date expiredAt) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.expiredAt = expiredAt;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
