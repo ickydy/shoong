@@ -56,14 +56,12 @@ public class LoginController extends HttpServlet {
             } else {
                 String errorMessage = "잘못된 아이디 또는 비밀번호입니다.";
                 request.setAttribute("error", errorMessage);
-                request.getRequestDispatcher("/WEB-INF/view/user/login_form.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            String errorMessage = "로그인 처리 중 오류가 발생했습니다.";
-            request.setAttribute("error", errorMessage);
-            request.getRequestDispatcher("/WEB-INF/view/user/login_form.jsp").forward(request, response);
+           
         }
     }
 }
