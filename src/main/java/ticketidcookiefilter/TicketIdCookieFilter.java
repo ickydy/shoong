@@ -21,7 +21,10 @@ public class TicketIdCookieFilter extends HttpFilter {
 	@Override
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
+		
+		User user = (User)request.getSession().getAttribute("logonUser");
+		
+		if(user == null) { 
 		Cookie found = null;
 
 		Cookie[] cookies = request.getCookies();
@@ -32,6 +35,8 @@ public class TicketIdCookieFilter extends HttpFilter {
 					break;
 				}
 			}
+		}
+		
 
 			if (found != null) {
 				String id = found.getValue();
