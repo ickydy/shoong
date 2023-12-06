@@ -13,29 +13,31 @@ import model.vo.User;
 
 public class FriendDao {
 
-	public Friend findById(String id) throws ClassNotFoundException { // 친구 검색.
+	public List<Friend> findById(String userId) throws ClassNotFoundException { // 친구 검색.
 
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:xe", "shoong", "oracle")) {
 
-			String sql = "SELECT * FROM friends WHERE user_id=?";
+			String sql = "SELECT * FROM friends WHERE user_id=? and confirmed= 1";
 			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, userId);
 
 			ResultSet rs = pst.executeQuery();
+			List<Friend> list = new ArrayList<Friend>();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Friend one = new Friend();
 
 				one.setUserId(rs.getString("user_id"));
 				one.setFriendId(rs.getString("friend_id"));
 				one.setConfirmed(rs.getInt("confirmed"));
 				one.setConfirmAt(rs.getDate("confirm_at"));
-				return one;
 
+				list.add(one);
 			}
 
-			return null;
+			return list;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +76,7 @@ public class FriendDao {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
-			String sql = "select u.name, u.birth from user u join friend f on u.id=f.user_id where f.friend_id=? and f.confirmed =1"; // 이러면
+			String sql = "select * from users u join friends f on u.id=f.user_id where (f.user_id=? or f.friend_id=?) and f.confirmed =1"; // 이러면
 																																		// 프렌드vo에
 																																		// user객체를
 																																		// 추가해야한다.
