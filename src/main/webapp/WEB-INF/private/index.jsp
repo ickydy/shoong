@@ -16,7 +16,7 @@
 				<a href="<c:url value="/private/friends"/>" class="mg-l">🙎‍♂️</a>
 			</div>
 			<div>
-				<h1 class="index-h">SHOONG</h1>
+				<h2 class="index-p">SHOONG</h2>
 			</div>
 		</div>
 		<div class="container align-center">
