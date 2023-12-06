@@ -2,7 +2,10 @@ package controller.menu;
 
 import java.io.IOException;
 import java.sql.Date;
+<<<<<<< Updated upstream
 import java.util.UUID;
+=======
+>>>>>>> Stashed changes
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,10 +13,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+<<<<<<< Updated upstream
 import model.dao.KeepTicketDao;
 import model.dao.UserDao;
 import model.vo.KeepTicket;
 import model.vo.User;
+=======
+import model.vo.Avatar;
+>>>>>>> Stashed changes
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
@@ -21,7 +28,17 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
+		 String id = request.getParameter("id");
+		 String password = request.getParameter("password");
+		 String birth = request.getParameter("birth");
+		 String name = request.getParameter("name");
+		 String countryId = request.getParameter("country_id");
+		 String gender = request.getParameter("gender");
+		 int openAccess = Integer.parseInt(request.getParameter("open_access"));
+		 int avatarId = Integer.parseInt(request.getParameter("avatar_id"));
+		 
+		 
+		 
 		request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
 	}
 	
