@@ -25,18 +25,18 @@ public class TicketIdCookieFilter extends HttpFilter {
 		User user = (User)request.getSession().getAttribute("logonUser");
 		
 		if(user == null) { 
-		Cookie found = null;
+			Cookie found = null;
 
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null && cookies.length > 0) {
-			for (Cookie one : cookies) {
-				if (one.getName().equals("ticketId")) {
-					found = one;
-					break;
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null && cookies.length > 0) {
+				for (Cookie one : cookies) {
+					if (one.getName().equals("ticketId")) {
+						found = one;
+						break;
+					}
 				}
 			}
-		}
-		
+			
 
 			if (found != null) {
 				String id = found.getValue();
@@ -50,7 +50,7 @@ public class TicketIdCookieFilter extends HttpFilter {
 						String userId = foundTicket.getUserId();
 						UserDao userDao = new UserDao();
 						User foundUser = userDao.findUserWithAvatarById(userId);// 이게 파운드온유저.
-						request.getSession().setAttribute("logonuser", foundUser);
+						request.getSession().setAttribute("logonUser", foundUser);
 
 					} // if문 끝
 
@@ -60,10 +60,10 @@ public class TicketIdCookieFilter extends HttpFilter {
 				}
 
 			}
-
-		}
-		
 			chain.doFilter(request, response);
+		} else {
+			chain.doFilter(request, response);
+		}
 
 	}
 }
