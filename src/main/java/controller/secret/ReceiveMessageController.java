@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.MessageDao;
 import model.vo.Message;
+import model.vo.User;
 
 @WebServlet("/private/msg/receive")
 public class ReceiveMessageController extends HttpServlet {
@@ -17,26 +18,30 @@ public class ReceiveMessageController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		String friendId = request.getParameter("receiveView");
-		
-		MessageDao receiveView = new MessageDao();
+		User user = (User) request.getSession().getAttribute("logonUser");
+
+		String userId = user.getId();
+
+		MessageDao messageDao = new MessageDao();
 		try {
-			List<Message> list = receiveView.findByFriendId(friendId);
-			request.setAttribute("list", list);
+			List<Message> receiveMessageResult = messageDao.findReceiveMessage(userId);
+			request.setAttribute("receiveMessageResult", receiveMessageResult);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		request.getRequestDispatcher("/WEB-INF/private/msg/receive.jsp").forward(request, response);
-		
 
-		
-		
-		
-		
+		/*
+		 * String friendId = request.getParameter("receiveView");
+		 * 
+		 * MessageDao receiveView = new MessageDao(); try { List<Message> list =
+		 * receiveView.findByFriendId(friendId); request.setAttribute("list", list); }
+		 * catch (ClassNotFoundException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
+
+		request.getRequestDispatcher("/WEB-INF/private/msg/receive.jsp").forward(request, response);
+
 	}
 
 }

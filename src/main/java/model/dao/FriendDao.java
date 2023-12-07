@@ -69,7 +69,14 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
 
-			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; //차단 안당하고 컨펌은 1인거. 일단 친구의 정보를 가져와야하니까.
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; // 차단
+																																			// 안당하고
+																																			// 컨펌은
+																																			// 1인거.
+																																			// 일단
+																																			// 친구의
+																																			// 정보를
+																																			// 가져와야하니까.
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
@@ -254,7 +261,7 @@ public class FriendDao {
 
 	}
 
-	public boolean updateSpam(Friend one) throws ClassNotFoundException { // 친구 차단.
+	public boolean updateSpam(String userId, String friendId) throws ClassNotFoundException { // 친구 차단.
 		boolean result = false;
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -264,8 +271,8 @@ public class FriendDao {
 			String sql = "UPDATE friends SET spam=1  WHERE user_id =? and friend_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
-			pst.setString(1, one.getUserId());
-			pst.setString(2, one.getFriendId());// 컨트롤러에서는 이거 두개만 가져오면 될 듯.
+			pst.setString(1, userId);
+			pst.setString(2, friendId);// 컨트롤러에서는 이거 두개만 가져오면 될 듯.
 
 			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
 			if (n == 1) {
@@ -338,7 +345,7 @@ public class FriendDao {
 			ResultSet rs = pst.executeQuery();
 			List<Friend> list = new ArrayList<>();
 			while (rs.next()) {
-				
+
 				Friend one = new Friend();
 
 				one.setId(rs.getInt("id"));
@@ -357,7 +364,5 @@ public class FriendDao {
 		}
 
 	}// friendFindAll의 끝.
-	
-	
 
 }

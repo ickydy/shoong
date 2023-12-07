@@ -17,13 +17,13 @@ public class MessageDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String id = request.getParameter("id");// 일단 파리미터를 받을건 두고.
+		int id = Integer.parseInt(request.getParameter("id")) ;// 일단 파리미터를 받을건 두고.
 
-		MessageDao mDao = new MessageDao();// 사용할 da
+		MessageDao mDao = new MessageDao();// 사용할 dao
 		try {
-			Message detailContents = mDao.findByMessageId(id);
+			Message messages = mDao.findByMessageId(id);
 			
-			request.setAttribute("detailContents", detailContents);
+			request.setAttribute("messages", messages);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
