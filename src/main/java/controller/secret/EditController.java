@@ -2,7 +2,9 @@ package controller.secret;
 
 import java.io.IOException;
 import java.sql.Date;
+
 import java.util.List;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import model.vo.User;
 @WebServlet("/private/edit")
 public class EditController extends HttpServlet {
 
+
    @Override // 프로필 수정 페이지로 forward
    protected void doGet(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
@@ -25,6 +28,7 @@ public class EditController extends HttpServlet {
 		try {
 			List<Avatar> avatars = avatarDao.findAll();
 			request.setAttribute("avatars", avatars);
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

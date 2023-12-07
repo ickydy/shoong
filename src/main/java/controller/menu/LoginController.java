@@ -39,6 +39,22 @@ public class LoginController extends HttpServlet {
 				request.getSession().setAttribute("logonUser", foundUser);
 				saveLogInLog(id, "success", loginLogDao);
 
+				if (keep != null) {
+					String code = UUID.randomUUID().toString();
+					String userId = id;
+					Date expiredAt = new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
+					KeepTicket ticket = new KeepTicket(code, userId, expiredAt);
+
+					KeepTicketDao keepTicketDao = new KeepTicketDao();
+					keepTicketDao.save(ticket);
+					Cookie cookie = new Cookie("ticketId", code);
+
+					cookie.setPath(request.getServletContext().getContextPath());
+					cookie.setMaxAge(60 * 60 * 24 * 30);
+					response.addCookie(cookie);
+				}
+
+				response.sendRedirect(request.getServletContext().getContextPath() + "/index");
 			} else {
 				saveLogInLog(id, "fail", loginLogDao);
 				String e = "잘못된 아이디 또는 비밀번호입니다.";

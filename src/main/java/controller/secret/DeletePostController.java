@@ -20,6 +20,7 @@ public class DeletePostController extends HttpServlet {
 		PostDao Postdao = new PostDao();
 
 		try {
+      
 			String id = request.getParameter("id");
 			boolean delete = Postdao.deleteById(id);
 
@@ -29,6 +30,7 @@ public class DeletePostController extends HttpServlet {
 				String e = "삭제에 실패했습니다.";
 				request.setAttribute("e", e);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace(); //동해물과
 		}

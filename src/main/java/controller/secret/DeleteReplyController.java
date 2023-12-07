@@ -22,11 +22,13 @@ public class DeleteReplyController extends HttpServlet {
 		
 		
 		try {
+
 			String id = request.getParameter("id");
 			boolean delete = replydao.deleteById(id);
 			
 			if(delete) {
 			String uri = request.getRequestURI();
+
 			response.sendRedirect(request.getContextPath() + uri);
 				
 			}else {
@@ -37,9 +39,6 @@ public class DeleteReplyController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
-			
-	
 	}
 }
 

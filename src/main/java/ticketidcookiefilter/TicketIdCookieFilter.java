@@ -15,16 +15,15 @@ import model.dao.UserDao;
 import model.vo.KeepTicket;
 import model.vo.User;
 
-
-@WebFilter({"/*"})
+@WebFilter({ "/*" })
 public class TicketIdCookieFilter extends HttpFilter {
 	@Override
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
-		User user = (User)request.getSession().getAttribute("logonUser");
-		
-		if(user == null) { 
+
+		User user = (User) request.getSession().getAttribute("logonUser");
+
+		if (user == null) {
 			Cookie found = null;
 
 			Cookie[] cookies = request.getCookies();
@@ -36,7 +35,6 @@ public class TicketIdCookieFilter extends HttpFilter {
 					}
 				}
 			}
-			
 
 			if (found != null) {
 				String id = found.getValue();
@@ -46,7 +44,7 @@ public class TicketIdCookieFilter extends HttpFilter {
 					KeepTicket foundTicket = keepTicketDao.findById(id);
 					Date now = new Date(System.currentTimeMillis());
 
-					if (foundTicket != null && foundTicket.getExpiredAt().before(now)) {// if문 시작.
+					if (foundTicket != null && foundTicket.getExpiredAt().after(now)) {// if문 시작.
 						String userId = foundTicket.getUserId();
 						UserDao userDao = new UserDao();
 						User foundUser = userDao.findUserWithAvatarById(userId);// 이게 파운드온유저.
