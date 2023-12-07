@@ -23,10 +23,10 @@ public class SendMessageController extends HttpServlet {
 
 		MessageDao messageDao = new MessageDao(); 
 		try {
-			List<Message> sendMessageResult = messageDao.findSendMessage(userId);
-			request.setAttribute("sendMessageResult", sendMessageResult);
+			List<Message> sendMessages = messageDao.findSendMessage(userId);
+			request.setAttribute("sendMessages", sendMessages);
+			request.getRequestDispatcher("/WEB-INF/private/msg/send.jsp").forward(request, response);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -38,6 +38,6 @@ public class SendMessageController extends HttpServlet {
 		 * (ClassNotFoundException e) { // TODO Auto-generated catch block
 		 * e.printStackTrace(); }
 		 */
-		request.getRequestDispatcher("/WEB-INF/private/msg/send.jsp").forward(request, response);
+		
 	}
 }
