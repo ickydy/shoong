@@ -10,17 +10,29 @@
 </head>
 <body>
 	<div class="align-center">
-		<div class="header">
-			<div style="display:flex; justify-content:right; align-items:center;" class="align-center">
-				<a href="<c:url value="/private/msg/receive"/>" class="mg-l">✉</a>
-				<a href="<c:url value="/private/friends"/>" class="mg-l">🙎‍♂️</a>
-			</div>
-			<div>
-				<h2 class="index-p">SHOONG</h2>
+		<div class="header" style="border-bottom: 2px solid #444">
+			<div style="display:flex; justify-content:right; align-items:flex-end;" class="align-center">
+				<div style="flex:1;">
+				<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width:200px;"/>
+				</div>
+				<a href="<c:url value="/private/friends"/>" class="mg-s">🙎‍♂️</a>
+				<a href="<c:url value="/private/msg/receive"/>" class="mg-s">
+					<c:choose>
+						<c:when test="">📩</c:when>
+						<c:otherwise>✉</c:otherwise>
+					</c:choose>
+				</a>
 			</div>
 		</div>
 		<div class="container align-center">
-			
+			<div style="display: flex; justify-content:space-between; align-items:flex-start;">
+				<div style="flex:3;">
+					hi
+				</div>
+				<div style="flex:1; border-left:2px solid #444; min-height:600px;">
+					안녕하세요
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

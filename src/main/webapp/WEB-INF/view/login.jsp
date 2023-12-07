@@ -34,7 +34,7 @@
 						<input type="password" name="password" placeholder="비밀번호" required class="w100"/>
 					</div>
 					<div class="mg-l align-left">
-						<input type="checkbox" name="keep" required id="keep"/>
+						<input type="checkbox" name="keep" id="keep"/>
 						<label for="keep">로그인 상태 유지</label>
 					</div>
 					<div class="mg-l">

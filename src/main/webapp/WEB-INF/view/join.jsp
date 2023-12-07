@@ -21,8 +21,8 @@
 				<h1>회원가입</h1>
 			</div>
 			<c:if test="${e ne null }">
-				<div class="w100">
-					<p class="e-msg">${e }</p>
+				<div class="w460">
+					<p class="e-msg mg-l">${e }</p>
 				</div>
 			</c:if>
 			<div class="w460">
@@ -40,82 +40,36 @@
 						<input type="text" name="name" placeholder="이름" required class="w100"/>
 					</div>
 					<div class="mg-l">
-						<select class="w100" name="country" required>
+						<select class="w100" name="countryId" required>
 						<!-- foreach 돌려서 옵션 넣기 -->
 							<option disabled selected>국가</option>
-							<option>한국</option>
-							<option>중국</option>
-							<option>일본</option>
+							<c:forEach var="one" items="${countries }">
+								<option value="${one.id }">${one.name }</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="mg-l">
 						<select class="w100" name="gender" required>
 							<option disabled selected>성별</option>
-							<option>남성</option>
-							<option>여성</option>
+							<option value="M">남성</option>
+							<option value="W">여성</option>
 						</select>
 					</div>
 					<div class="mg-l">
 						<select class="w100" name="openAccess" required>
 							<option disabled selected>정보공개여부</option>
-							<option>공개</option>
-							<option>비공개</option>
+							<option value="0">공개</option>
+							<option value="1">비공개</option>
 						</select>
 					</div>
 					<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:100%;">
 						<div class="mg-l">
-							<label for="admin">
-								<img alt="admin" src="<c:url value="/resource/avatars/admin.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="admin"/>
-						</div>
-						<div class="mg-l">
-							<label for="a1">
-								<img alt="a1" src="<c:url value="/resource/avatars/a1.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a1"/>
-						</div>
-						<div class="mg-l">
-							<label for="a2">
-								<img alt="a2" src="<c:url value="/resource/avatars/a2.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a2"/>
-						</div>
-						<div class="mg-l">
-							<label for="a3">
-								<img alt="a3" src="<c:url value="/resource/avatars/a3.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a3"/>
-						</div>
-						<div class="mg-l">
-							<label for="a4">
-								<img alt="a4" src="<c:url value="/resource/avatars/a4.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a4"/>
-						</div>
-						<div class="mg-l">
-							<label for="a5">
-								<img alt="a5" src="<c:url value="/resource/avatars/a5.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a5"/>
-						</div>
-						<div class="mg-l">
-							<label for="a6">
-								<img alt="a6" src="<c:url value="/resource/avatars/a6.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a6"/>
-						</div>
-						<div class="mg-l">
-							<label for="a7">
-								<img alt="a7" src="<c:url value="/resource/avatars/a7.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a7"/>
-						</div>
-						<div class="mg-l">
-							<label for="a8">
-								<img alt="a8" src="<c:url value="/resource/avatars/a8.png"/>" style="width:80px">
-							</label>
-							<input type="radio" name="avatarId" id="a8"/>
+							<c:forEach var="one" items="${avatars }">
+								<label for="${one.id }">
+									<img alt="${one.alt }" src="<c:url value="${one.imgUrl }"/>" style="width:80px">
+								</label>
+								<input type="radio" name="avatarId" id="${one.id }" value="${one.id }" />
+							</c:forEach>
 						</div>
 					</div>
 					<div class="mg-l">
