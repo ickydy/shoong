@@ -107,6 +107,17 @@ a:visited {
 	padding: 8px;
 }
 
+.profile-table {
+	width: 100%;
+	margin: auto;
+	text-align: left;
+	line-height: 3;
+}
+
+.profile-table th {
+	width: 40%;
+}
+
 /* 정렬 */
 
 .align-center {

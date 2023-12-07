@@ -20,8 +20,8 @@ public class DeleteReplyController extends HttpServlet {
 
 		ReplyDao replydao = new ReplyDao();
 		try {
-			List<Reply> reply = replydao.deleteById();
-			request.setAttribute("post", reply);
+			// List<Reply> reply = replydao.deleteById();
+			// request.setAttribute("post", reply);
 			String uri = "";
 			// 요청 들어온곳으로 sendRedirect
 			response.sendRedirect(request.getContextPath() + uri);
