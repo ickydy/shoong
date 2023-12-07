@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.dao.PostDao;
+import model.dao.ReplyDao;
 
 @WebServlet("/private/post/delete")
 public class DeletePostController extends HttpServlet {
@@ -15,8 +17,22 @@ public class DeletePostController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// 요청 들어온곳으로 sendRedirect
-		String uri = "";
-		response.sendRedirect(request.getContextPath() + uri);
+		PostDao Postdao = new PostDao();
+
+		try {
+      
+			String id = request.getParameter("id");
+			boolean delete = Postdao.deleteById(id);
+
+			if (delete) {
+			 response.sendRedirect(request.getContextPath()+"/private/post");
+			} else {
+				String e = "삭제에 실패했습니다.";
+				request.setAttribute("e", e);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace(); //동해물과
+		}
 	}
 }

@@ -21,12 +21,12 @@
 				<h1>회원가입</h1>
 			</div>
 			<c:if test="${e ne null }">
-				<div class="w100">
-					<p class="e-msg">${e }</p>
+				<div class="w460">
+					<p class="e-msg mg-l">${e }</p>
 				</div>
 			</c:if>
 			<div class="w460">
-				<form class="form-join" action="<c:url value="/login" />" method="post">
+				<form class="form-join" action="<c:url value="/join" />" method="post">
 					<div class="mg-l">
 						<input type="text" name="id" placeholder="아이디" required class="w100"/>
 					</div>
@@ -40,30 +40,37 @@
 						<input type="text" name="name" placeholder="이름" required class="w100"/>
 					</div>
 					<div class="mg-l">
-						<select class="w100" name="country" required>
+						<select class="w100" name="countryId" required>
 						<!-- foreach 돌려서 옵션 넣기 -->
 							<option disabled selected>국가</option>
-							<option>한국</option>
-							<option>중국</option>
-							<option>일본</option>
+							<c:forEach var="one" items="${countries }">
+								<option value="${one.id }">${one.name }</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="mg-l">
 						<select class="w100" name="gender" required>
 							<option disabled selected>성별</option>
-							<option>남성</option>
-							<option>여성</option>
+							<option value="M">남성</option>
+							<option value="W">여성</option>
 						</select>
 					</div>
 					<div class="mg-l">
 						<select class="w100" name="openAccess" required>
 							<option disabled selected>정보공개여부</option>
-							<option>공개</option>
-							<option>비공개</option>
+							<option value="1">공개</option>
+							<option value="0">비공개</option>
 						</select>
 					</div>
-					<div class="mg-l">
-						<img alt="won" src="<c:url value="/resource/teamImg/won.png"/>" style="width:115px">
+					<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:100%;">
+						<div class="mg-l">
+							<c:forEach var="one" items="${avatars }">
+								<label for="${one.id }">
+									<img alt="${one.alt }" src="<c:url value="${one.imgUrl }"/>" style="width:80px">
+								</label>
+								<input type="radio" name="avatarId" id="${one.id }" value="${one.id }" />
+							</c:forEach>
+						</div>
 					</div>
 					<div class="mg-l">
 						<button class="w100 l-bt" >인증요청</button>

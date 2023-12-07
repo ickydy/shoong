@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -52,8 +51,8 @@ public class JoinController extends HttpServlet {
 		String name = request.getParameter("name");
 		String countryId = request.getParameter("countryId");
 		String gender = request.getParameter("gender");
-		String openAccess = request.getParameter("open_access");
-		String avatarsId = request.getParameter("avatars_id");
+		String openAccess = request.getParameter("openAccess");
+		String avatarId = request.getParameter("avatarId");
 
 		try {
 
@@ -61,23 +60,23 @@ public class JoinController extends HttpServlet {
 			if (id == null || id.equals("") || password == null || password.equals("") || birth == null
 					|| birth.equals("") || name == null || name.equals("") || countryId == null || countryId.equals("")
 					|| gender == null || gender.equals("") || openAccess == null || openAccess.equals("")
-					|| avatarsId == null || avatarsId.equals("")) {
-				request.setAttribute("error", "모든 것을 입력해주십시오.");
+					|| avatarId == null || avatarId.equals("")) {
+				request.setAttribute("e", "모든 것을 입력해주십시오.");
 				request.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(request, response);
 				return;
 			}
 			int openAccessInt = Integer.parseInt(openAccess);
-			int avatarsIdInt = Integer.parseInt(avatarsId);
+			int avatarIdInt = Integer.parseInt(avatarId);
 
 			Date birthDate = new Date(sdf.parse(request.getParameter("birth")).getTime());
-			User user = new User(id, password, birthDate, name, countryId, gender, openAccessInt, avatarsIdInt);
+			User user = new User(id, password, birthDate, name, countryId, gender, openAccessInt, avatarIdInt);
 
 			UserDao userDao = new UserDao();
 			User found = userDao.findById(id);
 			if (found == null) {
 				boolean result = userDao.save(user);
 				request.setAttribute("result", result);
-				request.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/index");
 			} else {
 				String e = "이미 존재 하는 계정입니다.";
 				request.setAttribute("e", e);

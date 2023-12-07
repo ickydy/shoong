@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.vo.Avatar;
 import model.vo.Post;
 
 public class PostDao {
@@ -21,14 +22,13 @@ public class PostDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			boolean result = false;
-			String sql = "INSERT INTO POSTS VALUES(?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO POSTS VALUES(POSTS_SEQ.NEXTVAL, ?, ?, ?, ?, 0)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, post.getId());
-			pstmt.setString(2, post.getUserId());
-			pstmt.setString(3, post.getTitle());
-			pstmt.setString(4, post.getContents());
-			pstmt.setDate(5, post.getWriteAt());
-			pstmt.setInt(6, post.getViewCount());
+
+			pstmt.setString(1, post.getUserId());
+			pstmt.setString(2, post.getTitle());
+			pstmt.setString(3, post.getContents());
+			pstmt.setDate(4, post.getWriteAt());
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {
@@ -38,6 +38,31 @@ public class PostDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+	public List<Post> findAll() throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+			String sql = "SELECT * FROM POSTS";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			List<Post> list = new ArrayList<>();
+			while (rs.next()) {
+				int id = Integer.parseInt(rs.getString("id"));
+				String userId = rs.getString("userId");
+				String title = rs.getString("title");
+				String content = rs.getString("contents");
+				Date writeAt = rs.getDate("write_at");
+				int viewCnt = Integer.parseInt(rs.getString("view_count"));
+
+				Post one = new Post(id, userId, title, content, writeAt, viewCnt);
+				list.add(one);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -144,16 +169,16 @@ public class PostDao {
 		}
 	}
 
-	// 유저 ID로 글 검색
-	public List<Post> findById(String name) throws ClassNotFoundException {
+	// 게시글 ID로 검색
+	public Post findById(int postId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			String sql = "SELECT * FROM POSTS WHERE ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, name);
+			pstmt.setInt(1, postId);
 			ResultSet rs = pstmt.executeQuery();
-			List<Post> list = new ArrayList<>();
-			while (rs.next()) {
+
+			if (rs.next()) {
 				int id = rs.getInt("id");
 				String userId = rs.getString("user_id");
 				String title = rs.getString("title");
@@ -163,16 +188,16 @@ public class PostDao {
 
 				Post one = new Post(id, userId, title, content, date, viewCount);
 
-				list.add(one);
+				return one;
 			}
-			return list;
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
- 
-	//조회수 업데이트
+
+	// 조회수 업데이트
 	public boolean viewCountUpdate(Post post) throws ClassNotFoundException {
 		boolean result = false;
 		Class.forName("oracle.jdbc.driver.OracleDriver");

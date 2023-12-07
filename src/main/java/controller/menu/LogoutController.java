@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet
+@WebServlet("/logout")
 public class LogoutController extends HttpServlet {
 
 	@Override
@@ -17,7 +17,7 @@ public class LogoutController extends HttpServlet {
 			throws ServletException, IOException {
 		request.getSession().invalidate();
 
-		Cookie cookie = new Cookie("ticketCode", null);
+		Cookie cookie = new Cookie("ticketId", null);
 		cookie.setPath(request.getServletContext().getContextPath());
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
