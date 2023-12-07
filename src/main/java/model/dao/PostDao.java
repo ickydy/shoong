@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.vo.Avatar;
 import model.vo.Post;
 
 public class PostDao {
@@ -40,7 +41,31 @@ public class PostDao {
 			return false;
 		}
 	}
+	public List<Post> findAll() throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+			String sql = "SELECT * FROM POSTS";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			List<Post> list = new ArrayList<>();
+			while (rs.next()) {
+				int id = Integer.parseInt(rs.getString("id"));
+				String userId = rs.getString("userId");
+				String title = rs.getString("title");				
+				String content = rs.getString("contents");
+				Date writeAt = rs.getDate("write_at");
+				int viewCnt = Integer.parseInt(rs.getString("view_count"));
 
+				Post one = new Post(id, userId, title, content, writeAt, viewCnt);
+				list.add(one);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	// 글 수정
 	public boolean update(Post post) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -85,6 +110,8 @@ public class PostDao {
 		}
 	}
 
+	
+	
 	// 제목으로 글 검색
 	public List<Post> findByTitle(String keyword) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
