@@ -35,37 +35,6 @@ public class FriendDao {
 		}
 		return result;
 	}
-	
-	
-	public boolean dummyFriend(Friend one) throws ClassNotFoundException { // 친구추가
-		boolean result = false;
-		// 1. 데이터 베이스 연결
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
-				"oracle")) {
-			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "INSERT INTO friends VALUES(friend_seq, ?, ?, 0, null, 0)";
-			
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, "user_id");
-			pst.setString(2, "friend_id");
-			pst.setInt(3, 0);
-			pst.setDate(4,null);
-			pst.setInt(5, 0);
-			
-			
-			
-			
-			
-			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
-			if (n == 1) {
-				result = true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
 
 	public List<Friend> findById(String userId) throws ClassNotFoundException { // 친구 검색.
 
@@ -74,8 +43,8 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
 
-			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0";
-
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; // 차단
+			// 가져와야하니까.
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
 
@@ -259,7 +228,7 @@ public class FriendDao {
 
 	}
 
-	public boolean updateSpam(Friend one) throws ClassNotFoundException { // 친구 차단상태로 두기.
+	public boolean updateSpam(String userId, String friendId) throws ClassNotFoundException { // 친구 차단.
 		boolean result = false;
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -269,7 +238,8 @@ public class FriendDao {
 			String sql = "UPDATE friends SET spam=1  WHERE user_id =? and friend_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
-			pst.setString(1, one.getFriendId());
+			pst.setString(1, userId);
+			pst.setString(2, friendId);// 컨트롤러에서는 이거 두개만 가져오면 될 듯.
 
 			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
 			if (n == 1) {
@@ -281,8 +251,7 @@ public class FriendDao {
 		return result;
 	}
 
-	
-	public List<Friend> findAllBlockedFriends(String userId) throws ClassNotFoundException { // 차단한 친구
+	public List<Friend> findAllBlockedFriends(String userId) throws ClassNotFoundException { // 차단한 친구리스트 뿌려두기
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
@@ -332,5 +301,35 @@ public class FriendDao {
 		}
 
 	}
+
+	public List<Friend> friendFindAll() throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"oracle")) {
+			String sql = "SELECT * FROM friends where user_id ORDER BY friend_id DESC"; // where user_id 추가했음
+			PreparedStatement pst = conn.prepareStatement(sql);
+
+			ResultSet rs = pst.executeQuery();
+			List<Friend> list = new ArrayList<>();
+			while (rs.next()) {
+
+				Friend one = new Friend();
+
+				one.setId(rs.getInt("id"));
+				one.setUserId(rs.getString("user_id"));
+				one.setFriendId(rs.getString("friend_id"));
+				one.setConfirmed(rs.getInt("confirmed"));
+				one.setConfirmAt(rs.getDate("confirm_at"));
+				one.setSpam(rs.getInt("spam"));
+
+				list.add(one);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}// friendFindAll의 끝.
 
 }

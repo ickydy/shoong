@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.vo.Message;
+import model.vo.User;
 
 public class MessageDao {
 
@@ -100,7 +101,7 @@ public class MessageDao {
 
 	}
 
-	public boolean deleteById(int id) throws ClassNotFoundException { // 특정 게시물만 지워야하니까 시크 id를 이용한다.
+	public boolean deleteById(int id) throws ClassNotFoundException { // 특정 게시물만 지워야하니까 메시지 id를 이용한다.
 		boolean result = false;
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -144,5 +145,91 @@ public class MessageDao {
 		}
 		return result;
 	}
+
+	public Message findByMessageId(int id) throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"oracle")) {
+			String sql = "SELECT * FROM messages WHERE ID=?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				Message one = new Message();
+				one.setId(rs.getInt("id"));
+				one.setUserId(rs.getString("user_id"));
+				one.setFriendId(rs.getString("friend_id"));
+				one.setContents(rs.getString("contents"));
+				one.setWriteAt(rs.getDate("write_at"));
+				one.setViewStatus(rs.getInt("view_status"));
+				return one;
+
+			} else {
+				return null;
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}// 가져온거에 끝. 이 밑으로 리시버와 샌드 두가지 메서드를 만듦
+
+	public List<Message> findReceiveMessage(String userId) throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"oracle")) {
+			String sql = "SELECT * FROM messages WHERE friend_id=? order by desc";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, userId);
+
+			ResultSet rs = pst.executeQuery();
+			List<Message> list = new ArrayList<Message>();
+
+			while (rs.next()) {
+				Message one = new Message();
+				one.setId(rs.getInt("id"));
+				one.setUserId(rs.getString("user_id"));
+				one.setFriendId(rs.getString("friend_id"));
+				one.setContents(rs.getString("contents"));
+				one.setWriteAt(rs.getDate("write_at"));
+				one.setViewStatus(rs.getInt("view_status"));
+				list.add(one);
+			}
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}// 여기부터 새로운 메시지 dao 두개 만든다. 새로운 메서드.
+
+	public List<Message> findSendMessage(String userId) throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"oracle")) {
+			String sql = "SELECT * FROM messages WHERE usr_id=? order by desc";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, userId);
+
+			ResultSet rs = pst.executeQuery();
+			List<Message> list = new ArrayList<Message>();
+
+			while (rs.next()) {
+				Message one = new Message();
+				one.setId(rs.getInt("id"));
+				one.setUserId(rs.getString("user_id"));
+				one.setFriendId(rs.getString("friend_id"));
+				one.setContents(rs.getString("contents"));
+				one.setWriteAt(rs.getDate("write_at"));
+				one.setViewStatus(rs.getInt("view_status"));
+				list.add(one);
+
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}// 여기부터 새로운 메시지 dao 두개 만든다. 새로운 메서드.
 
 }
