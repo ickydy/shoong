@@ -25,23 +25,22 @@ public class MessageController extends HttpServlet {
 
 		User user = (User) request.getSession().getAttribute("logonUser");
 		String userId = user.getId();
-
-		FriendDao friendDao = new FriendDao();
-		List<Friend> friendList;
+				
 		try {
-			friendList = friendDao.findById(userId);
-			request.setAttribute("friendList", friendList);
+			FriendDao friendDao = new FriendDao();
+			List<Friend> friends = friendDao.findById(userId);
+			request.setAttribute("friends", friends);
+	
+			request.getRequestDispatcher("/WEB-INF/private/msg.jsp").forward(request, response);
+			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		request.getRequestDispatcher("/WEB-INF/private/msg.jsp").forward(request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {// 짰던 쿼리문 기준으로 넣어줘야할 것들을 ?를 기준으로 둔다.
+			throws ServletException, IOException {
 
 		User user = (User) request.getSession().getAttribute("logonUser");// 세션 뽑기.
 		Date now = new Date(System.currentTimeMillis());
@@ -49,9 +48,9 @@ public class MessageController extends HttpServlet {
 		String userId = user.getId();
 		String friendId = request.getParameter("friendId");
 		String contents = request.getParameter("contents");
-		int viewStatus = 0; // 일단 파라미터를 다 가지고 온다.
+		int viewStatus = 0;
 
-		Message msg = new Message(userId, friendId, contents, now, viewStatus);// 물음표 대로 넣어주는 것.
+		Message msg = new Message(userId, friendId, contents, now, viewStatus);
 
 		MessageDao msgDao = new MessageDao();
 
@@ -59,13 +58,10 @@ public class MessageController extends HttpServlet {
 			boolean result = msgDao.save(msg);
 
 			request.setAttribute("result", result);// setAttribute
-
+			response.sendRedirect(request.getContextPath() + "/msg/send");// 경로설정 이렇게도 가능하구나.
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		response.sendRedirect(request.getContextPath() + "/msg/send");// 경로설정 이렇게도 가능하구나.
 
 	}
 }
