@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -77,7 +76,7 @@ public class JoinController extends HttpServlet {
 			if (found == null) {
 				boolean result = userDao.save(user);
 				request.setAttribute("result", result);
-				request.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(request, response);
+				response.sendRedirect("/private/index.jsp");
 			} else {
 				String e = "이미 존재 하는 계정입니다.";
 				request.setAttribute("e", e);
