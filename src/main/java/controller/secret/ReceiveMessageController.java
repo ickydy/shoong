@@ -23,11 +23,12 @@ public class ReceiveMessageController extends HttpServlet {
 		String userId = user.getId();
 
 		MessageDao messageDao = new MessageDao();
+		
 		try {
-			List<Message> receiveMessageResult = messageDao.findReceiveMessage(userId);
-			request.setAttribute("receiveMessageResult", receiveMessageResult);
+			List<Message> receiveMessages = messageDao.findReceiveMessage(userId);
+			request.setAttribute("receiveMessages", receiveMessages);
+			request.getRequestDispatcher("/WEB-INF/private/msg/receive.jsp").forward(request, response);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -39,8 +40,6 @@ public class ReceiveMessageController extends HttpServlet {
 		 * catch (ClassNotFoundException e) { // TODO Auto-generated catch block
 		 * e.printStackTrace(); }
 		 */
-
-		request.getRequestDispatcher("/WEB-INF/private/msg/receive.jsp").forward(request, response);
 
 	}
 
