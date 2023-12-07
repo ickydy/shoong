@@ -19,14 +19,27 @@ public class DeleteReplyController extends HttpServlet {
 			throws ServletException, IOException {
 
 		ReplyDao replydao = new ReplyDao();
+		
+		
 		try {
-			List<Reply> reply = replydao.deleteById();
-			request.setAttribute("post", reply);
-			String uri = "";
-			// 요청 들어온곳으로 sendRedirect
+			String id = request.getParameter("id");
+			boolean delete = replydao.deleteById(id);
+			
+			if(delete) {
+			String uri = request.getRequestURI();
 			response.sendRedirect(request.getContextPath() + uri);
-		} catch (Exception e) {
+				
+			}else {
+				String e ="삭제에 실패했습니다.";
+				request.setAttribute("e", e);
+			}
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		
+			
+	
 	}
 }
+
