@@ -21,11 +21,10 @@ public class MessageDetailController extends HttpServlet {
 
 		MessageDao mDao = new MessageDao();// 사용할 dao
 		try {
-			Message messages = mDao.findByMessageId(id);
+			Message message = mDao.findByMessageId(id);
 			
-			request.setAttribute("messages", messages);
+			request.setAttribute("message", message);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
