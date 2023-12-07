@@ -30,7 +30,7 @@ public class DeletePostController extends HttpServlet {
 				request.setAttribute("e", e);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); //동해물과
 		}
 	}
 }
