@@ -29,7 +29,7 @@ public class CommunityController extends HttpServlet {
 			if (search != null && !search.equals("")) {
 				posts = postDao.findByTitle(search);
 				posts = postDao.findByTitleWithContent(search);
-				posts = postDao.findById(search);
+				//posts = postDao.findById(search);
 				// 질문
 			} else {
 				String e = "검색값을 입력해주세요.";
