@@ -26,7 +26,7 @@
 				</div>
 			</c:if>
 			<div class="w460">
-				<form class="form-join" action="<c:url value="/login" />" method="post">
+				<form class="form-join" action="<c:url value="/join" />" method="post">
 					<div class="mg-l">
 						<input type="text" name="id" placeholder="아이디" required class="w100"/>
 					</div>
@@ -62,8 +62,61 @@
 							<option>비공개</option>
 						</select>
 					</div>
-					<div class="mg-l">
-						<img alt="won" src="<c:url value="/resource/teamImg/won.png"/>" style="width:115px">
+					<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:100%;">
+						<div class="mg-l">
+							<label for="admin">
+								<img alt="admin" src="<c:url value="/resource/avatars/admin.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="admin"/>
+						</div>
+						<div class="mg-l">
+							<label for="a1">
+								<img alt="a1" src="<c:url value="/resource/avatars/a1.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a1"/>
+						</div>
+						<div class="mg-l">
+							<label for="a2">
+								<img alt="a2" src="<c:url value="/resource/avatars/a2.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a2"/>
+						</div>
+						<div class="mg-l">
+							<label for="a3">
+								<img alt="a3" src="<c:url value="/resource/avatars/a3.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a3"/>
+						</div>
+						<div class="mg-l">
+							<label for="a4">
+								<img alt="a4" src="<c:url value="/resource/avatars/a4.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a4"/>
+						</div>
+						<div class="mg-l">
+							<label for="a5">
+								<img alt="a5" src="<c:url value="/resource/avatars/a5.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a5"/>
+						</div>
+						<div class="mg-l">
+							<label for="a6">
+								<img alt="a6" src="<c:url value="/resource/avatars/a6.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a6"/>
+						</div>
+						<div class="mg-l">
+							<label for="a7">
+								<img alt="a7" src="<c:url value="/resource/avatars/a7.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a7"/>
+						</div>
+						<div class="mg-l">
+							<label for="a8">
+								<img alt="a8" src="<c:url value="/resource/avatars/a8.png"/>" style="width:80px">
+							</label>
+							<input type="radio" name="avatarId" id="a8"/>
+						</div>
 					</div>
 					<div class="mg-l">
 						<button class="w100 l-bt" >인증요청</button>

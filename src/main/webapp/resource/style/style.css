@@ -82,7 +82,7 @@ a:visited {
 
 .header, .container {
 	width: 80%;
-	margin-top: 30px;
+	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: auto;
@@ -104,7 +104,7 @@ a:visited {
 }
 
 .l-bt {
-	padding: 4px;
+	padding: 8px;
 }
 
 /* 정렬 */
