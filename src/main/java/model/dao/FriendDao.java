@@ -343,8 +343,8 @@ public class FriendDao {
 			PreparedStatement pst = conn.prepareStatement(sql);
 
 			pst.setDate(1, confirmedDate);
-			pst.setString(2, userId);
-			pst.setString(3, friendId);
+			pst.setString(2, friendId);
+			pst.setString(3, userId);
 
 			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
 			if (n == 1) {
@@ -355,5 +355,31 @@ public class FriendDao {
 		}
 		return result;
 	}
+	
+	public boolean confirmDuplicator(String userId, String friendId, int confirmed, Date confirmAt) throws ClassNotFoundException { // 친구추가
+		boolean result = false;
+		// 1. 데이터 베이스 연결
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"oracle")) {
+			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
+			String sql = "INSERT INTO friends VALUES(friend_seq, ?, ?, ?, ?, 0)";
+
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, userId);
+			pst.setString(2, friendId);
+			pst.setInt(3, confirmed);
+			pst.setDate(4, confirmAt);
+
+			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
+			if (n == 1) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 
 }
