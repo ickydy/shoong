@@ -3,7 +3,6 @@ package controller.secret;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,23 +11,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.PostDao;
 import model.vo.Post;
+import model.vo.User;
 
 @WebServlet("/private/post/write")
 public class PostWriteController extends HttpServlet {
 
-	@Override // 게시글을 조회
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PostDao postDao = new PostDao();
-
-		try {
-			List<Post> post = postDao.findAll();
-
-			request.setAttribute("post", post);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		request.getRequestDispatcher("/WEB-INF/private/post.jsp").forward(request, response);
+		User user = (User) request.getSession().getAttribute("logonUser");
+		request.setAttribute("user", user);
+		request.getRequestDispatcher("/WEB-INF/private/post/write.jsp").forward(request, response);
 
 	}
 
@@ -36,21 +29,22 @@ public class PostWriteController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		int id = Integer.parseInt(request.getParameter("id"));
-		String userId = request.getParameter("user_id");
+		String userId = request.getParameter("userId");
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
 
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date(sdf.parse(request.getParameter("write_at")).getTime());
+			Date date = new Date(sdf.parse(request.getParameter("writeAt")).getTime());
 
 			Post post = new Post();
-			post.setId(id);
+
+			post.setId(0); // 확인
 			post.setUserId(userId);
 			post.setTitle(title);
 			post.setContents(contents);
 			post.setWriteAt(date);
+			post.setViewCount(0); // 확인
 			PostDao postDao = new PostDao();
 
 			postDao.save(post);
