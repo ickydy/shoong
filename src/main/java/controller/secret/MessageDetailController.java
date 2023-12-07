@@ -19,16 +19,15 @@ public class MessageDetailController extends HttpServlet {
 
 		int id = Integer.parseInt(request.getParameter("id")) ;// 일단 파리미터를 받을건 두고.
 
-		MessageDao mDao = new MessageDao();// 사용할 dao
+		MessageDao msgDao = new MessageDao();// 사용할 dao
 		try {
-			Message message = mDao.findByMessageId(id);
+			Message message = msgDao.findByMessageId(id);
 			
 			request.setAttribute("message", message);
+			request.getRequestDispatcher("/WEB-INF/private/msg/detail.jsp").forward(request, response);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		request.getRequestDispatcher("/WEB-INF/private/msg/detail.jsp").forward(request, response);
 
 	}
 }
