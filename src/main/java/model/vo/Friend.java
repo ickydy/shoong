@@ -26,6 +26,12 @@ public class Friend {//주석달기
 		this.spam = spam;
 	}
 
+	public Friend(String userId, String friendId) {// 스팸을 하기 위해 필드가 2개인 생성자를 생성.
+		super();
+		this.userId = userId;
+		this.friendId = friendId;
+	}
+
 	public Friend(int id, String userId, String friendId, int confirmed, Date confirmAt, int spam, User user) {
 		super();
 		this.id = id;

@@ -7,6 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.dao.FriendDao;
+import model.vo.Friend;
+import model.vo.User;
 
 @WebServlet("/private/friends/spam")
 public class SpamController extends HttpServlet {
@@ -15,6 +18,21 @@ public class SpamController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		String userId = (String) request.getSession().getAttribute("logonUser");// 이부분이 조금 이상하다. 맞나?
+		String friendId = request.getParameter("friend");// 넘어오는 파라미터 값으로는 유저아이디와 프렌드 아이디 두개뿐
+
+		Friend one = new Friend(userId, friendId);// 일단 매개변수 두개로 객체를 생성.( 생성자에 새로 넣어놓음.)
+
+		FriendDao spamFriendDao = new FriendDao();
+		try {
+			boolean blockFriend = spamFriendDao.updateSpam(one);
+			request.setAttribute("blockFriend", blockFriend);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		response.sendRedirect(request.getContextPath() + "/private/fiends");
 	}
+	
 }

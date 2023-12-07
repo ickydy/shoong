@@ -11,6 +11,15 @@ public class Message {
 	Date writeAt;
 	int viewStatus;
 
+	public Message(String userId, String friendId, String contents, Date writeAt, int viewStatus) {
+		super();
+		this.userId = userId;
+		this.friendId = friendId;
+		this.contents = contents;
+		this.writeAt = writeAt;
+		this.viewStatus = viewStatus;
+	}
+
 	public Message() {
 		super();
 	}

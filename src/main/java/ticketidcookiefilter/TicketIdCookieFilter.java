@@ -22,7 +22,7 @@ public class TicketIdCookieFilter extends HttpFilter {
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		User user = (User)request.getSession().getAttribute("logonUser");
+		User user = (User)request.getSession().getAttribute("logonUser");// 검사할 세션을 가져오는거.
 		
 		if(user == null) { 
 			Cookie found = null;
@@ -30,7 +30,7 @@ public class TicketIdCookieFilter extends HttpFilter {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null && cookies.length > 0) {
 				for (Cookie one : cookies) {
-					if (one.getName().equals("ticketId")) {
+					if (one.getName().equals("ticketId")) {//one은 cookie 인 것이다. 
 						found = one;
 						break;
 					}
@@ -50,7 +50,7 @@ public class TicketIdCookieFilter extends HttpFilter {
 						String userId = foundTicket.getUserId();
 						UserDao userDao = new UserDao();
 						User foundUser = userDao.findUserWithAvatarById(userId);// 이게 파운드온유저.
-						request.getSession().setAttribute("logonUser", foundUser);
+						request.getSession().setAttribute("logonUser", foundUser);// 일단 세션은 로그온유저가 맞어.
 
 					} // if문 끝
 
