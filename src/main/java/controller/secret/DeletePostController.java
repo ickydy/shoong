@@ -25,8 +25,8 @@ public class DeletePostController extends HttpServlet {
 		
 		PostDao postDao = new PostDao();
 		try {
-			List<Post> post = postDao.deleteById(id);
-			request.setAttribute("post", post);
+//			List<Post> post = postDao.deleteById(id);
+//			request.setAttribute("post", post);
 			String uri = "";
 			// 요청 들어온곳으로 sendRedirect
 			response.sendRedirect(request.getContextPath() + uri);

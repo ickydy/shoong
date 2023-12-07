@@ -76,7 +76,7 @@ public class JoinController extends HttpServlet {
 			if (found == null) {
 				boolean result = userDao.save(user);
 				request.setAttribute("result", result);
-				response.sendRedirect("/private/index.jsp");
+				response.sendRedirect(request.getContextPath() + "/index");
 			} else {
 				String e = "이미 존재 하는 계정입니다.";
 				request.setAttribute("e", e);

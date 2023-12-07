@@ -58,8 +58,8 @@
 					<div class="mg-l">
 						<select class="w100" name="openAccess" required>
 							<option disabled selected>정보공개여부</option>
-							<option value="0">공개</option>
-							<option value="1">비공개</option>
+							<option value="1">공개</option>
+							<option value="0">비공개</option>
 						</select>
 					</div>
 					<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width:100%;">

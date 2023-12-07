@@ -46,8 +46,8 @@ public class LoginController extends HttpServlet {
 
 					KeepTicketDao keepTicketDao = new KeepTicketDao();
 					keepTicketDao.save(ticket);
+					Cookie cookie = new Cookie("ticketId", code);
 
-					Cookie cookie = new Cookie("ticketId", id);
 					cookie.setPath(request.getServletContext().getContextPath());
 					cookie.setMaxAge(60 * 60 * 24 * 30);
 					response.addCookie(cookie);
