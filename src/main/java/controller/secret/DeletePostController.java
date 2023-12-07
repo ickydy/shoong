@@ -24,7 +24,7 @@ public class DeletePostController extends HttpServlet {
 			boolean delete = Postdao.deleteById(id);
 
 			if (delete) {
-				// 어디로 보낼지 모르겠음
+			 response.sendRedirect(request.getContextPath()+"/private/post");
 			} else {
 				String e = "삭제에 실패했습니다.";
 				request.setAttribute("e", e);
