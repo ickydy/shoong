@@ -20,10 +20,10 @@ public class DeleteMessageController extends HttpServlet {
 		int id =Integer.parseInt(request.getParameter("id"));
 		
 		MessageDao messageDao =new MessageDao();
-		boolean delId;
+		
 		try {
-			delId = messageDao.deleteById(id);
-			request.setAttribute("delId", delId);
+			boolean delIdResult = messageDao.deleteById(id);
+			request.setAttribute("delIdResult", delIdResult);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,7 +33,7 @@ public class DeleteMessageController extends HttpServlet {
 		
 
 		
-		String uri = (String) request.getAttribute("requestUri");
+		String uri = (String) request.getAttribute("requestUri");// 기억해놓기 위함이다. 
 		response.sendRedirect(request.getContextPath() + uri);
 	}
 }

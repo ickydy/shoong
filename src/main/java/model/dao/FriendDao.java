@@ -69,7 +69,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"oracle")) {
 
-			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0";
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; //차단 안당하고 컨펌은 1인거. 일단 친구의 정보를 가져와야하니까.
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
