@@ -24,16 +24,18 @@ public class FriendsController extends HttpServlet {
 		String userId = user.getId(); // 세션에서 유저 아이디 뽑은 다음 진행.
 		try {
 			FriendDao friendDao = new FriendDao();
-			List<Friend> findFriendResult = friendDao.findById(userId);
-			request.setAttribute("findFriendResult", findFriendResult);
+			List<Friend> friends = friendDao.findById(userId);
+			request.setAttribute("friends", friends);
 
-			List<Friend> findSendFriendResult = friendDao.findSendRequest(userId);
-			request.setAttribute("findSendFriendResult", findSendFriendResult);
+			List<Friend> sendRequests = friendDao.findSendRequest(userId);
+			request.setAttribute("sendRequests", sendRequests);
 
-			List<Friend> findreceiveResult = friendDao.findReceiveRequest(userId);
-			request.setAttribute("findreceiveResult", findreceiveResult);
+			List<Friend> receiveRequests = friendDao.findReceiveRequest(userId);
+			request.setAttribute("receiveRequests", receiveRequests);
+
+			request.getRequestDispatcher("/WEB-INF/private/friends.jsp").forward(request, response);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		/*
@@ -49,8 +51,6 @@ public class FriendsController extends HttpServlet {
 		 * (ClassNotFoundException e) { // TODO Auto-generated catch block
 		 * e.printStackTrace(); }
 		 */
-
-		request.getRequestDispatcher("/WEB-INF/private/friends.jsp").forward(request, response);
 
 	}
 }
