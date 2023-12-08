@@ -28,7 +28,7 @@ public class DeleteMessageController extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		String uri = request.getRequestURI;
+		String uri = request.getRequestURI();
 		response.sendRedirect(request.getContextPath() + uri);
 	}
 }
