@@ -27,7 +27,6 @@ public class AddFriendController extends HttpServlet { // 여기 doget 에서 do
 			boolean addFriendResult = friendDao.addFriend(userId, friendId);
 			request.setAttribute("addFriendResult", addFriendResult);// result 추가.
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

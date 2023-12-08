@@ -12,7 +12,7 @@ import model.dao.FriendDao;
 import model.vo.User;
 
 @WebServlet("/private/friends/confirm")
-public class confirmController extends HttpServlet {
+public class ConfirmController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

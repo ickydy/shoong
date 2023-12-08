@@ -14,25 +14,22 @@ import model.vo.User;
 @WebServlet("/private/profile")
 public class ProfileController extends HttpServlet {
 
-	 @Override // 정보 열람 페이지
-	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException {
-		 	String id = request.getParameter("id");
-	        UserDao userDao = new UserDao();
-	        
-	        try {
-	            if (id != null && !id.equals("")) {
-	                User user = userDao.findById(id);
-	                if (user != null) {
-	                    request.setAttribute("user", user);
-	                    request.getRequestDispatcher("/WEB-INF/private/profile.jsp").forward(request, response);
-	                    
-	                } else {
-	                    
-	                }
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
+	@Override // 정보 열람 페이지
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		User user = (User) request.getSession().getAttribute("logonUser");
+
+		try {
+
+			if (user != null) {
+				request.setAttribute("user", user);
+				
+				request.getRequestDispatcher("/WEB-INF/private/profile.jsp").forward(request, response);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+}
