@@ -39,7 +39,7 @@
 					</tr>
 					<tr>
 						<th>국가</th>
-						<td> : ${user.countryId }</td>
+						<td> : ${country.name }</td>
 					</tr>
 					<tr>
 						<th>성별</th>
@@ -66,9 +66,11 @@
 	</div>
 	
 	<script>
+	
 		document.querySelector("#goEdit").onclick = function(evt) {
-			
+			location.href = '<c:url value="/private/edit"/>';
 		}
+		
 	</script>
 </body>
 </html>

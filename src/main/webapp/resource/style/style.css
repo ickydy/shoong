@@ -122,6 +122,19 @@ a:visited {
 	width: 40%;
 }
 
+.popup {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 10px;
+	background-color: #9BC3FF;
+	color: #444;
+	width: 300px;
+	height: 350px;
+	opacity: 1;
+	border-radius: 10px;
+}
+
 /* 정렬 */
 
 .align-center {
