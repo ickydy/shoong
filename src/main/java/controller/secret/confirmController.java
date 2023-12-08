@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.dao.FriendDao;
 import model.vo.User;
 
-@WebServlet("/private/friendss")
+@WebServlet("/private/friends/confirm")
 public class confirmController extends HttpServlet {
 	
 	@Override
@@ -24,25 +24,18 @@ public class confirmController extends HttpServlet {
 		String userId = user.getId();
 		String friendId = request.getParameter("friendId");
 		try {
-		FriendDao friendDao = new FriendDao();
-		boolean confirmResult = friendDao.confirm(now, userId, friendId);
-		request.setAttribute("confirmResult", confirmResult);//confirm
-		
-		boolean cfduplicator = friendDao.confirmDuplicator(userId, friendId, 1, now);
-		request.setAttribute("cfduplicator", cfduplicator);//confirmDuplicator
-		
-		request.getRequestDispatcher("/WEB-INF/private/msg.jsp").forward(request, response);
-		
-		
+			FriendDao friendDao = new FriendDao();
+			boolean confirmResult = friendDao.confirm(now, friendId, userId);
+			request.setAttribute("confirmResult", confirmResult);
+			
+			boolean cfduplicator = friendDao.confirmDuplicator(userId, friendId, 1, now);
+			request.setAttribute("cfduplicator", cfduplicator);
+			
+			response.sendRedirect(request.getServletContext().getContextPath() + "/private/friends");
+
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
-		
 		
 	}
 
