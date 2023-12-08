@@ -57,16 +57,16 @@
 
 	<div class="container" style="margin-top: 50px;">
 		<c:forEach var="one" items="${friends}">
-			<p>${one.user.name} / ${one.user.gender}/ ${one.confirmAt}</p>
+			<p>${one.user.name}/ ${one.user.gender}/ ${one.confirmAt}</p>
 		</c:forEach>
 	</div>
 
 </body>
 </html>
-			
-			
-			
-			
+
+
+
+
 
 
 
