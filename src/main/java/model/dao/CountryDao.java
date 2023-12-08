@@ -74,13 +74,13 @@ public class CountryDao {
 
 			ResultSet rs = pst.executeQuery();
 
+			Country one = null;
 			if (rs.next()) {
-				Country one = new Country();
+				one = new Country();
 				one.setId(rs.getString("id"));
 				one.setName(rs.getString("name"));
-				return one;
 			}
-			return null;
+			return one;
 				
 		} catch (Exception e) {
 			e.printStackTrace();
