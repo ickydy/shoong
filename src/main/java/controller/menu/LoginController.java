@@ -37,7 +37,7 @@ public class LoginController extends HttpServlet {
 		LogInLogDao loginLogDao = new LogInLogDao(); 
 		try {
 			UserDao userDao = new UserDao();
-			User foundUser = userDao.findById(id);
+			User foundUser = userDao.findUserWithAvatarById(id);
 
 			if (foundUser != null && foundUser.getPassword().equals(password)) {
 				request.getSession().setAttribute("logonUser", foundUser);

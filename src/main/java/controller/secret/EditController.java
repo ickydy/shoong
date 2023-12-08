@@ -2,9 +2,7 @@ package controller.secret;
 
 import java.io.IOException;
 import java.sql.Date;
-
 import java.util.List;
-
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,8 +10,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.AvatarDao;
+import model.dao.CountryDao;
 import model.dao.UserDao;
 import model.vo.Avatar;
+import model.vo.Country;
 import model.vo.User;
 
 @WebServlet("/private/edit")
@@ -24,10 +24,15 @@ public class EditController extends HttpServlet {
    protected void doGet(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
 	   
+	   User user = (User)request.getSession().getAttribute("logonUser");
 	   AvatarDao avatarDao = new AvatarDao();
+	   CountryDao countryDao = new CountryDao();
 		try {
 			List<Avatar> avatars = avatarDao.findAll();
+			Country country = countryDao.findByCountryId(user.getCountryId());
 			request.setAttribute("avatars", avatars);
+			request.setAttribute("user", user);
+			request.setAttribute("country", country);
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
