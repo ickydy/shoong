@@ -343,8 +343,8 @@ public class FriendDao {
 			PreparedStatement pst = conn.prepareStatement(sql);
 
 			pst.setDate(1, confirmedDate);
-			pst.setString(2, friendId);
-			pst.setString(3, userId);
+			pst.setString(2, userId);
+			pst.setString(3, friendId);
 
 			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
 			if (n == 1) {
