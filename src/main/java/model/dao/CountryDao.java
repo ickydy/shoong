@@ -9,6 +9,7 @@ import java.util.List;
 
 import model.vo.Avatar;
 import model.vo.Country;
+import model.vo.Friend;
 import model.vo.User;
 
 public class CountryDao {
@@ -58,5 +59,39 @@ public class CountryDao {
 			return null;
 		}
 	}
+	
+	public Country findByCountryId(String id) throws ClassNotFoundException {
+
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"oracle")) {
+
+			String sql = "select * from countrys where id=?";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, id);
+
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				Country one = new Country();
+				one.setId(rs.getString("id"));
+				one.setName(rs.getString("name"));
+				return one;
+			}
+			return null;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+				
+				
+				
+
+
+
 
 }
