@@ -57,11 +57,11 @@ public class MessageController extends HttpServlet {
 
 		try {
 
-			List<Friend> realFriend = friendDao.findById(userId); 
+			List<Friend> realFriend = friendDao.findById(userId); //dao를 두고 이걸 시작점으로 코딩을 시작한다.
 
 
 			int con = 0;
-			for (Friend one : realFriend) {
+			for (Friend one : realFriend) {//여기까지 one이 객체로 나옴. 여기서 뽑아 쓸 수 있음.
 				if (one.getFriendId().equals(friendId)) {// 이부분이 프랜드 아이디 체크 후 컨펌드를 뽑아주는 것.
 					con = one.getConfirmed();
 				}
