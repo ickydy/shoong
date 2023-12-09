@@ -27,31 +27,50 @@
 				<table class="profile-table">
 					<tr>
 						<th>아이디</th>
-						<td>${user.id }</td>
+						<td> : ${user.id }</td>
 					</tr>
 					<tr>
 						<th>생일</th>
-						<td><fmt:formatDate value="${user.birth }" pattern="yyyy-MM-dd"/></td>
+						<td> : <fmt:formatDate value="${user.birth }" pattern="yyyy-MM-dd"/></td>
 					</tr>
 					<tr>
 						<th>이름</th>
-						<td>${user.name }</td>
+						<td> : ${user.name }</td>
 					</tr>
 					<tr>
 						<th>국가</th>
-						<td>${user.countryId }</td>
+						<td> : ${country.name }</td>
 					</tr>
 					<tr>
 						<th>성별</th>
-						<td>${user.gender }</td>
+						<td> : 
+							<c:choose>
+								<c:when test="${user.gender eq 'M'}">남성</c:when>
+								<c:when test="${user.gender eq 'W'}">여성</c:when>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<th>정보공개여부</th>
-						<td>${user.openAccess }</td>
+						<td> : 
+							<c:choose>
+								<c:when test="${user.openAccess eq '1'}">공개</c:when>
+								<c:when test="${user.openAccess eq '0'}">비공개</c:when>
+							</c:choose>
+						</td>
 					</tr>
 				</table>
+				<button type="button" id="goEdit">정보수정</button>
 			</div>
 		</div>
 	</div>
+	
+	<script>
+	
+		document.querySelector("#goEdit").onclick = function(evt) {
+			location.href = '<c:url value="/private/edit"/>';
+		}
+		
+	</script>
 </body>
 </html>

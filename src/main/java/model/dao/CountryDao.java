@@ -41,7 +41,7 @@ public class CountryDao {
 	public List<Country> findAll() throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT * FROM COUNTRYS";
+			String sql = "SELECT * FROM COUNTRYS ORDER BY NAME ASC";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
 			ResultSet rs = pstmt.executeQuery();

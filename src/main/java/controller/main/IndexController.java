@@ -18,10 +18,11 @@ public class IndexController extends HttpServlet {
 
 		User user = (User) request.getSession().getAttribute("logonUser");
 
-		if(user == null) {
-			request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);			
+		if (user == null) {
+			request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);
 		} else {
-			request.getRequestDispatcher("/WEB-INF/private/index.jsp").forward(request, response);	
+			request.setAttribute("user", user);
+			request.getRequestDispatcher("/WEB-INF/private/index.jsp").forward(request, response);
 		}
 	}
 }

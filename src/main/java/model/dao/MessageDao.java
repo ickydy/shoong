@@ -41,6 +41,7 @@ public class MessageDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong", "1111")) {
+
 			String sql = "SELECT * FROM messages WHERE user_id=?";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
@@ -72,7 +73,9 @@ public class MessageDao {
 	public List<Message> findByFriendId(String friendId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
+
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong", "1111")) {
+
 			String sql = "SELECT * FROM messages WHERE friend_id=?";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
