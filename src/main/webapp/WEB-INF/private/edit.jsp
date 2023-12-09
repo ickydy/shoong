@@ -12,8 +12,8 @@
 <body>
 	<div class="align-center">
 		<div class="header">
-			<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px groove #969696;" class="align-center">
-				<a href="<c:url value="/login"/>" class="mg-l">
+			<div class="align-center menu-bar">
+				<a href="<c:url value="/index"/>" class="mg-l">
 					<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width: 100px;"/>
 				</a>
 				<a href="<c:url value="/logout"/>" class="mg-l">로그아웃</a>
@@ -24,7 +24,7 @@
 				<h3>정보수정</h3>
 			</div>
 			<div class="w460">
-				<form>
+				<form action="<c:url value="/private/edit" />" method="post">
 					<table class="profile-table">
 						<tr>
 							<th>아이디</th>
@@ -59,9 +59,9 @@
 							<th>정보공개여부</th>
 							<td>
 								<c:set var="access" value="${user.openAccess }" />
-								<select>
-									<option ${access eq 1 ? 'selected':'' }>공개</option>
-									<option ${access eq 0 ? 'selected':'' }>비공개</option>
+								<select class="align-center" name="openAccess">
+									<option ${access eq 1 ? 'selected':'' } value="1">공개</option>
+									<option ${access eq 0 ? 'selected':'' } value="0">비공개</option>
 								</select>
 							</td>
 						</tr>
@@ -71,7 +71,7 @@
 								<div style="display: flex">
 									<img src="<c:url value="${user.avatar.imgUrl }"/>" style="width: 40px;" id="avatarPreview"/>
 									<c:set var="avatarId" value="${user.avatarId }" />
-									<select id="avatarSelect">
+									<select id="avatarSelect" class="align-center" name="avatarId">
 										<c:forEach var="avatar" items="${avatars }">
 											<option ${avatar.id eq user.avatarId ? 'selected':'' } value="${avatar.id }" data-url="<c:url value="${avatar.imgUrl }"/>">
 												${avatar.alt }
@@ -82,6 +82,7 @@
 							</td>
 						</tr>
 					</table>
+					<button type="submit" class="l-bt">수정완료</button>
 				</form>
 			</div>
 		</div>

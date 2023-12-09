@@ -73,17 +73,10 @@ public class MessageController extends HttpServlet {
 				request.setAttribute("result", result);// setAttribute
 
 			} else {
-				response.sendRedirect(request.getContextPath() + "/msg/send");// 경로설정 이렇게도 가능하구나.
+				response.sendRedirect(request.getContextPath() + "/msg/send");
 
 			}
 
-			/*
-			 * boolean result = msgDao.save(msg);
-			 * 
-			 * request.setAttribute("result", result);// setAttribute
-			 * response.sendRedirect(request.getContextPath() + "/msg/send");// 경로설정 이렇게도
-			 * 가능하구나.
-			 */ 
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

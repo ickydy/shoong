@@ -5,60 +5,53 @@ import java.sql.Date;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.KeepTicketDao;
+import model.dao.LogInLogDao;
 import model.dao.UserDao;
 import model.vo.KeepTicket;
+import model.vo.LogInLog;
 import model.vo.User;
 
-@WebFilter({ "/*" })
 public class TicketIdCookieFilter extends HttpFilter {
 	@Override
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
-		User user = (User)request.getSession().getAttribute("logonUser");// 검사할 세션을 가져오는거.
-		
-		if(user == null) { 
 
-			Cookie found = null;
+		User user = (User) request.getSession().getAttribute("logonUser");
 
+		if (user == null) {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null && cookies.length > 0) {
-				for (Cookie one : cookies) {
-					if (one.getName().equals("ticketId")) {//one은 cookie 인 것이다. 
-						found = one;
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("ticketId")) {
+						String Id = cookie.getValue();
+						KeepTicketDao ticketDao = new KeepTicketDao();
+						try {
+							KeepTicket keepTicket = ticketDao.findById(Id);
+
+							Date now = new Date(System.currentTimeMillis());
+
+							if (keepTicket != null && keepTicket.getExpiredAt().after(now)) {
+								UserDao userDao = new UserDao();
+								User found = userDao.findUserWithAvatarById(keepTicket.getUserId());
+								request.getSession().setAttribute("logonUser", found);
+
+								LogInLogDao logDao = new LogInLogDao();
+								LogInLog log = new LogInLog(0, found.getId(), now, request.getRemoteAddr());
+								logDao.save(log);
+							}
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
 						break;
 					}
 				}
 			}
 
-			if (found != null) {
-				String id = found.getValue();
-				KeepTicketDao keepTicketDao = new KeepTicketDao();
-
-				try {
-					KeepTicket foundTicket = keepTicketDao.findById(id);
-					Date now = new Date(System.currentTimeMillis());
-
-					if (foundTicket != null && foundTicket.getExpiredAt().after(now)) {// if문 시작.
-						String userId = foundTicket.getUserId();
-						UserDao userDao = new UserDao();
-						User foundUser = userDao.findUserWithAvatarById(userId);// 이게 파운드온유저.
-						request.getSession().setAttribute("logonUser", foundUser);// 일단 세션은 로그온유저가 맞어.
-
-					} // if문 끝
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("티켓 쿠키 필터부분에서 에러가 났습니다.");
-				}
-
-			}
 			chain.doFilter(request, response);
 		} else {
 			chain.doFilter(request, response);

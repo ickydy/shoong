@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.MessageDao;
 import model.vo.Message;
+import model.vo.User;
 
 @WebServlet("/private/msg/detail")
 public class MessageDetailController extends HttpServlet {
@@ -17,12 +18,23 @@ public class MessageDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		int id = Integer.parseInt(request.getParameter("id")) ;// 일단 파리미터를 받을건 두고.
+		User user = (User) request.getSession().getAttribute("logonUser");
+		int id = Integer.parseInt(request.getParameter("id"));
 
-		MessageDao msgDao = new MessageDao();// 사용할 dao
+		MessageDao msgDao = new MessageDao();
 		try {
 			Message message = msgDao.findByMessageId(id);
-			
+
+			if (!message.getUserId().equals(user.getId()) && !message.getFriendId().equals(user.getId())) {
+				String e = "열람권한이 없습니다.";
+				request.setAttribute("e", e);
+				request.getRequestDispatcher("/WEB-INF/private/msg/detail.jsp").forward(request, response);
+			}
+
+			if (message.getViewStatus() == 0) {
+				msgDao.read(id);
+			}
+
 			request.setAttribute("message", message);
 			request.getRequestDispatcher("/WEB-INF/private/msg/detail.jsp").forward(request, response);
 		} catch (ClassNotFoundException e) {
