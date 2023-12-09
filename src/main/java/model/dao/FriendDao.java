@@ -43,7 +43,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
 
-			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; // 차단
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; // 이게 결국에 친구인 아이들을 찾아줄거야.
 			// 가져와야하니까.
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
@@ -60,8 +60,23 @@ public class FriendDao {
 				one.setConfirmed(rs.getInt("confirmed"));
 				one.setConfirmAt(rs.getDate("confirm_at"));
 				one.setSpam(rs.getInt("spam"));
-
+				
+				User i = new User();
+				i.setId(rs.getString("id"));
+				i.setPassword(rs.getString("password"));
+				i.setBirth(rs.getDate("birth"));
+				i.setName(rs.getString("name"));
+				i.setCountryId(rs.getString("country_id"));
+				i.setGender(rs.getString("gender"));
+				i.setOpenAccess(rs.getInt("open_access"));
+				i.setAvatarId(rs.getInt("avatar_id"));
+				one.setUser(i);
+				
 				list.add(one);
+				
+				
+
+//				list.add(one);
 			}
 
 			return list;
@@ -72,6 +87,8 @@ public class FriendDao {
 		}
 
 	}
+	
+	
 
 	public List<Friend> findByFriendBirthDate(String userId, Date begin, Date end) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -380,6 +397,10 @@ public class FriendDao {
 		}
 		return result;
 	}
+	
+	
+	
+	
 
 
 }

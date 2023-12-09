@@ -25,14 +25,14 @@ public class MessageController extends HttpServlet {
 
 		User user = (User) request.getSession().getAttribute("logonUser");
 		String userId = user.getId();
-				
+
 		try {
 			FriendDao friendDao = new FriendDao();
 			List<Friend> friends = friendDao.findById(userId);
 			request.setAttribute("friends", friends);
-	
+
 			request.getRequestDispatcher("/WEB-INF/private/msg.jsp").forward(request, response);
-			
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -53,12 +53,38 @@ public class MessageController extends HttpServlet {
 		Message msg = new Message(userId, friendId, contents, now, viewStatus);
 
 		MessageDao msgDao = new MessageDao();
+		FriendDao friendDao = new FriendDao();
 
 		try {
-			boolean result = msgDao.save(msg);
 
-			request.setAttribute("result", result);// setAttribute
-			response.sendRedirect(request.getContextPath() + "/msg/send");// 경로설정 이렇게도 가능하구나.
+			List<Friend> realFriend = friendDao.findById(userId); //dao를 두고 이걸 시작점으로 코딩을 시작한다.
+
+
+			int con = 0;
+			for (Friend one : realFriend) {//여기까지 one이 객체로 나옴. 여기서 뽑아 쓸 수 있음.
+				if (one.getFriendId().equals(friendId)) {// 이부분이 프랜드 아이디 체크 후 컨펌드를 뽑아주는 것.
+					con = one.getConfirmed();
+				}
+			}
+
+			if (con == 1) {
+
+				boolean result = msgDao.save(msg);
+				request.setAttribute("result", result);// setAttribute
+
+			} else {
+				response.sendRedirect(request.getContextPath() + "/msg/send");// 경로설정 이렇게도 가능하구나.
+
+			}
+
+			/*
+			 * boolean result = msgDao.save(msg);
+			 * 
+			 * request.setAttribute("result", result);// setAttribute
+			 * response.sendRedirect(request.getContextPath() + "/msg/send");// 경로설정 이렇게도
+			 * 가능하구나.
+			 */ 
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

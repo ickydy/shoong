@@ -24,7 +24,7 @@ input,select {
 	border-bottom: 2px solid #444;
 }
 
-input:focus, select:focus {
+input:focus, select:focus, textarea {
 	outline: none;
 }
 
