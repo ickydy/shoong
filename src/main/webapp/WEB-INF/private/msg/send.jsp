@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div class="container w720">
-			<table class="msg-table" id="table">
+			<table class="msg-table mg-top-m" id="table">
 				<tr>
 					<th>NO</th>
 					<th>읽음</th>

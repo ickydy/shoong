@@ -137,7 +137,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
 //			String sql = "select * from users u join friends f on u.id =f.user_id where u.id=? and f.confirmed=1"; 
-			String sql = "select * from friends f join users u on f.frined_id = u.id where f.user_id = ? and f.confirmed = 0";
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id = ? and f.confirmed = 0";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);

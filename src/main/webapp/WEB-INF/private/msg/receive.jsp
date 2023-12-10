@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div class="container w720">
-			<table class="msg-table" id="table">
+			<table class="msg-table mg-top-m" id="table">
 				<tr>
 					<th>NO</th>
 					<th>읽음</th>
@@ -49,8 +49,8 @@
 						<td>${msg.id }</td>
 						<td>
 							<c:choose>
-								<c:when test="${msg.viewStatus eq 0 }">✉</c:when>
-								<c:when test="${msg.viewStatus eq 1 }">📥</c:when>
+								<c:when test="${msg.viewStatus eq 0 }">&#9993;</c:when>
+								<c:when test="${msg.viewStatus eq 1 }">&#128229;</c:when>
 							</c:choose>
 						</td>
 						<td>${msg.userId }</td>

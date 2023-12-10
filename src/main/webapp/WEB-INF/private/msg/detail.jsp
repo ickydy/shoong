@@ -35,11 +35,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="container w720">
-			<div>보낸사람: ${message.userId }</div>
-			<div>받는사람: ${message.friendId }</div>
-			<div>작성시간: <fmt:formatDate value="${message.writeAt }" pattern="yyyy-MM-dd HH:mm"/></div>
-			<div>${message.contents }</div>
+		<div class="container">
+			<div class="w460 mg-top-l align-left profile-table" style="line-height: 3">
+				<div style="display:flex; justify-content:space-around; align-items: center; ">
+					<div>보낸사람: ${message.userId }</div>
+					<div>받는사람: ${message.friendId }</div>
+				</div>
+				<div><small>받은시간: <fmt:formatDate value="${message.writeAt }" pattern="yyyy-MM-dd HH:mm"/></small></div>
+				<div class="profile-table" style="min-height: 400px;">${message.contents }</div>
+			</div>
 		</div>
 	</div>
 	<script>

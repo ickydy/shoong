@@ -10,13 +10,28 @@
 <link href="<c:url value="/resource/style/style.css"/>" rel="stylesheet" />
 </head>
 <body>
-	<div class="align-center">
+	<div class="align-center" id="container">
 		<div class="header">
 			<div class="align-center menu-bar">
-				<a href="<c:url value="/index"/>" class="mg-l">
+				<a href="<c:url value="/index"/>" class="mg-s">
 					<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width: 100px;"/>
 				</a>
-				<a href="<c:url value="/logout"/>" class="mg-l">로그아웃</a>
+				<span style="cursor: pointer;" id="openPopBt" class="mg-s">⚙</span>
+			</div>
+			<!-- 팝업창 안 부분 -->
+			<div id="popup" class="popup" style="display: none">
+				<div>
+					<a href="<c:url value="/private/profile"/>">내정보</a>
+				</div>
+				<div>
+					<a href="<c:url value="/private/msg"/>">메세지작성</a>
+				</div>
+				<div>
+					<a href="<c:url value="/private/msg/receive"/>">받은메세지</a>
+				</div>
+				<div>
+					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
+				</div>
 			</div>
 		</div>
 		<div class="container">
@@ -95,6 +110,35 @@
 			document.querySelector("#avatarPreview").src=options[options.selectedIndex].dataset.url;
 			
 		}
+		
+		// 팝업창 띄우기
+		document.querySelector("#openPopBt").addEventListener("click",
+				function(e) {
+	
+					const $popup = document.querySelector("#popup");
+					if ($popup.style.display == 'none') {
+						$popup.style.display = 'block';
+					} else {
+						$popup.style.display = 'none';
+					}
+					e.stopPropagation();
+		});
+
+		// 버블링 막기
+		document.querySelector("#popup").addEventListener("click",
+				function(e) {
+					e.stopPropagation();
+		});
+
+		// 팝업창 바깥 클릭시 꺼지도록
+		document.querySelector("#container").addEventListener("click",
+				function(e) {
+					const $popup = document.querySelector("#popup");
+	
+					$popup.style.display = 'none';
+	
+		});
+		
 	</script>
 </body>
 </html>
