@@ -65,7 +65,7 @@ public class JoinController extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(request, response);
 				return;
 			} else if (id.contains(" ") || password.contains(" ") || name.trim().equals("")) {
-				request.setAttribute("e", "모든 것을 입력해주십시오.");
+				request.setAttribute("e", "아이디와 패스워드는 공백을, 이름은 앞뒤 공백을 허용하지 않습니다.");
 				request.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(request, response);
 				return;
 			}
