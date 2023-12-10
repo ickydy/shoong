@@ -41,10 +41,17 @@ public class PostDao {
 		}
 	}
 
-	public List<Post> findAll() throws ClassNotFoundException {
+
+	// 이 부분 확인
+	public List<Post> findAll(String sort) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			String sql = "SELECT * FROM POSTS";
+			if (sort.equals("viewCount")) {
+				sql += " order by view_count DESC";
+			} else {
+				sql += " order by write_at DESC";
+			}
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			List<Post> list = new ArrayList<>();

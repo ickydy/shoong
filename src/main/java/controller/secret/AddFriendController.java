@@ -29,7 +29,7 @@ public class AddFriendController extends HttpServlet { // 여기 doget 에서 do
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
+		
 		response.sendRedirect(request.getContextPath() + "/private/friends");
 
 	}

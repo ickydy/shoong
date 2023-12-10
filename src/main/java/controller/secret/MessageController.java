@@ -42,7 +42,7 @@ public class MessageController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		User user = (User) request.getSession().getAttribute("logonUser");// 세션 뽑기.
+		User user = (User) request.getSession().getAttribute("logonUser");
 		Date now = new Date(System.currentTimeMillis());
 
 		String userId = user.getId();
@@ -50,6 +50,8 @@ public class MessageController extends HttpServlet {
 		String contents = request.getParameter("contents");
 		int viewStatus = 0;
 
+	
+		
 		Message msg = new Message(userId, friendId, contents, now, viewStatus);
 
 		MessageDao msgDao = new MessageDao();

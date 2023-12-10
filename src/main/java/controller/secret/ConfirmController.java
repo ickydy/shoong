@@ -15,6 +15,7 @@ import model.vo.User;
 public class ConfirmController extends HttpServlet {
 	
 	@Override
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User)request.getSession().getAttribute("logonUser");
 		Date now = new Date(System.currentTimeMillis());

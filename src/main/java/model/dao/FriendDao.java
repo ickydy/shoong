@@ -36,7 +36,7 @@ public class FriendDao {
 		return result;
 	}
 
-	public List<Friend> findById(String userId) throws ClassNotFoundException { // 친구 검색.
+	public List<Friend> findById(String userId) throws ClassNotFoundException { 
 
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 

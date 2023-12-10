@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,31 +145,56 @@ public class UserDao {
 	}
 
 	public List<User> findByIdOrName(String keyword) throws ClassNotFoundException {
+	    Class.forName("oracle.jdbc.driver.OracleDriver");
+	    try (Connection conn = DriverManager.getConnection(url, host, password)) {
+	      
+	        String sql = "SELECT ID, NAME, COUNTRY_ID, GENDER FROM USERS WHERE ID LIKE ? OR NAME LIKE ?";
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, '%' + keyword + '%');
+	        pstmt.setString(2, '%' + keyword + '%');
+	        ResultSet rs = pstmt.executeQuery();
+
+	        List<User> list = new ArrayList<>();
+	        while (rs.next()) {
+	            User user = new User();
+	            user.setId(rs.getString("id"));
+	            user.setName(rs.getString("name"));
+	            user.setCountryId(rs.getString("country_id")); 
+	            user.setGender(rs.getString("gender"));
+	          
+	            list.add(user);
+	        }
+	        return list;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+
+	public List<User> findAll() throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT USERS.*, AVATARS.alt, AVATARS.img_url FROM USERS JOIN AVATARS ON USERS.avatar_id = AVATARS.id WHERE USERS.ID LIKE ? OR USERS.NAME LIKE ?";
+			String sql = "SELECT * FROM USERS";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, '%' + keyword + '%');
-			pstmt.setString(2, '%' + keyword + '%');
-			ResultSet rs = pstmt.executeQuery();
 
+			ResultSet rs = pstmt.executeQuery();
 			List<User> list = new ArrayList<>();
 			while (rs.next()) {
-				String id = rs.getString("id");
-				String password = rs.getString("password");
-				Date birth = rs.getDate("birth");
-				String name = rs.getString("name");
-				String countryId = rs.getString("country_id");
-				String gender = rs.getString("gender");
-				int openAccess = rs.getInt("open_access");
-				int avatarId = rs.getInt("avatar_id");
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setPassword(rs.getString("password"));
+				user.setBirth(rs.getDate("birth"));
+				user.setCountryId(rs.getString("countryId"));
+				user.setGender(rs.getString("gender"));
+				user.setOpenAccess(rs.getInt("openAccess"));
+				user.setAvatarId(rs.getInt("avatarId"));
 
-				Avatar avatars = new Avatar();
-				avatars.setAlt(rs.getString("alt"));
-				avatars.setImgUrl(rs.getString("img_url"));
-
-				User user = new User(id, password, birth, name, countryId, gender, openAccess, avatarId, avatars);
+				Avatar avatar = new Avatar();
+				avatar.setId(rs.getInt("id"));
+				avatar.setAlt(rs.getString("alt"));
+				avatar.setImgUrl("imgUrl");
 				list.add(user);
+
 			}
 			return list;
 		} catch (Exception e) {
@@ -176,5 +202,28 @@ public class UserDao {
 			return null;
 		}
 	}
-}
+	
+	public List<User> findRecommendUsers() throws ClassNotFoundException, SQLException {
+        Class.forName("oracle.jdbc.driver.OracleDriver");
+        try (Connection conn = DriverManager.getConnection(url, host, password)) {
+            String sql = "SELECT * FROM USERS WHERE OPEN_ACCESS = 1 AND " +
+                         "ID IN (SELECT USER_ID FROM POSTS GROUP BY USER_ID HAVING COUNT(*) >= 5) AND " +
+                         "ID IN (SELECT USER_ID FROM POSTS WHERE VIEW_COUNT >= 100)";
+            			//gpt힘을 빌림
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
 
+            List<User> recommendUsers = new ArrayList<>();
+            while (rs.next()) {
+            	User user = new User();
+	            user.setId(rs.getString("id"));
+	            user.setName(rs.getString("name"));
+	            user.setCountryId(rs.getString("country_id")); 
+	            user.setGender(rs.getString("gender"));
+                recommendUsers.add(user);
+            }
+            return recommendUsers;
+        }
+    }
+}
+	
