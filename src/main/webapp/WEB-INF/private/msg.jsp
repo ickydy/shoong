@@ -31,6 +31,9 @@
 				<div>
 					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
 				</div>
+				<div>
+					<a href="<c:url value="/private/post/write"/>">글작성</a>
+				</div>
 			</div>
 		</div>
 		<div class="container" style="margin-top: 50px;">
@@ -56,6 +59,35 @@
 		</div>
 	</div>
 	<script>
+	
+		// 팝업창 띄우기
+		document.querySelector("#openPopBt").addEventListener("click",
+				function(e) {
+	
+					const $popup = document.querySelector("#popup");
+					if ($popup.style.display == 'none') {
+						$popup.style.display = 'block';
+					} else {
+						$popup.style.display = 'none';
+					}
+					e.stopPropagation();
+		});
+	
+		// 버블링 막기
+		document.querySelector("#popup").addEventListener("click",
+				function(e) {
+					e.stopPropagation();
+		});
+	
+		// 팝업창 바깥 클릭시 꺼지도록
+		document.querySelector("#container").addEventListener("click",
+				function(e) {
+					const $popup = document.querySelector("#popup");
+	
+					$popup.style.display = 'none';
+	
+		});
+	
 		function showFriends() {
 			if ( document.querySelector("#friends").style.display == 'none' ) {
 				document.querySelector("#friends").style.display = 'block';
@@ -66,11 +98,3 @@
 	</script>
 </body>
 </html>
-
-
-
-
-
-
-
-

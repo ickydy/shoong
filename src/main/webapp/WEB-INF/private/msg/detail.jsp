@@ -43,6 +43,10 @@
 				</div>
 				<div><small>받은시간: <fmt:formatDate value="${message.writeAt }" pattern="yyyy-MM-dd HH:mm"/></small></div>
 				<div class="profile-table" style="min-height: 400px;">${message.contents }</div>
+				<form action="<c:url value="/private/msg/delete"/>" class="align-right pd-l" method="post">
+					<input type="hidden" name="id" value="${message.id }" />
+					<button type="submit" class="l-bt">삭제</button>
+				</form>
 			</div>
 		</div>
 	</div>

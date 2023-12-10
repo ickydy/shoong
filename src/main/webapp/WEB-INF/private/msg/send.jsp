@@ -33,6 +33,9 @@
 				<div>
 					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
 				</div>
+				<div>
+					<a href="<c:url value="/private/post/write"/>">글작성</a>
+				</div>
 			</div>
 		</div>
 		<div class="container w720">
@@ -49,8 +52,8 @@
 						<td>${msg.id }</td>
 						<td>
 							<c:choose>
-								<c:when test="${msg.viewStatus eq 0 }">✉</c:when>
-								<c:when test="${msg.viewStatus eq 1 }">📥</c:when>
+								<c:when test="${msg.viewStatus eq 0 }">&#9993;</c:when>
+								<c:when test="${msg.viewStatus eq 1 }">&#128229;</c:when>
 							</c:choose>
 						</td>
 						<td>${msg.friendId }</td>

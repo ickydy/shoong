@@ -46,11 +46,24 @@
 				<div>
 					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
 				</div>
+				<div>
+					<a href="<c:url value="/private/post/write"/>">글작성</a>
+				</div>
 			</div>
 			<!-- end -->
 			<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 				<div style="flex: 3;">
-					그을씨이
+					<div style="display:flex; justify-content:space-between; align-items:center;">
+						<div style="flex:1; min-height: 300px;">
+						
+						</div>
+						<div style="flex:1; min-height: 300px;">
+						
+						</div>
+					</div>
+					<div style="min-height: 300px;">
+						
+					</div>
 				</div>
 				<div style="flex: 1; border-left: 2px solid #444; min-height: 600px;">
 					<div class="user-info">

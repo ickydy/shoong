@@ -44,7 +44,7 @@
 							src="<c:url value="${one.user.avatar.imgUrl }" />" 
 							style="width:30px;"/>
 							<span>${one.friendId }</span>
-							<button type="button" id="spam">차단</button>
+							<button type="button" id="spam" class="l-bt">차단</button>
 						</p>
 					</c:forEach>
 				</div>
@@ -77,52 +77,58 @@
 		</div>
 	</div>
 	<script>
+		
+		// 팝업창 띄우기
+		document.querySelector("#openPopBt").addEventListener("click",
+				function(e) {
 	
-	// 팝업창 띄우기
-	document.querySelector("#openPopBt").addEventListener("click",
-			function(e) {
-
-				const $popup = document.querySelector("#popup");
-				if ($popup.style.display == 'none') {
-					$popup.style.display = 'block';
-				} else {
+					const $popup = document.querySelector("#popup");
+					if ($popup.style.display == 'none') {
+						$popup.style.display = 'block';
+					} else {
+						$popup.style.display = 'none';
+					}
+					e.stopPropagation();
+		});
+	
+		// 버블링 막기
+		document.querySelector("#popup").addEventListener("click",
+				function(e) {
+					e.stopPropagation();
+		});
+	
+		// 팝업창 바깥 클릭시 꺼지도록
+		document.querySelector("#container").addEventListener("click",
+				function(e) {
+					const $popup = document.querySelector("#popup");
+	
 					$popup.style.display = 'none';
-				}
-				e.stopPropagation();
-	});
-
-	// 버블링 막기
-	document.querySelector("#popup").addEventListener("click",
-			function(e) {
-				e.stopPropagation();
-	});
-
-	// 팝업창 바깥 클릭시 꺼지도록
-	document.querySelector("#container").addEventListener("click",
-			function(e) {
-				const $popup = document.querySelector("#popup");
-
-				$popup.style.display = 'none';
-
-	});
 	
-	// 친구요청 수락 버튼
-	document.querySelector("#confirm").addEventListner("click",
-			function(e) {
-				const friendId = e.target.previousElementSibling.textContent;
-				location.href = "<c:url value='/private/friends/confirm'/>?friendId=" + encodeURIComponent(friendId);
-	});
-	
-	// 친구 차단 버튼
-	document.querySelector("#spam").addEventListner("click",
-			function(e) {
-				let result = window.confirm("차단하시겠습니까?");
-				if(result) {
-					const friendId = e.target.previousElementSibling.textContent;
-					location.href = "<c:url value='/private/friends/spam'/>?friendId=" + encodeURIComponent(friendId);
-				}
-	});
-	
+		});
+		
+		// 친구요청 수락 버튼
+		let confirm = document.querySelector("#confirm");
+		if (confirm != null) {
+			confirm.addEventListener("click",
+					function(e) {
+						const friendId = e.target.previousElementSibling.textContent;
+						location.href = "<c:url value='/private/friends/confirm'/>?friendId=" + encodeURIComponent(friendId);
+			});
+		}
+		
+		// 친구 차단 버튼
+		let spam = document.querySelector("#spam");
+		if(spam != null) {
+			spam.addEventListener("click",
+					function(e) {
+						let result = window.confirm("차단하시겠습니까?");
+						if(result) {
+							const friendId = e.target.previousElementSibling.textContent;
+							location.href = "<c:url value='/private/friends/spam'/>?friendId=" + encodeURIComponent(friendId);
+						}
+			});			
+		}
+		
 	</script>
 </body>
 </html>

@@ -17,7 +17,7 @@
 				<a href="<c:url value="/index"/>" class="mg-s">
 					<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width: 100px;"/>
 				</a>
-				<span style="cursor: pointer;" id="openPopBt">⚙</span>
+				<span style="cursor: pointer;" id="openPopBt" class="mg-s">⚙</span>
 			</div>
 			<!-- 팝업창 안 부분 -->
 			<div id="popup" class="popup" style="display: none">
@@ -32,6 +32,9 @@
 				</div>
 				<div>
 					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
+				</div>
+				<div>
+					<a href="<c:url value="/private/post/write"/>">글작성</a>
 				</div>
 			</div>
 		</div>
