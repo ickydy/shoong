@@ -14,7 +14,7 @@ public class User {
 	private Avatar avatars;
 
 	public User() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public User(String id, String password, Date birth, String name, String countryId, String gender, int openAccess,

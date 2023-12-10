@@ -1,6 +1,7 @@
 package controller.secret;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -18,29 +19,38 @@ public class CommunityController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		PostDao postDao = new PostDao();
-
 		String sort = request.getParameter("sort");
 		String search = request.getParameter("search");
+		String keyword = request.getParameter("keyword");
 
-		List<Post> posts = null;
+		PostDao postDao = new PostDao();
 
 		try {
-			if (search != null && !search.equals("")) {
-				posts = postDao.findByTitle(search);
-				posts = postDao.findByTitleWithContent(search);
-				//posts = postDao.findById(search);
-				// 질문
-			} else {
-				String e = "검색값을 입력해주세요.";
-				request.setAttribute("e", e);
+
+			if (sort == null && search == null && keyword == null) {
+				List<Post> posts = postDao.findAll("date");
+				request.setAttribute("posts", posts);
+				request.getRequestDispatcher("/WEB-INF/private/community.jsp").forward(request, response);
+			} else if (sort != null && search == null && keyword == null) {
+				List<Post> posts = postDao.findAll(sort);
+				request.setAttribute("posts", posts);
+				request.getRequestDispatcher("/WEB-INF/private/community.jsp").forward(request, response);
+
+			} else if (sort == null && search != null && keyword != null) {
+				if (search.equals("title")) {
+					List<Post> posts = postDao.findByTitle(keyword);
+					request.setAttribute("posts", posts);
+					request.getRequestDispatcher("/WEB-INF/private/community.jsp").forward(request, response);
+				} else if (search.equals("titleWithContent")) {
+					List<Post> posts = postDao.findByTitleWithContent(keyword);
+					request.setAttribute("posts", posts);
+					request.getRequestDispatcher("/WEB-INF/private/community.jsp").forward(request, response);
+				}
 			}
 
-			request.setAttribute("posts", posts);
-			request.getRequestDispatcher("/WEB-INF/private/community.jsp").forward(request, response);
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
+
 	}
 }

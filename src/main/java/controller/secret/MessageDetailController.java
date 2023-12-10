@@ -19,7 +19,7 @@ public class MessageDetailController extends HttpServlet {
 
 		int id = Integer.parseInt(request.getParameter("id")) ;// 일단 파리미터를 받을건 두고.
 
-		MessageDao msgDao = new MessageDao();// 사용할 dao
+		MessageDao msgDao = new MessageDao();
 		try {
 			Message message = msgDao.findByMessageId(id);
 			

@@ -64,7 +64,12 @@ public class JoinController extends HttpServlet {
 				request.setAttribute("e", "모든 것을 입력해주십시오.");
 				request.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(request, response);
 				return;
+			} else if (id.contains(" ") || password.contains(" ") || name.trim().equals("")) {
+				request.setAttribute("e", "모든 것을 입력해주십시오.");
+				request.getRequestDispatcher("/WEB-INF/view/join.jsp").forward(request, response);
+				return;
 			}
+
 			int openAccessInt = Integer.parseInt(openAccess);
 			int avatarIdInt = Integer.parseInt(avatarId);
 
