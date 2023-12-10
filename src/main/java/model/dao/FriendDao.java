@@ -73,10 +73,7 @@ public class FriendDao {
 				one.setUser(i);
 				
 				list.add(one);
-				
-				
 
-//				list.add(one);
 			}
 
 			return list;
@@ -166,19 +163,6 @@ public class FriendDao {
 				one.setUser(i);
 				list.add(one);
 
-				/*
-				 * log.setNo(rs.getInt("no")); log.setUserId(rs.getString("user_id"));
-				 * log.setAmt(rs.getInt("amt")); log.setSpendAt(rs.getDate("spend_at"));
-				 * log.setUseDesc(rs.getString("use_desc"));
-				 * log.setCategoryId(rs.getInt("category_id"));
-				 * 
-				 * Category c = new Category(); c.setId(rs.getInt("id"));
-				 * c.setName(rs.getString("name")); log.setCategory(c);// 이게 제일 중요해. 세팅해서 여기에다
-				 * 넣어주는구나.
-				 * 
-				 * list.add(log);
-				 */
-
 			}
 			return list;
 		} catch (Exception e) {
@@ -192,7 +176,6 @@ public class FriendDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
-//			String sql = "select * from users u join friends f on u.id =f.friend_id where u.id=? and f.confirmed=0";
 			String sql = "select * from friends f join users u on f.user_id =u.id where f.friend_id=? and f.confirmed=0";// 프렌드
 			// 앞으로.
 			PreparedStatement pst = conn.prepareStatement(sql);
@@ -222,19 +205,6 @@ public class FriendDao {
 
 				one.setUser(i);
 				list.add(one); // 리시버 빠트린거 수정부분.
-
-				/*
-				 * log.setNo(rs.getInt("no")); log.setUserId(rs.getString("user_id"));
-				 * log.setAmt(rs.getInt("amt")); log.setSpendAt(rs.getDate("spend_at"));
-				 * log.setUseDesc(rs.getString("use_desc"));
-				 * log.setCategoryId(rs.getInt("category_id"));
-				 * 
-				 * Category c = new Category(); c.setId(rs.getInt("id"));
-				 * c.setName(rs.getString("name")); log.setCategory(c);// 이게 제일 중요해. 세팅해서 여기에다
-				 * 넣어주는구나.
-				 * 
-				 * list.add(log);
-				 */
 
 			}
 			return list;
@@ -302,14 +272,6 @@ public class FriendDao {
 
 				one.setUser(i);
 				list.add(one); // 리시버 빠트린거 수정부분.
-
-				/*
-				 * int code = rs.getInt(1); String name = rs.getString(2); int price =
-				 * rs.getInt(3); double minRate = rs.getDouble(4); double maxRate =
-				 * rs.getDouble(5);
-				 * 
-				 * Item one = new Item(code, name, price, minRate, maxRate); list.add(one);
-				 */
 			}
 			return list;
 		} catch (Exception e) {

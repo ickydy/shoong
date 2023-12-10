@@ -35,7 +35,45 @@
 			</div>
 		</div>
 		<div class="container">
-		
+			<div style="display: flex; justify-content:space-between;">
+				<div style="flex:1;">
+					<h3>친구 목록</h3>
+					<c:forEach var="one" items="${friends }">
+						<p class="f-l">
+							<img alt="${one.user.avatar.alt }" 
+							src="<c:url value="${one.user.avatar.imgUrl }" />" 
+							style="width:30px;"/>
+							<span>${one.friendId }</span>
+							<button type="button" id="spam">차단</button>
+						</p>
+					</c:forEach>
+				</div>
+				<div style="flex:1; border-left:2px solid #444;">
+					<div style="min-height:250px; border-bottom:2px solid #444;">
+						<h3>받은 요청</h3>
+						<c:forEach var="one" items="${receiveRequests }">
+							<p class="f-l">
+								<img alt="${one.user.avatar.alt }" 
+								src="<c:url value="${one.user.avatar.imgUrl }" />" 
+								style="width:30px;"/>
+								<span>${one.friendId }</span>
+								<button type="button" id="confirm">수락</button>
+							</p>
+						</c:forEach>
+					</div>
+					<div style="min-height: 250px;">
+						<h3>보낸 요청</h3>
+						<c:forEach var="one" items="${sendRequests }">
+							<p class="f-l">
+								<img alt="${one.user.avatar.alt }" 
+								src="<c:url value="${one.user.avatar.imgUrl }" />" 
+								style="width:30px;"/>
+								<span>${one.friendId }</span>
+							</p>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script>
@@ -66,6 +104,23 @@
 
 				$popup.style.display = 'none';
 
+	});
+	
+	// 친구요청 수락 버튼
+	document.querySelector("#confirm").addEventListner("click",
+			function(e) {
+				const friendId = e.target.previousElementSibling.textContent;
+				location.href = "<c:url value='/private/friends/confirm'/>?friendId=" + encodeURIComponent(friendId);
+	});
+	
+	// 친구 차단 버튼
+	document.querySelector("#spam").addEventListner("click",
+			function(e) {
+				let result = window.confirm("차단하시겠습니까?");
+				if(result) {
+					const friendId = e.target.previousElementSibling.textContent;
+					location.href = "<c:url value='/private/friends/spam'/>?friendId=" + encodeURIComponent(friendId);
+				}
 	});
 	
 	</script>

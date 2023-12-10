@@ -151,6 +151,19 @@ a:visited {
 	min-height:150px;
 }
 
+/* 글씨크기 */
+.f-s {
+	font-size: 10px;
+}
+
+.f-m {
+	font-size: 20px;
+}
+
+.f-l {
+	font-size: 30px;
+}
+
 /* 배치 */
 .w80 {
 	width: 80%;

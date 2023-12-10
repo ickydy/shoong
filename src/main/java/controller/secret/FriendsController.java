@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.FriendDao;
+import model.dao.UserDao;
 import model.vo.Friend;
 import model.vo.User;
 
@@ -19,38 +20,40 @@ public class FriendsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		User user = (User)request.getSession().getAttribute("logonUser");
+		User user = (User) request.getSession().getAttribute("logonUser");
 
 		String userId = user.getId(); // 세션에서 유저 아이디 뽑은 다음 진행.
 		try {
 			FriendDao friendDao = new FriendDao();
 			List<Friend> friends = friendDao.findById(userId);
+
+			UserDao userDao = new UserDao();
+			for (Friend friend : friends) {
+				User found = userDao.findUserWithAvatarById(friend.getFriendId());
+				friend.setUser(found);
+			}
 			request.setAttribute("friends", friends);
 
 			List<Friend> sendRequests = friendDao.findSendRequest(userId);
+
+			for (Friend friend : sendRequests) {
+				User found = userDao.findUserWithAvatarById(friend.getFriendId());
+				friend.setUser(found);
+			}
 			request.setAttribute("sendRequests", sendRequests);
 
 			List<Friend> receiveRequests = friendDao.findReceiveRequest(userId);
+
+			for (Friend friend : receiveRequests) {
+				User found = userDao.findUserWithAvatarById(friend.getFriendId());
+				friend.setUser(found);
+			}
 			request.setAttribute("receiveRequests", receiveRequests);
 
 			request.getRequestDispatcher("/WEB-INF/private/friends.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		/*
-		 * FriendDao friendDao = new FriendDao();
-		 * 
-		 * try { List<Friend> friend = friendDao.friendFindAll();
-		 * request.setAttribute("friend", friend); } catch (ClassNotFoundException e) {
-		 * // TODO Auto-generated catch block e.printStackTrace(); }
-		 * 
-		 * String userId = request.getParameter("userId"); List<Friend> findByUserId;
-		 * try { findByUserId = friendDao.findById(userId);
-		 * request.setAttribute("findByUserId", findByUserId); } catch
-		 * (ClassNotFoundException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
 
 	}
 }
