@@ -10,13 +10,28 @@
 <link href="<c:url value="/resource/style/style.css"/>" rel="stylesheet"/>
 </head>
 <body>
-	<div class="align-center">
+	<div class="align-center" id="container">
 		<div class="header">
-			<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px groove #969696;" class="align-center">
-				<a href="<c:url value="/login"/>" class="mg-l">
-					<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width:100px;"/>
+			<div class="align-center menu-bar">
+				<a href="<c:url value="/index"/>" class="mg-s">
+					<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width: 100px;"/>
 				</a>
-				<a href="<c:url value="/logout"/>" class="mg-l">로그아웃</a>
+				<span style="cursor: pointer;" id="openPopBt" class="mg-s">⚙</span>
+			</div>
+			<!-- 팝업창 안 부분 -->
+			<div id="popup" class="popup" style="display: none">
+				<div>
+					<a href="<c:url value="/private/profile"/>">내정보</a>
+				</div>
+				<div>
+					<a href="<c:url value="/private/msg"/>">메세지작성</a>
+				</div>
+				<div>
+					<a href="<c:url value="/private/msg/receive"/>">받은메세지</a>
+				</div>
+				<div>
+					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
+				</div>
 			</div>
 		</div>
 		<div class="container">
@@ -60,7 +75,7 @@
 						</td>
 					</tr>
 				</table>
-				<button type="button" id="goEdit">정보수정</button>
+				<button type="button" class="l-bt" id="goEdit">정보수정</button>
 			</div>
 		</div>
 	</div>

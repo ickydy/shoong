@@ -32,15 +32,6 @@ public class ReceiveMessageController extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		/*
-		 * String friendId = request.getParameter("receiveView");
-		 * 
-		 * MessageDao receiveView = new MessageDao(); try { List<Message> list =
-		 * receiveView.findByFriendId(friendId); request.setAttribute("list", list); }
-		 * catch (ClassNotFoundException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
-
 	}
 
 }
