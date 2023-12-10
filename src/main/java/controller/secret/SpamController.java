@@ -15,7 +15,7 @@ import model.vo.User;
 public class SpamController extends HttpServlet {
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		User user = (User) request.getSession().getAttribute("logonUser");
@@ -26,7 +26,7 @@ public class SpamController extends HttpServlet {
 		try {
 			boolean result = spamFriendDao.updateSpam(userId, friendId); // 매개변수 객체에서 매개변수 스트링 두개로 변경.
 			request.setAttribute("result", result);
-			response.sendRedirect(request.getContextPath() + "/private/fiends");
+			response.sendRedirect(request.getContextPath() + "/private/friends");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

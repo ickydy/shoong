@@ -16,9 +16,9 @@ public class MessageDao {
 		boolean result = false;
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:xe", "shoong", "oracle")) {
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong", "1111")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "INSERT INTO users VALUES(message_seq.nextval, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO messages VALUES(messages_seq.nextval, ?, ?, ?, ?, ?)";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
 			pst.setString(1, one.getUserId());
@@ -28,7 +28,7 @@ public class MessageDao {
 			pst.setInt(5, one.getViewStatus());
 
 			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
-			if (n == 1) {
+			if (n == 1) { 
 				result = true;
 			}
 		} catch (Exception e) {
@@ -40,7 +40,8 @@ public class MessageDao {
 	public List<Message> findByUserId(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
-		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:xe", "shoong", "oracle")) {
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong", "1111")) {
+
 			String sql = "SELECT * FROM messages WHERE user_id=?";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
@@ -72,7 +73,9 @@ public class MessageDao {
 	public List<Message> findByFriendId(String friendId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
-		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:xe", "shoong", "oracle")) {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong", "1111")) {
+
 			String sql = "SELECT * FROM messages WHERE friend_id=?";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
@@ -106,7 +109,7 @@ public class MessageDao {
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
-				"oracle")) {
+				"1111")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
 			String sql = "DELETE FROM messages WHERE id=?";
 			PreparedStatement pst = conn.prepareStatement(sql);
@@ -123,18 +126,17 @@ public class MessageDao {
 
 	}
 
-	public boolean readOrNot(Message r) throws ClassNotFoundException { // 객체를 넣어주는데.
+	public boolean read(int id) throws ClassNotFoundException { // 객체를 넣어주는데.
 		boolean result = false;
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
-				"oracle")) {
+				"1111")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "UPDATE messages SET view_status=? where id=?";
+			String sql = "UPDATE messages SET view_status=1 where id=?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
-			pst.setInt(1, r.getViewStatus());
-			pst.setInt(2, r.getId());
+			pst.setInt(1, id);
 
 			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
 			if (n == 1) {
@@ -149,7 +151,7 @@ public class MessageDao {
 	public Message findByMessageId(int id) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
-				"oracle")) {
+				"1111")) {
 			String sql = "SELECT * FROM messages WHERE ID=?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setInt(1, id);
@@ -177,8 +179,8 @@ public class MessageDao {
 	public List<Message> findReceiveMessage(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
-				"oracle")) {
-			String sql = "SELECT * FROM messages WHERE friend_id=? order by desc";
+				"1111")) {
+			String sql = "SELECT * FROM messages WHERE friend_id=? order by write_at desc";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
 
@@ -201,13 +203,13 @@ public class MessageDao {
 			e.printStackTrace();
 			return null;
 		}
-	}// 여기부터 새로운 메시지 dao 두개 만든다. 새로운 메서드.
+	}
 
 	public List<Message> findSendMessage(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
-				"oracle")) {
-			String sql = "SELECT * FROM messages WHERE usr_id=? order by desc";
+				"1111")) {
+			String sql = "SELECT * FROM messages WHERE user_id=? order by write_at desc";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
 
@@ -230,6 +232,6 @@ public class MessageDao {
 			e.printStackTrace();
 			return null;
 		}
-	}// 여기부터 새로운 메시지 dao 두개 만든다. 새로운 메서드.
+	}
 
 }

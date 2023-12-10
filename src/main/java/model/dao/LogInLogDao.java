@@ -19,12 +19,11 @@ public class LogInLogDao {
 		boolean result = false;
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "INSERT INTO LOGINLOGS VALUES(LOGINLOGS_SEQ.NEXTVAL, ?, ? ,?, ?)";
+			String sql = "INSERT INTO LOGIN_LOGS VALUES(LOGIN_LOGS_SEQ.NEXTVAL, ? ,?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, log.getId());
-			pstmt.setString(2, log.getUserId());
-			pstmt.setDate(3, log.getLogAt());
-			pstmt.setString(4, log.getLogFrom());
+			pstmt.setString(1, log.getUserId());
+			pstmt.setDate(2, log.getLogAt());
+			pstmt.setString(3, log.getLogFrom());
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {

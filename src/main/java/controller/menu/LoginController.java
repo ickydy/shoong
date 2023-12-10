@@ -37,11 +37,12 @@ public class LoginController extends HttpServlet {
 		LogInLogDao loginLogDao = new LogInLogDao(); 
 		try {
 			UserDao userDao = new UserDao();
-			User foundUser = userDao.findById(id);
+			User foundUser = userDao.findUserWithAvatarById(id);
 
 			if (foundUser != null && foundUser.getPassword().equals(password)) {
 				request.getSession().setAttribute("logonUser", foundUser);
-				saveLogInLog(id, "success", loginLogDao);
+				LogInLog loginLog = new LogInLog(0, foundUser.getId(), new Date(System.currentTimeMillis()), request.getRemoteAddr());
+				loginLogDao.save(loginLog);
 
 				if (keep != null) {
 					String code = UUID.randomUUID().toString();
@@ -60,7 +61,6 @@ public class LoginController extends HttpServlet {
 
 				response.sendRedirect(request.getServletContext().getContextPath() + "/index");
 			} else {
-				saveLogInLog(id, "fail", loginLogDao);
 				String e = "잘못된 아이디 또는 비밀번호입니다.";
 				request.setAttribute("e", e);
 				request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
@@ -68,18 +68,6 @@ public class LoginController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-		}
-	}
-
-	private void saveLogInLog(String userId, String status, LogInLogDao logInLogDao) {
-		try {
-			LogInLog log = new LogInLog();
-			log.setUserId(userId);
-			log.setLogAt(new Date(System.currentTimeMillis()));
-			log.setLogFrom(status);
-			logInLogDao.save(log);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 }

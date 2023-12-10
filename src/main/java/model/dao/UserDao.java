@@ -83,7 +83,7 @@ public class UserDao {
 				user.setPassword(rs.getString("password"));
 				user.setBirth(rs.getDate("birth"));
 				user.setName(rs.getString("name"));
-				user.setCountryId(rs.getString("avatar_id"));
+				user.setCountryId(rs.getString("country_id"));
 				user.setGender(rs.getString("gender"));
 				user.setOpenAccess(rs.getInt("open_access"));
 				user.setAvatarId(rs.getInt("avatar_id"));
@@ -92,7 +92,7 @@ public class UserDao {
 				a.setId(rs.getInt("avatar_id"));
 				a.setAlt(rs.getString("alt"));
 				a.setImgUrl(rs.getString("img_url"));
-				user.setAvatars(a);
+				user.setAvatar(a);
 
 				return user;
 			} else {

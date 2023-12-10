@@ -11,10 +11,11 @@ public class User {
 	private String gender;
 	private int openAccess;
 	private int avatarId;
-	private Avatar avatars;
+
+	private Avatar avatar;
 
 	public User() {
-		
+
 	}
 
 	public User(String id, String password, Date birth, String name, String countryId, String gender, int openAccess,
@@ -31,7 +32,7 @@ public class User {
 	}
 
 	public User(String id, String password, Date birth, String name, String countryId, String gender, int openAccess,
-			int avatarId, Avatar avatars) {
+			int avatarId, Avatar avatar) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -41,7 +42,7 @@ public class User {
 		this.gender = gender;
 		this.openAccess = openAccess;
 		this.avatarId = avatarId;
-		this.avatars = avatars;
+		this.avatar = avatar;
 	}
 
 	public String getId() {
@@ -108,12 +109,12 @@ public class User {
 		this.avatarId = avatarId;
 	}
 
-	public Avatar getAvatars() {
-		return avatars;
+	public Avatar getAvatar() {
+		return avatar;
 	}
 
-	public void setAvatars(Avatar avatars) {
-		this.avatars = avatars;
+	public void setAvatar(Avatar avatar) {
+		this.avatar = avatar;
 	}
 
 }
