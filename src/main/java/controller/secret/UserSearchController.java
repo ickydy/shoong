@@ -23,14 +23,13 @@ public class UserSearchController extends HttpServlet {
 
 		try {
 			if (keyword != null) {
-
 				List<User> searchUsers = userDao.findByIdOrName(keyword);
 				if (searchUsers != null) {
 					request.setAttribute("searchUsers", searchUsers);
-					List<User> recommendedUsers = userDao.findRecommendUsers();
-					request.setAttribute("recommendedUsers", recommendedUsers);
 				}
-
+			} else {
+				List<User> recommendedUsers = userDao.findRecommendUsers();
+				request.setAttribute("recommendedUsers", recommendedUsers);				
 			}
 
 		} catch (Exception e) {

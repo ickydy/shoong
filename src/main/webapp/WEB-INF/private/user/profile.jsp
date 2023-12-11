@@ -16,7 +16,11 @@
 				<a href="<c:url value="/index"/>" class="mg-s">
 					<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width: 100px;"/>
 				</a>
-				<span style="cursor: pointer;" id="openPopBt" class="mg-s">⚙</span>
+				<span style="cursor: pointer;" class="mg-s" id="openPopBt">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+ 						<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+					</svg>
+				</span>
 			</div>
 			<!-- 팝업창 안 부분 -->
 			<div id="popup" class="popup" style="display: none">
@@ -28,50 +32,57 @@
 				<h3>${user.id }(님)의 정보</h3>
 			</div>
 			<div class="w460">
-			<c:choose>
-				<c:when test="${result }">
-					<table class="profile-table">
-						<tr>
-							<th>아이디</th>
-							<td> : ${user.id }</td>
-						</tr>
-						<tr>
-							<th>생일</th>
-							<td> : <fmt:formatDate value="${user.birth }" pattern="yyyy-MM-dd"/></td>
-						</tr>
-						<tr>
-							<th>이름</th>
-							<td> : ${user.name }</td>
-						</tr>
-						<tr>
-							<th>국가</th>
-							<td> : ${country.name }</td>
-						</tr>
-						<tr>
-							<th>성별</th>
-							<td> : 
-								<c:choose>
-									<c:when test="${user.gender eq 'M'}">남성</c:when>
-									<c:when test="${user.gender eq 'W'}">여성</c:when>
-								</c:choose>
-							</td>
-						</tr>
-						<tr>
-							<th>정보공개여부</th>
-							<td> : 
-								<c:choose>
-									<c:when test="${user.openAccess eq '1'}">공개</c:when>
-									<c:when test="${user.openAccess eq '0'}">비공개</c:when>
-								</c:choose>
-							</td>
-						</tr>
-					</table>
-				</c:when>
-				<c:when test="${!result }">
-					<h1>비공개</h1>
-				</c:when>
-			</c:choose>
-				
+			<div>
+				<c:if test="${!friend }">
+					<form action="<c:url value="/private/friends/add"/>" method="post">
+						<input type="hidden" name="friendId" value="${user.id }">
+						<button type="submit" class="l-bt">친구요청</button>
+					</form>
+				</c:if>
+			</div>
+				<c:choose>
+					<c:when test="${result }">
+						<table class="profile-table">
+							<tr>
+								<th>아이디</th>
+								<td> : ${user.id }</td>
+							</tr>
+							<tr>
+								<th>생일</th>
+								<td> : <fmt:formatDate value="${user.birth }" pattern="yyyy-MM-dd"/></td>
+							</tr>
+							<tr>
+								<th>이름</th>
+								<td> : ${user.name }</td>
+							</tr>
+							<tr>
+								<th>국가</th>
+								<td> : ${country.name }</td>
+							</tr>
+							<tr>
+								<th>성별</th>
+								<td> : 
+									<c:choose>
+										<c:when test="${user.gender eq 'M'}">남성</c:when>
+										<c:when test="${user.gender eq 'W'}">여성</c:when>
+									</c:choose>
+								</td>
+							</tr>
+							<tr>
+								<th>정보공개여부</th>
+								<td> : 
+									<c:choose>
+										<c:when test="${user.openAccess eq '1'}">공개</c:when>
+										<c:when test="${user.openAccess eq '0'}">비공개</c:when>
+									</c:choose>
+								</td>
+							</tr>
+						</table>
+					</c:when>
+					<c:when test="${!result }">
+						<h1>비공개</h1>
+					</c:when>
+				</c:choose>
 			</div>
 		</div>
 	</div>

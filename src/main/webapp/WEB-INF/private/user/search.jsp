@@ -16,7 +16,11 @@
 				<a href="<c:url value="/index"/>" class="mg-s">
 					<img alt="title" src="<c:url value="/resource/titleImage/title.png" />" style="width: 100px;"/>
 				</a>
-				<span style="cursor: pointer;" id="openPopBt" class="mg-s">⚙</span>
+				<span style="cursor: pointer;" class="mg-s" id="openPopBt">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+ 						<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+					</svg>
+				</span>
 			</div>
 			<!-- 팝업창 안 부분 -->
 			<div id="popup" class="popup" style="display: none">
@@ -31,6 +35,19 @@
 		</div>
 		<div class="w460 mg-top-l">
 			<table class="w100 msg-table" id="table">
+				<c:forEach var="one" items="${recommendedUsers }">
+					<tr>
+						<td><img alt="${one.avatar.alt }" src="<c:url value="${one.avatar.imgUrl }"/>" style="width:20px;"/></td>
+						<td>${one.id }</td>
+						<td>${one.name }</td>
+						<td>
+							<form action="<c:url value="/private/friends/add" />" method="post">
+								<input type="hidden" name="friendId" value="${one.id }" />
+								<button type="submit" class="l-bt">+친구요청</button>
+							</form>
+						</td>
+					</tr>
+				</c:forEach>
 				<c:forEach var="one" items="${searchUsers }">
 					<tr>
 						<td><img alt="${one.avatar.alt }" src="<c:url value="${one.avatar.imgUrl }"/>" style="width:20px;"/></td>
