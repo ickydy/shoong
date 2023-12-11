@@ -20,18 +20,7 @@
 			</div>
 			<!-- 팝업창 안 부분 -->
 			<div id="popup" class="popup" style="display: none">
-				<div>
-					<a href="<c:url value="/private/profile"/>">내정보</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg"/>">메세지작성</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg/receive"/>">받은메세지</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
-				</div>
+				<%@ include file="/WEB-INF/view/popup.jsp" %>
 			</div>
 		</div>
 		<div class="container">
@@ -82,6 +71,34 @@
 	
 	<script>
 	
+		// 팝업창 띄우기
+		document.querySelector("#openPopBt").addEventListener("click",
+				function(e) {
+	
+					const $popup = document.querySelector("#popup");
+					if ($popup.style.display == 'none') {
+						$popup.style.display = 'block';
+					} else {
+						$popup.style.display = 'none';
+					}
+					e.stopPropagation();
+		});
+	
+		// 버블링 막기
+		document.querySelector("#popup").addEventListener("click",
+				function(e) {
+					e.stopPropagation();
+		});
+	
+		// 팝업창 바깥 클릭시 꺼지도록
+		document.querySelector("#container").addEventListener("click",
+				function(e) {
+					const $popup = document.querySelector("#popup");
+	
+					$popup.style.display = 'none';
+	
+		});
+		
 		document.querySelector("#goEdit").onclick = function(evt) {
 			location.href = '<c:url value="/private/edit"/>';
 		}

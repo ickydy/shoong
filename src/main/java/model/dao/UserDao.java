@@ -145,36 +145,47 @@ public class UserDao {
 	}
 
 	public List<User> findByIdOrName(String keyword) throws ClassNotFoundException {
-	    Class.forName("oracle.jdbc.driver.OracleDriver");
-	    try (Connection conn = DriverManager.getConnection(url, host, password)) {
-	      
-	        String sql = "SELECT ID, NAME, COUNTRY_ID, GENDER FROM USERS WHERE ID LIKE ? OR NAME LIKE ?";
-	        PreparedStatement pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, '%' + keyword + '%');
-	        pstmt.setString(2, '%' + keyword + '%');
-	        ResultSet rs = pstmt.executeQuery();
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 
-	        List<User> list = new ArrayList<>();
-	        while (rs.next()) {
-	            User user = new User();
-	            user.setId(rs.getString("id"));
-	            user.setName(rs.getString("name"));
-	            user.setCountryId(rs.getString("country_id")); 
-	            user.setGender(rs.getString("gender"));
-	          
-	            list.add(user);
-	        }
-	        return list;
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
+			String sql = "SELECT * FROM USERS u join avatars a  on u.avatar_id = a.id WHERE u.ID LIKE ? OR u.NAME LIKE ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, '%' + keyword + '%');
+			pstmt.setString(2, '%' + keyword + '%');
+			ResultSet rs = pstmt.executeQuery();
+
+			List<User> list = new ArrayList<>();
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setPassword(rs.getString("password"));
+				user.setBirth(rs.getDate("birth"));
+				user.setName(rs.getString("name"));
+				user.setCountryId(rs.getString("country_id"));
+				user.setGender(rs.getString("gender"));
+				user.setOpenAccess(rs.getInt("open_access"));
+				user.setAvatarId(rs.getInt("avatar_id"));
+
+				Avatar avatar = new Avatar();
+				avatar.setId(rs.getInt("avatar_id"));
+				avatar.setAlt(rs.getString("alt"));
+				avatar.setImgUrl(rs.getString("img_url"));
+
+				user.setAvatar(avatar);
+
+				list.add(user);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public List<User> findAll() throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
-			String sql = "SELECT * FROM USERS";
+			String sql = "SELECT * FROM USERS u join avatars a on u.avatar_id = a.id";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -184,15 +195,19 @@ public class UserDao {
 				user.setId(rs.getString("id"));
 				user.setPassword(rs.getString("password"));
 				user.setBirth(rs.getDate("birth"));
-				user.setCountryId(rs.getString("countryId"));
+				user.setName(rs.getString("name"));
+				user.setCountryId(rs.getString("country_id"));
 				user.setGender(rs.getString("gender"));
-				user.setOpenAccess(rs.getInt("openAccess"));
-				user.setAvatarId(rs.getInt("avatarId"));
+				user.setOpenAccess(rs.getInt("open_access"));
+				user.setAvatarId(rs.getInt("avatar_id"));
 
 				Avatar avatar = new Avatar();
-				avatar.setId(rs.getInt("id"));
+				avatar.setId(rs.getInt("avatar_id"));
 				avatar.setAlt(rs.getString("alt"));
-				avatar.setImgUrl("imgUrl");
+				avatar.setImgUrl("img_url");
+
+				user.setAvatar(avatar);
+
 				list.add(user);
 
 			}
@@ -202,28 +217,31 @@ public class UserDao {
 			return null;
 		}
 	}
-	
-	public List<User> findRecommendUsers() throws ClassNotFoundException, SQLException {
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        try (Connection conn = DriverManager.getConnection(url, host, password)) {
-            String sql = "SELECT * FROM USERS WHERE OPEN_ACCESS = 1 AND " +
-                         "ID IN (SELECT USER_ID FROM POSTS GROUP BY USER_ID HAVING COUNT(*) >= 5) AND " +
-                         "ID IN (SELECT USER_ID FROM POSTS WHERE VIEW_COUNT >= 100)";
-            			//gpt힘을 빌림
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
 
-            List<User> recommendUsers = new ArrayList<>();
-            while (rs.next()) {
-            	User user = new User();
-	            user.setId(rs.getString("id"));
-	            user.setName(rs.getString("name"));
-	            user.setCountryId(rs.getString("country_id")); 
-	            user.setGender(rs.getString("gender"));
-                recommendUsers.add(user);
-            }
-            return recommendUsers;
-        }
-    }
+	public List<User> findRecommendUsers() throws ClassNotFoundException, SQLException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+			String sql = "SELECT * FROM USERS WHERE OPEN_ACCESS = 1 AND "
+					+ "ID IN (SELECT USER_ID FROM POSTS GROUP BY USER_ID HAVING COUNT(*) >= 5) AND "
+					+ "ID IN (SELECT USER_ID FROM POSTS WHERE VIEW_COUNT >= 100)";
+			// gpt힘을 빌림
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+
+			List<User> recommendUsers = new ArrayList<>();
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setPassword(rs.getString("password"));
+				user.setBirth(rs.getDate("birth"));
+				user.setName(rs.getString("name"));
+				user.setCountryId(rs.getString("country_id"));
+				user.setGender(rs.getString("gender"));
+				user.setOpenAccess(rs.getInt("open_access"));
+				user.setAvatarId(rs.getInt("avatar_id"));
+				recommendUsers.add(user);
+			}
+			return recommendUsers;
+		}
+	}
 }
-	

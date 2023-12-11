@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shoong</title>
-<link href="<c:url value="/resource/style/style.css"/>" rel="stylesheet" />
+<link href="<c:url value="/resource/style/style.css"/>" rel="stylesheet"/>
 </head>
 <body>
 	<div class="align-center" id="container">
@@ -24,37 +23,59 @@
 				<%@ include file="/WEB-INF/view/popup.jsp" %>
 			</div>
 		</div>
-		<div class="container w720">
-			<table class="msg-table mg-top-m" id="table">
-				<tr>
-					<th>NO</th>
-					<th>읽음</th>
-					<th>받는사람</th>
-					<th>메세지</th>
-					<th>시간</th>
-				</tr>
-				<c:forEach var="msg" items="${sendMessages }">
-					<tr>
-						<td>${msg.id }</td>
-						<td>
-							<c:choose>
-								<c:when test="${msg.viewStatus eq 0 }">&#9993;</c:when>
-								<c:when test="${msg.viewStatus eq 1 }">&#128229;</c:when>
-							</c:choose>
-						</td>
-						<td>${msg.friendId }</td>
-						<td>${fn:substring(msg.contents,0,20) }</td>
-						<td><fmt:formatDate value="${msg.writeAt }" pattern="yyyy-MM-dd HH:mm"/></td>
-					</tr>
-				</c:forEach>
-				<c:if test="${empty sendMessages }">
-					<tr>
-						<th colspan="5">텅~</th>
-					</tr>
-				</c:if>
-			</table>
+		<div class="container">
+			<div>
+				<h3>${user.id }(님)의 정보</h3>
+			</div>
+			<div class="w460">
+			<c:choose>
+				<c:when test="${result }">
+					<table class="profile-table">
+						<tr>
+							<th>아이디</th>
+							<td> : ${user.id }</td>
+						</tr>
+						<tr>
+							<th>생일</th>
+							<td> : <fmt:formatDate value="${user.birth }" pattern="yyyy-MM-dd"/></td>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<td> : ${user.name }</td>
+						</tr>
+						<tr>
+							<th>국가</th>
+							<td> : ${country.name }</td>
+						</tr>
+						<tr>
+							<th>성별</th>
+							<td> : 
+								<c:choose>
+									<c:when test="${user.gender eq 'M'}">남성</c:when>
+									<c:when test="${user.gender eq 'W'}">여성</c:when>
+								</c:choose>
+							</td>
+						</tr>
+						<tr>
+							<th>정보공개여부</th>
+							<td> : 
+								<c:choose>
+									<c:when test="${user.openAccess eq '1'}">공개</c:when>
+									<c:when test="${user.openAccess eq '0'}">비공개</c:when>
+								</c:choose>
+							</td>
+						</tr>
+					</table>
+				</c:when>
+				<c:when test="${!result }">
+					<h1>비공개</h1>
+				</c:when>
+			</c:choose>
+				
+			</div>
 		</div>
 	</div>
+	
 	<script>
 	
 		// 팝업창 띄우기
@@ -69,13 +90,13 @@
 					}
 					e.stopPropagation();
 		});
-
+	
 		// 버블링 막기
 		document.querySelector("#popup").addEventListener("click",
 				function(e) {
 					e.stopPropagation();
 		});
-
+	
 		// 팝업창 바깥 클릭시 꺼지도록
 		document.querySelector("#container").addEventListener("click",
 				function(e) {
@@ -85,13 +106,9 @@
 	
 		});
 		
-		// 메세지 상세페이지로 이동
-		document.querySelector('#table').addEventListener('click', function (e) {
-			if(e.target.tagName.toLowerCase() == 'td') {
-				const value = e.target.parentNode.firstElementChild.firstChild.nodeValue;
-				location.href = '<c:url value="/private/msg/detail?id="/>' + value;
-			}
-		});
+		document.querySelector("#goEdit").onclick = function(evt) {
+			location.href = '<c:url value="/private/edit"/>';
+		}
 		
 	</script>
 </body>

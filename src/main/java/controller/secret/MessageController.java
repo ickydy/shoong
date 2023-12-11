@@ -73,9 +73,9 @@ public class MessageController extends HttpServlet {
 
 				boolean result = msgDao.save(msg);
 				request.setAttribute("result", result);// setAttribute
-				response.sendRedirect(request.getContextPath() + "/msg/send");
+				response.sendRedirect(request.getContextPath() + "/private/msg/send");
 			} else {
-				response.sendRedirect(request.getContextPath() + "/msg/send");
+				response.sendRedirect(request.getContextPath() + "/private/msg/send");
 
 			}
 
