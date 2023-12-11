@@ -34,9 +34,11 @@ public class UserPageController extends HttpServlet {
 			Country country = countryDao.findByCountryId(user.getCountryId());
 			List<Friend> friends = friendDao.findById(logonUser.getId());
 
+			boolean friend = false;
 			for (Friend one : friends) { // -> 친구관계이면 어차피 true 니까
 				if (one.getFriendId().equals(userId)) {
 					result = true;
+					friend = true;
 					break;
 				}
 			}
@@ -46,6 +48,7 @@ public class UserPageController extends HttpServlet {
 			}
 
 			request.setAttribute("result", result);
+			request.setAttribute("friend", friend);
 			request.setAttribute("user", user);
 			request.setAttribute("country", country);
 			

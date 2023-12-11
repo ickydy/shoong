@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,22 +27,28 @@
 				<%@ include file="/WEB-INF/view/popup.jsp" %>
 			</div>
 		</div>
-		<div class="container" style="margin-top: 50px;">
-			<form action="<c:url value="/private/post/write" />" method="post">
-				<div style="margin-bottom: 10px;" class="align-left mg-l">
-					<input type="text" name="title"  placeholder="제목을 작성해주세요.." class="w100"/>
-				</div>
-				<div style="margin-bottom: 10px;">
-					<textarea name="contents" placeholder="내용을 작성해주세요.." class="msg-area"></textarea>
-				</div>
-				<div style="text-align: right;">
-					<button type="submit" class="l-bt">올리기</button>
-				</div>
+		<div class="container">
+			<h3>차단 목록</h3>
+			<form action="<c:url value="/private/friends/spams"/>" method="post">
+				<table>
+					<c:forEach var="one" items="${spams }">
+						<tr>
+							<td><img alt="${one.user.avatar.alt }" src="<c:url value="${one.user.avatar.imgUrl }" />" style="width: 30px;"/></td>
+							<td>${one.friendId }</td>
+							<td>
+								<button type="button" class="l-bt unspam" data-target="${one.friendId }">차단해제</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
 			</form>
 		</div>
+	<form id="unspamForm" style="display: none;" method="post" action="<c:url value="/private/friends/spams"/>">
+		<input type="hidden" name="friendId" id="friendId"/>
+	</form>
 	</div>
 	<script>
-	
+		
 		// 팝업창 띄우기
 		document.querySelector("#openPopBt").addEventListener("click",
 				function(e) {
@@ -69,14 +76,24 @@
 					$popup.style.display = 'none';
 	
 		});
-	
-		function showFriends() {
-			if ( document.querySelector("#friends").style.display == 'none' ) {
-				document.querySelector("#friends").style.display = 'block';
-			} else {
-				document.querySelector("#friends").style.display = 'none';
-			}
+		
+		// 친구 차단 해제 버튼
+		let unspam = document.querySelectorAll(".unspam");
+		if(unspam != null) {
+			[...unspam].forEach(function(elm){
+			 	elm.addEventListener("click",
+					function(e) {
+						let result = window.confirm("차단해제하시겠습니까?");
+						if(result) {
+							const friendId = e.target.dataset.target;
+							const $unspamForm = document.querySelector("#unspamForm");
+							$unspamForm.querySelector("#friendId").value = friendId;
+							$unspamForm.submit();
+						}
+			});			
+			});
 		}
+
 	</script>
 </body>
 </html>

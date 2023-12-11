@@ -36,14 +36,18 @@ public class FriendDao {
 		return result;
 	}
 
-	public List<Friend> findById(String userId) throws ClassNotFoundException { 
+	public List<Friend> findById(String userId) throws ClassNotFoundException {
 
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
 
-			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; // 이게 결국에 친구인 아이들을 찾아줄거야.
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; // 이게
+																																			// 결국에
+																																			// 친구인
+																																			// 아이들을
+																																			// 찾아줄거야.
 			// 가져와야하니까.
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
@@ -60,7 +64,7 @@ public class FriendDao {
 				one.setConfirmed(rs.getInt("confirmed"));
 				one.setConfirmAt(rs.getDate("confirm_at"));
 				one.setSpam(rs.getInt("spam"));
-				
+
 				User i = new User();
 				i.setId(rs.getString("id"));
 				i.setPassword(rs.getString("password"));
@@ -71,7 +75,7 @@ public class FriendDao {
 				i.setOpenAccess(rs.getInt("open_access"));
 				i.setAvatarId(rs.getInt("avatar_id"));
 				one.setUser(i);
-				
+
 				list.add(one);
 
 			}
@@ -84,8 +88,6 @@ public class FriendDao {
 		}
 
 	}
-	
-	
 
 	public List<Friend> findByFriendBirthDate(String userId, Date begin, Date end) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -215,20 +217,21 @@ public class FriendDao {
 
 	}
 
-	public boolean updateSpam(String userId, String friendId) throws ClassNotFoundException { // 친구 차단.
+	public boolean updateSpam(int spam, String userId, String friendId) throws ClassNotFoundException { // 친구 차단.
 		boolean result = false;
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "UPDATE friends SET spam=1  WHERE user_id =? and friend_id = ?";
+			String sql = "UPDATE friends SET spam=?  WHERE user_id =? and friend_id = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 
-			pst.setString(1, userId);
-			pst.setString(2, friendId);// 컨트롤러에서는 이거 두개만 가져오면 될 듯.
+			pst.setInt(1, spam);
+			pst.setString(2, userId);
+			pst.setString(3, friendId);
 
-			int n = pst.executeUpdate(); // 요청 전송하고 DB에서 응답을 받아옴.
+			int n = pst.executeUpdate();
 			if (n == 1) {
 				result = true;
 			}
@@ -242,10 +245,10 @@ public class FriendDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
-			String sql = "SELECT * FROM friends where user_id =? and spam= 1";
+			String sql = "SELECT * from friends where user_id=? and spam= 1";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, "userId");
+			pst.setString(1, userId);
 
 			ResultSet rs = pst.executeQuery();
 			List<Friend> list = new ArrayList<>();
@@ -260,18 +263,7 @@ public class FriendDao {
 				one.setConfirmAt(rs.getDate("confirm_at"));
 				one.setSpam(rs.getInt("spam"));
 
-				User i = new User();
-				i.setId(rs.getString("id"));
-				i.setPassword(rs.getString("password"));
-				i.setBirth(rs.getDate("birth"));
-				i.setName(rs.getString("name"));
-				i.setCountryId(rs.getString("country_id"));
-				i.setGender(rs.getString("gender"));
-				i.setOpenAccess(rs.getInt("open_access"));// 이게 뭐였
-				i.setAvatarId(rs.getInt("avatar_id"));
-
-				one.setUser(i);
-				list.add(one); // 리시버 빠트린거 수정부분.
+				list.add(one);
 			}
 			return list;
 		} catch (Exception e) {
@@ -291,7 +283,6 @@ public class FriendDao {
 			ResultSet rs = pst.executeQuery();
 			List<Friend> list = new ArrayList<>();
 			while (rs.next()) {
-
 				Friend one = new Friend();
 
 				one.setId(rs.getInt("id"));
@@ -334,8 +325,9 @@ public class FriendDao {
 		}
 		return result;
 	}
-	
-	public boolean confirmDuplicator(String userId, String friendId, int confirmed, Date confirmAt) throws ClassNotFoundException { // 친구추가
+
+	public boolean confirmDuplicator(String userId, String friendId, int confirmed, Date confirmAt)
+			throws ClassNotFoundException { // 친구추가
 		boolean result = false;
 		// 1. 데이터 베이스 연결
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -359,5 +351,5 @@ public class FriendDao {
 		}
 		return result;
 	}
-	
+
 }
