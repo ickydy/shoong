@@ -57,7 +57,7 @@ public class PostDao {
 			List<Post> list = new ArrayList<>();
 			while (rs.next()) {
 				int id = Integer.parseInt(rs.getString("id"));
-				String userId = rs.getString("userId");
+				String userId = rs.getString("user_id");
 				String title = rs.getString("title");
 				String content = rs.getString("contents");
 				Date writeAt = rs.getDate("write_at");

@@ -16,7 +16,8 @@ body {
 	font-weight: bold;
 }
 
-input,select {
+input,
+select {
 	padding: 4px;
 	border-top: 0px;
 	border-left: 0px;
@@ -24,13 +25,16 @@ input,select {
 	border-bottom: 2px solid #444;
 }
 
-input:focus, select:focus, textarea {
+input:focus,
+select:focus,
+textarea {
 	outline: none;
 }
 
-input[type="date"] , select {
+input[type="date"],
+select {
 	cursor: pointer;
-	
+
 }
 
 button {
@@ -63,14 +67,18 @@ a:visited {
 	font-size: 1.5em;
 }
 
-.form-login, .form-join {
+.form-login,
+.form-join {
 	width: 100%;
 	padding: 20px;
 	margin: auto;
 }
 
 .l-bt {
-	padding: 6px;
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 	margin: 4px;
 	border-radius: 4px;
 	border: 1px solid #444;
@@ -100,8 +108,7 @@ a:visited {
 }
 
 .msg-table {
-	width:100%;
-	border-bottom:1px solid #444;
+	width: 100%;
 	text-align: center;
 	border-collapse: collapse;
 }
@@ -110,12 +117,18 @@ a:visited {
 	cursor: pointer;
 }
 
+.reply-table {
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+}
+
 .popup-index {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	padding: 10px;
-	background-color: lightsteelblue ;
+	background-color: lightsteelblue;
 	color: #444;
 	width: 300px;
 	height: 350px;
@@ -128,7 +141,7 @@ a:visited {
 	top: 70px;
 	right: 20px;
 	padding: 10px;
-	background-color: lightsteelblue ;
+	background-color: lightsteelblue;
 	color: #444;
 	width: 300px;
 	height: 350px;
@@ -144,11 +157,11 @@ a:visited {
 }
 
 .user-info {
-	width:250px;
-	margin:auto;
+	width: 250px;
+	margin: auto;
 	padding: 20px;
-	border:2px solid #444;
-	min-height:150px;
+	border: 2px solid #444;
+	min-height: 150px;
 }
 
 /* 글씨크기 */
@@ -185,7 +198,8 @@ a:visited {
 	margin: auto;
 }
 
-.header, .container {
+.header,
+.container {
 	width: 80%;
 	margin-top: 10px;
 	margin-left: auto;

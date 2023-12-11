@@ -1,6 +1,7 @@
 package controller.secret;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.dao.PostDao;
 import model.dao.ReplyDao;
 import model.vo.Post;
+import model.vo.Reply;
 
 @WebServlet("/private/post")
 public class PostController extends HttpServlet {
@@ -25,6 +27,7 @@ public class PostController extends HttpServlet {
 			return;
 		}
 		PostDao postDao = new PostDao();
+		ReplyDao replyDao = new ReplyDao();
 	
 		try {
 			Post post = (Post) postDao.findById(Integer.parseInt(postIdStr));
@@ -32,6 +35,10 @@ public class PostController extends HttpServlet {
 				post.setViewCount(post.getViewCount() + 1);
 				postDao.viewCountUpdate(post);
 				request.setAttribute("post", post);
+				
+				List<Reply> replys = replyDao.findByPostId(post.getId());
+				request.setAttribute("replys", replys);
+				
 				request.getRequestDispatcher("/WEB-INF/private/post.jsp").forward(request, response);
 			} else {
 				String e = "게시글이 존재하지 않습니다.";

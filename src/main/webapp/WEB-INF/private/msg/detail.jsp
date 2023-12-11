@@ -20,20 +20,7 @@
 				<span style="cursor: pointer;" id="openPopBt" class="mg-s">⚙</span>
 			</div>
 			<!-- 팝업창 안 부분 -->
-			<div id="popup" class="popup" style="display: none">
-				<div>
-					<a href="<c:url value="/private/profile"/>">내정보</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg"/>">메세지작성</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg/receive"/>">받은메세지</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
-				</div>
-			</div>
+			<%@ include file="/WEB-INF/view/popup.jsp" %>
 		</div>
 		<div class="container">
 			<div class="w460 mg-top-l align-left profile-table" style="line-height: 3">

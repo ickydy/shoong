@@ -45,7 +45,7 @@ public class FriendsController extends HttpServlet {
 			List<Friend> receiveRequests = friendDao.findReceiveRequest(userId);
 
 			for (Friend friend : receiveRequests) {
-				User found = userDao.findUserWithAvatarById(friend.getFriendId());
+				User found = userDao.findUserWithAvatarById(friend.getUserId());
 				friend.setUser(found);
 			}
 			request.setAttribute("receiveRequests", receiveRequests);

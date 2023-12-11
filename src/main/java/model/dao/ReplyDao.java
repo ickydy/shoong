@@ -3,6 +3,9 @@ package model.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.vo.Reply;
 
@@ -17,13 +20,12 @@ public class ReplyDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			boolean result = false;
-			String sql = "INSERT INTO REPLYS VALUES(?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO REPLYS VALUES(replys_seq.nextval, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, reply.getId());
-			pstmt.setString(2, reply.getUserId());
-			pstmt.setString(3, reply.getContents());
-			pstmt.setDate(4, reply.getWriteAt());
-			pstmt.setInt(5, reply.getPostId());
+			pstmt.setString(1, reply.getUserId());
+			pstmt.setString(2, reply.getContents());
+			pstmt.setDate(3, reply.getWriteAt());
+			pstmt.setInt(4, reply.getPostId());
 
 			int n = pstmt.executeUpdate();
 			if (n == 1) {
@@ -33,6 +35,36 @@ public class ReplyDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	// 댓글 저장
+	public List<Reply> findByPostId(int postId) throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection(url, host, password)) {
+			boolean result = false;
+			String sql = "select * from replys where post_id=? order by write_at asc";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, postId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			List<Reply> list = new ArrayList<>();
+			while (rs.next()) {
+				Reply reply = new Reply();
+				reply.setId(rs.getInt("id"));
+				reply.setUserId(rs.getString("user_id"));
+				reply.setContents(rs.getString("contents"));
+				reply.setWriteAt(rs.getDate("write_at"));
+				reply.setPostId(rs.getInt("post_id"));
+				
+				list.add(reply);
+			}
+
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

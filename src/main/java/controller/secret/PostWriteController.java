@@ -29,13 +29,13 @@ public class PostWriteController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String userId = request.getParameter("userId");
+		User user = (User)request.getSession().getAttribute("logonUser");
+		String userId = user.getId();
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
 
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date(sdf.parse(request.getParameter("writeAt")).getTime());
+			Date date = new Date(System.currentTimeMillis());
 
 			Post post = new Post();
 
@@ -48,10 +48,12 @@ public class PostWriteController extends HttpServlet {
 			PostDao postDao = new PostDao();
 
 			postDao.save(post);
+			
+			response.sendRedirect(request.getContextPath() + "/private/community");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		response.sendRedirect(request.getContextPath() + "/private/post");
+
 	}
 }
 

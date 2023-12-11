@@ -20,7 +20,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "INSERT INTO friends VALUES(friend_seq, ?, ?, 0, null, 0)";
+			String sql = "INSERT INTO friends VALUES(friends_seq.nextval, ?, ?, 0, null, 0)";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
@@ -342,7 +342,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
 			// 2. 필요한 작업요청을 전송하고 응답을 받으면 됨.
-			String sql = "INSERT INTO friends VALUES(friend_seq, ?, ?, ?, ?, 0)";
+			String sql = "INSERT INTO friends VALUES(friends_seq.nextval, ?, ?, ?, ?, 0)";
 
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);
@@ -360,9 +360,4 @@ public class FriendDao {
 		return result;
 	}
 	
-	
-	
-	
-
-
 }

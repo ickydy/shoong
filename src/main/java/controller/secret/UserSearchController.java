@@ -22,16 +22,16 @@ public class UserSearchController extends HttpServlet {
 		UserDao userDao = new UserDao();
 
 		try {
-			List<User> searchUser = userDao.findByIdOrName(keyword);
-			if (searchUser != null) {
-				request.setAttribute("searchedUser", searchUser);
-			} else {
-				request.setAttribute("message", "찾으신 분이 없습니다.");
-			}
+			if (keyword != null) {
 
-			
-			List<User> recommendedUsers = userDao.findRecommendUsers();
-			request.setAttribute("recommendedUsers", recommendedUsers);
+				List<User> searchUsers = userDao.findByIdOrName(keyword);
+				if (searchUsers != null) {
+					request.setAttribute("searchUsers", searchUsers);
+					List<User> recommendedUsers = userDao.findRecommendUsers();
+					request.setAttribute("recommendedUsers", recommendedUsers);
+				}
+
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

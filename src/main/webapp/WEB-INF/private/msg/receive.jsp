@@ -21,21 +21,7 @@
 			</div>
 			<!-- 팝업창 안 부분 -->
 			<div id="popup" class="popup" style="display: none">
-				<div>
-					<a href="<c:url value="/private/profile"/>">내정보</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg"/>">메세지작성</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg/receive"/>">받은메세지</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/msg/send"/>">보낸메세지</a>
-				</div>
-				<div>
-					<a href="<c:url value="/private/post/write"/>">글작성</a>
-				</div>
+				<%@ include file="/WEB-INF/view/popup.jsp" %>
 			</div>
 		</div>
 		<div class="container w720">
@@ -57,7 +43,7 @@
 							</c:choose>
 						</td>
 						<td>${msg.userId }</td>
-						<td>${fn:substring(msg.contents,0,10) }</td>
+						<td>${fn:substring(msg.contents,0,20) }</td>
 						<td><fmt:formatDate value="${msg.writeAt }" pattern="yyyy-MM-dd HH:mm"/></td>
 					</tr>
 				</c:forEach>
