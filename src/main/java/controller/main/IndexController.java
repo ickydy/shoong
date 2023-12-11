@@ -9,9 +9,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dao.FriendDao;
+import model.dao.MessageDao;
 import model.dao.PostDao;
 import model.dao.UserDao;
 import model.vo.Friend;
+import model.vo.Message;
 import model.vo.Post;
 import model.vo.User;
 
@@ -51,6 +53,10 @@ public class IndexController extends HttpServlet {
 				PostDao postDao = new PostDao();
 				List<Post> posts = postDao.findAll("date");
 				request.setAttribute("posts", posts);
+				
+				MessageDao messageDao = new MessageDao();
+				List<Message> unreadMsg = messageDao.findUnreadReceiveMessage(userId);
+				request.setAttribute("unreadMsg", unreadMsg);
 
 			} catch (Exception e) {
 				e.printStackTrace();

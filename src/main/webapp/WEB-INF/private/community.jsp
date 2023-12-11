@@ -28,6 +28,7 @@
 			</div>
 		</div>
 			<div class="container w720">
+				<h3>커뮤니티</h3>
 				<div style="display: flex; justify-content:space-between; align-content: center;" class="align-left">
 					<div style="padding-left: 30px;">
 						<form action="<c:url value="/private/community"/>">

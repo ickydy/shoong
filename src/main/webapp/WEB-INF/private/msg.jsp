@@ -27,6 +27,7 @@
 			</div>
 		</div>
 		<div class="container" style="margin-top: 50px;">
+			<h3>메세지 작성</h3>
 			<form action="${pageContext.servletContext.contextPath}/private/msg" method="post">
 				<div style="margin-bottom: 10px;" class="align-left">
 					받는 사람: <input type="text" name="friendId"/>

@@ -27,6 +27,7 @@
 			</div>
 		</div>
 		<div class="container" style="margin-top: 50px;">
+			<h3>커뮤니티 글작성</h3>
 			<form action="<c:url value="/private/post/write" />" method="post">
 				<div style="margin-bottom: 10px;" class="align-left mg-l">
 					<input type="text" name="title"  placeholder="제목을 작성해주세요.." class="w100"/>
