@@ -39,6 +39,8 @@ public class PostController extends HttpServlet {
 				List<Reply> replys = replyDao.findByPostId(post.getId());
 				request.setAttribute("replys", replys);
 				
+				request.setAttribute("user", request.getSession().getAttribute("logonUser"));
+				
 				request.getRequestDispatcher("/WEB-INF/private/post.jsp").forward(request, response);
 			} else {
 				String e = "게시글이 존재하지 않습니다.";

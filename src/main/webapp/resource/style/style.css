@@ -128,10 +128,10 @@ a:visited {
 	top: 0px;
 	left: 0px;
 	padding: 10px;
-	background-color: lightsteelblue;
+	background-color: #CCE1FF;
 	color: #444;
 	width: 300px;
-	height: 350px;
+	height: 400px;
 	opacity: 1;
 	border-radius: 10px;
 }
@@ -141,10 +141,10 @@ a:visited {
 	top: 70px;
 	right: 20px;
 	padding: 10px;
-	background-color: lightsteelblue;
+	background-color: #CCE1FF;
 	color: #444;
 	width: 300px;
-	height: 350px;
+	height: 400px;
 	opacity: 1;
 	border-radius: 10px;
 }

@@ -204,6 +204,35 @@ public class MessageDao {
 			return null;
 		}
 	}
+	
+	public List<Message> findUnreadReceiveMessage(String userId) throws ClassNotFoundException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"1111")) {
+			String sql = "SELECT * FROM messages WHERE friend_id=? and view_status=0 order by write_at desc";
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, userId);
+
+			ResultSet rs = pst.executeQuery();
+			List<Message> list = new ArrayList<Message>();
+
+			while (rs.next()) {
+				Message one = new Message();
+				one.setId(rs.getInt("id"));
+				one.setUserId(rs.getString("user_id"));
+				one.setFriendId(rs.getString("friend_id"));
+				one.setContents(rs.getString("contents"));
+				one.setWriteAt(rs.getDate("write_at"));
+				one.setViewStatus(rs.getInt("view_status"));
+				list.add(one);
+			}
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public List<Message> findSendMessage(String userId) throws ClassNotFoundException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");

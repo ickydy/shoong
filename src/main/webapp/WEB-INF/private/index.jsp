@@ -26,11 +26,29 @@
 					</a>
 				</div>
 				<div>
-					<a href="<c:url value="/private/friends"/>" class="mg-s">🙎‍♂️</a>
+					<a href="<c:url value="/private/user/search"/>" class="mg-s">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+						  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+						</svg>
+					</a>
+					<a href="<c:url value="/private/friends"/>" class="mg-s">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+						  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+						</svg>					
+					</a>
 					<a href="<c:url value="/private/msg/receive"/>" class="mg-s">
 						<c:choose>
-							<c:when test="">&#x1F4EC;</c:when>
-							<c:otherwise>&#x1F4EB;</c:otherwise>
+							<c:when test="${not empty unreadMsg }">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-plus" viewBox="0 0 16 16">
+	  								<path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>
+	  								<path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5"/>
+								</svg>
+							</c:when>
+							<c:otherwise>
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+  										<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+									</svg>
+							</c:otherwise>
 						</c:choose>
 					</a>
 				</div>
@@ -44,8 +62,8 @@
 			<!-- end -->
 			<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 				<div style="flex: 3;">
-					<div style="display:flex; justify-content:space-between; align-items:center;">
-						<div style="flex:1; min-height: 300px;">
+					<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #aaaaaa;">
+						<div style="flex:1; min-height: 300px; border-right:2px solid #aaaaaa;">
 							<h3><a href="<c:url value="/private/friends"/>" class="mg-s">친구 목록</a></h3>
 							<c:forEach var="i" begin="0" end="2">
 									<p class="f-l">
@@ -98,12 +116,23 @@
 								<img alt="userAvatar" src="<c:url value="${user.avatar.imgUrl }" />" style="width: 30px;"/>
 							</div>
 							<div style="text-align:left;">
-								<span>${user.name }(님)</span>
+								<a href="<c:url value="/private/profile"/>">${user.name }(님)</a>
 							</div>
 							<div style="flex:1; text-align:center;">
 								<a href="<c:url value="/logout"/>">
 									<span class="l-bt">로그아웃</span>
 								</a>
+							</div>
+						</div>
+						<div style="display: flex; align-items: center; justify-content:space-around; margin-top:20px;" >
+							<div>
+								<a href="<c:url value="/private/msg/receive"/>">받은메세지함</a>
+							</div>
+							<div>
+								<span>/</span>
+							</div>
+							<div>
+								<a href="<c:url value="/private/msg/send"/>">보낸메세지함</a>
 							</div>
 						</div>
 					</div>

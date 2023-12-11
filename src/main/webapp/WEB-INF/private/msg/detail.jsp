@@ -29,7 +29,8 @@
 			</div>
 		</div>
 		<div class="container">
-			<div class="w460 mg-top-l align-left profile-table" style="line-height: 3">
+			<h3>메세지 상세</h3>
+			<div class="w460 mg-top-s align-left profile-table" style="line-height: 3">
 				<div style="display:flex; justify-content:space-around; align-items: center; ">
 					<div>보낸사람: ${message.userId }</div>
 					<div>받는사람: ${message.friendId }</div>

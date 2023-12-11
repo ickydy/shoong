@@ -29,10 +29,17 @@
 			</div>
 		</div>
 		<div class="container" style="margin-top: 50px;">
+			<h3>글 상세</h3>
+			<c:if test="${post.userId eq user.id }">
+				<form action="<c:url value="/private/post/edit"/>" class="w80 align-right">
+					<input type="hidden" name="id" value="${post.id }"/>
+					<button type="submit" class="l-bt">수정하기</button>
+				</form>
+			</c:if>
 			<div class="w80">
 				<div style="display: flex; align-items: center;">
 					<div style="flex:3; margin-bottom: 10px;" class="align-left mg-l">
-						제목:${post.title }
+						제목 : ${post.title }
 					</div>
 					<div style="display: flex; align-items: center; flex:1; margin-bottom: 10px;" class="align-left mg-l">
 						<div style="flex:1;">
