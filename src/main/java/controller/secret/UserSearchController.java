@@ -18,9 +18,11 @@ public class UserSearchController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		User user = (User) request.getSession().getAttribute("logonUser");
 		String keyword = request.getParameter("keyword");
 		UserDao userDao = new UserDao();
-
+		
+		request.setAttribute("user", user);
 		try {
 			if (keyword != null) {
 				List<User> searchUsers = userDao.findByIdOrName(keyword);
@@ -29,7 +31,10 @@ public class UserSearchController extends HttpServlet {
 				}
 			} else {
 				List<User> recommendedUsers = userDao.findRecommendUsers();
-				request.setAttribute("recommendedUsers", recommendedUsers);				
+				for (User one : recommendedUsers) {
+					one = userDao.findUserWithAvatarById(one.getId());
+				}
+				request.setAttribute("recommendedUsers", recommendedUsers);
 			}
 
 		} catch (Exception e) {

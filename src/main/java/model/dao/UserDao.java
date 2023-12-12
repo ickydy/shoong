@@ -222,7 +222,7 @@ public class UserDao {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		try (Connection conn = DriverManager.getConnection(url, host, password)) {
 			String sql = "SELECT * FROM USERS WHERE OPEN_ACCESS = 1 AND "
-					+ "ID IN (SELECT USER_ID FROM POSTS GROUP BY USER_ID HAVING COUNT(*) >= 5) AND "
+					+ "ID IN (SELECT USER_ID FROM POSTS GROUP BY USER_ID HAVING COUNT(*) >= 2) AND "
 					+ "ID IN (SELECT USER_ID FROM POSTS WHERE VIEW_COUNT >= 100)";
 			// gpt힘을 빌림
 			PreparedStatement pstmt = conn.prepareStatement(sql);

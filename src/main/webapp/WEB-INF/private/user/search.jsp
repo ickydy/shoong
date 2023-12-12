@@ -28,25 +28,29 @@
 			</div>
 		</div>
 		<div class="container">
-			<form action="<c:url value="/private/user/search"/>">
-				<input type="text" name="keyword" placeholder="아이디 혹은 이름을 입력하세요" class="w460"/>
-				<button type="submit">검색</button>
-			</form>
+			<div class="mg-top-m">
+				<form action="<c:url value="/private/user/search"/>">
+					<input type="text" name="keyword" placeholder="아이디 혹은 이름을 입력하세요" class="w460"/>
+					<button type="submit">검색</button>
+				</form>
+			</div>
 		</div>
 		<div class="w460 mg-top-l">
 			<table class="w100 msg-table" id="table">
 				<c:forEach var="one" items="${recommendedUsers }">
-					<tr>
-						<td><img alt="${one.avatar.alt }" src="<c:url value="${one.avatar.imgUrl }"/>" style="width:20px;"/></td>
-						<td>${one.id }</td>
-						<td>${one.name }</td>
-						<td>
-							<form action="<c:url value="/private/friends/add" />" method="post">
-								<input type="hidden" name="friendId" value="${one.id }" />
-								<button type="submit" class="l-bt">+친구요청</button>
-							</form>
-						</td>
-					</tr>
+					<c:if test="${one.id ne user.id }">
+						<tr>
+							<td><img alt="${one.avatar.alt }" src="<c:url value="${one.avatar.imgUrl }"/>" style="width:20px;"/></td>
+							<td>${one.id }</td>
+							<td>${one.name }</td>
+							<td>
+								<form action="<c:url value="/private/friends/add" />" method="post">
+									<input type="hidden" name="friendId" value="${one.id }" />
+									<button type="submit" class="l-bt">+친구요청</button>
+								</form>
+							</td>
+						</tr>
+					</c:if>
 				</c:forEach>
 				<c:forEach var="one" items="${searchUsers }">
 					<tr>
