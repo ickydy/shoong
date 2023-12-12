@@ -109,7 +109,7 @@
 		}
 		
 		
-		const password = ${user.password};
+		const password = '${user.password}';
 		
 		function withdraw(event) {
 			const check = prompt("탈퇴를 원하시면 비밀번호를 입력해주세요");
