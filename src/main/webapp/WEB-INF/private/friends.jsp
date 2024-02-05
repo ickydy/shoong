@@ -79,7 +79,13 @@
 		<input type="hidden" name="friendId" id="freindId"/>
 	</form>
 	<script>
-		
+
+		const error = '${error}';
+		console.log(error);
+		if (error == true) {
+			alert("이미 친구이거나 요청 상태의 유저입니다.");
+		}
+	
 		// 팝업창 띄우기
 		document.querySelector("#openPopBt").addEventListener("click",
 				function(e) {

@@ -21,6 +21,8 @@ public class FriendsController extends HttpServlet {
 			throws ServletException, IOException {
 
 		User user = (User) request.getSession().getAttribute("logonUser");
+		String error = request.getParameter("error");
+		request.setAttribute("error", error);
 
 		String userId = user.getId(); // 세션에서 유저 아이디 뽑은 다음 진행.
 		try {

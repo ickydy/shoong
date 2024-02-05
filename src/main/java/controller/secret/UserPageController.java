@@ -47,11 +47,16 @@ public class UserPageController extends HttpServlet {
 				result = true;
 			}
 
+			List<Friend> checkRequest = friendDao.findByUserIdAndFriendId(userId, logonUser.getId());
+			if (checkRequest.size() > 0) {
+				friend = true;
+			}
+
 			request.setAttribute("result", result);
 			request.setAttribute("friend", friend);
 			request.setAttribute("user", user);
 			request.setAttribute("country", country);
-			
+
 			request.getRequestDispatcher("/WEB-INF/private/user/profile.jsp").forward(request, response);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

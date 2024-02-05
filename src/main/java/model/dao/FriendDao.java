@@ -35,6 +35,45 @@ public class FriendDao {
 		}
 		return result;
 	}
+	
+	public List<Friend> findByUserIdAndFriendId(String userId, String friendId) throws ClassNotFoundException {
+
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
+				"1111")) {
+
+			String sql = "select * from friends where (user_id = ? and friend_id = ?) or (user_id = ? and friend_id = ?)";
+			// 가져와야하니까.
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, userId);
+			pst.setString(2, friendId);
+			pst.setString(3, friendId);
+			pst.setString(4, userId);
+
+			ResultSet rs = pst.executeQuery();
+			List<Friend> list = new ArrayList<Friend>();
+
+			while (rs.next()) {
+				Friend one = new Friend();
+				one.setId(rs.getInt("id"));
+				one.setUserId(rs.getString("user_id"));
+				one.setFriendId(rs.getString("friend_id"));
+				one.setConfirmed(rs.getInt("confirmed"));
+				one.setConfirmAt(rs.getDate("confirm_at"));
+				one.setSpam(rs.getInt("spam"));
+
+				list.add(one);
+			}
+
+			return list;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
 
 	public List<Friend> findById(String userId) throws ClassNotFoundException {
 
@@ -43,11 +82,7 @@ public class FriendDao {
 		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@13.125.229.23:1521:xe", "shoong",
 				"1111")) {
 
-			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0"; // 이게
-																																			// 결국에
-																																			// 친구인
-																																			// 아이들을
-																																			// 찾아줄거야.
+			String sql = "select * from friends f join users u on f.friend_id = u.id where f.user_id =? and f.confirmed = 1 and spam = 0";
 			// 가져와야하니까.
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, userId);

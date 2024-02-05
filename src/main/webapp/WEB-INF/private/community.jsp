@@ -55,7 +55,7 @@
 						<c:forEach var="post" items="${posts }">
 							<tr>
 								<td>${post.id }</td>
-								<td>${post.userId }</td>
+								<td>${post.userId == null ? '익명' : post.userId}</td>
 								<td>${post.title }</td>
 								<td><fmt:formatDate value="${post.writeAt}" pattern="yyyy-MM-dd HH:mm"/></td>
 								<td>${post.viewCount }</td>

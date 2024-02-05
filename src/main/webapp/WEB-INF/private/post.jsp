@@ -43,7 +43,12 @@
 					</div>
 					<div style="display: flex; align-items: center; flex:1; margin-bottom: 10px;" class="align-left mg-l">
 						<div style="flex:1;">
-							<a href="<c:url value="/private/user/profile?id=${post.userId }"/>">작성자:${post.userId }</a>
+							<c:if test="${post.userId != null}">
+								<a href="<c:url value="/private/user/profile?id=${post.userId }"/>">작성자:${post.userId }</a>
+							</c:if>
+							<c:if test="${post.userId == null}">
+								<span>작성자:익명</span>
+							</c:if>
 						</div>
 						<div style="flex:1;">
 							조회수:${post.viewCount }
@@ -66,12 +71,12 @@
 							<tr>
 								<td>${one.id }</td>
 								<td>${one.contents }</td>
-								<td>${one.userId }</td>
+								<td>${one.userId == null ? '익명' : one.userId }</td>
 								<td>${one.writeAt }</td>
 							</tr>
 						</c:forEach>
 					</table>
-				<form action="<c:url value="/private/reply/add"/>" method="post" class="align-left">
+				<form action="<c:url value="/private/reply/add"/>" method="post" class="align-left" style="margin-top:10px; margin-bottom:10px;" autocomplete="off">
 					<input type="text" name="contents" style="width:90%; border:1px solid #444; border-radius: 2px"/>
 					<input type="hidden" name="postId" value="${post.id }"/>
 					<button type="submit" class="l-bt">등록</button>

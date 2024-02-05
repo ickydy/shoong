@@ -95,9 +95,9 @@
 		});
 		
 		document.querySelector('#table').addEventListener('click', function (e) {
-			if(e.target.tagName.toLowerCase() == 'td') {
-				const value = e.target.parentNode.firstElementChild.firstChild.nodeValue;
-				location.href = '<c:url value="/private//detail?id="/>' + value;
+			if (e.target.tagName.toLowerCase() == 'td') {
+				const value = e.target.parentNode.firstElementChild.nextElementSibling.textContent;
+				location.href = '<c:url value="/private/user/profile?id=' + value + '"/>';
 			}
 		});
 		

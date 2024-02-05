@@ -49,11 +49,11 @@ public class IndexController extends HttpServlet {
 					friend.setUser(found);
 				}
 				request.setAttribute("receiveRequests", receiveRequests);
-				
+
 				PostDao postDao = new PostDao();
 				List<Post> posts = postDao.findAll("date");
 				request.setAttribute("posts", posts);
-				
+
 				MessageDao messageDao = new MessageDao();
 				List<Message> unreadMsg = messageDao.findUnreadReceiveMessage(userId);
 				request.setAttribute("unreadMsg", unreadMsg);
@@ -61,7 +61,7 @@ public class IndexController extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("/WEB-INF/private/index.jsp").forward(request, response);
 		}
